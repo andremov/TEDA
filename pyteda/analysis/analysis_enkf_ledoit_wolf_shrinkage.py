@@ -3,9 +3,10 @@
 import numpy as np
 import scipy as sci
 from analysis.analysis import Analysis
+from sklearn.covariance import LedoitWolf
 
-class AnalysisEnKFNercomeShrinkage(Analysis):
-    """Analysis EnKF NERCOME Shrinkage
+class AnalysisEnKFLedoitWolfShrinkage(Analysis):
+    """Analysis EnKF Ledoit Wolf Shrinkage
     
     Attributes:
         model (Model object): An object that has all the methods and attributes of the model
@@ -22,7 +23,7 @@ class AnalysisEnKFNercomeShrinkage(Analysis):
 
     def __init__(self, model, r=1, **kwargs):
         """
-        Initialize an instance of AnalysisEnKFNercomeShrinkage.
+        Initialize an instance of AnalysisEnKFLedoitWolfShrinkage.
 
         Parameters:
             model (Model object): An object that has all the methods and attributes of the model given
@@ -42,24 +43,13 @@ class AnalysisEnKFNercomeShrinkage(Analysis):
         Returns:
             precision_matrix (ndarray): Precision matrix
         """
-        # Step 1: Compute the sample covariance matrix
-        n, m = DX.shape  # n = number of features, m = ensemble size
-        sample_covariance = np.cov(DX, bias=True)
+        # Compute the covariance matrix using Ledoit-Wolf shrinkage
+        lw = LedoitWolf()
+        lw.fit(DX.T)  # Transpose DX because LedoitWolf expects samples as rows
+        covariance_matrix = lw.covariance_
 
-        # Step 2: Compute the eigenvalues and eigenvectors of the sample covariance matrix
-        eigenvalues, eigenvectors = np.linalg.eigh(sample_covariance)
-
-        # Step 3: Apply nonlinear shrinkage to the eigenvalues
-        # Shrinkage formula: λ_i_shrunk = max(λ_i, threshold)
-        # Here, we use a simple nonlinear shrinkage approach
-        threshold = np.mean(eigenvalues)  # Example threshold (can be tuned)
-        shrunk_eigenvalues = np.maximum(eigenvalues, threshold)
-
-        # Step 4: Reconstruct the shrunk covariance matrix
-        shrunk_covariance = eigenvectors @ np.diag(shrunk_eigenvalues) @ eigenvectors.T
-
-        # Step 5: Compute the precision matrix (inverse of the shrunk covariance matrix)
-        precision_matrix = np.linalg.inv(shrunk_covariance)
+        # Compute the precision matrix (inverse of the covariance matrix)
+        precision_matrix = np.linalg.inv(covariance_matrix)
 
         return precision_matrix
 

@@ -3,9 +3,10 @@
 import numpy as np
 import scipy as sci
 from analysis.analysis import Analysis
+from sklearn.linear_model import Ridge
 
-class AnalysisEnKFNercomeShrinkage(Analysis):
-    """Analysis EnKF NERCOME Shrinkage
+class AnalysisEnKFDirectPrecisionShrinkage1(Analysis):
+    """Analysis EnKF Direct Precision Shrinkage 1
     
     Attributes:
         model (Model object): An object that has all the methods and attributes of the model
@@ -22,7 +23,7 @@ class AnalysisEnKFNercomeShrinkage(Analysis):
 
     def __init__(self, model, r=1, **kwargs):
         """
-        Initialize an instance of AnalysisEnKFNercomeShrinkage.
+        Initialize an instance of AnalysisEnKFDirectPrecisionShrinkage1.
 
         Parameters:
             model (Model object): An object that has all the methods and attributes of the model given
@@ -30,6 +31,39 @@ class AnalysisEnKFNercomeShrinkage(Analysis):
         """
         self.model = model
         self.r = r
+
+    def compute_shrinkage_weights(self, S_inv, Pi0, n):
+        """
+        Compute the optimal shrinkage weights alpha* and beta* for the precision matrix.
+
+        Parameters:
+            S_inv (numpy.ndarray): Inverse sample covariance matrix.
+            Pi0 (numpy.ndarray): Target precision matrix.
+            n (int): Number of samples.
+
+        Returns:
+            tuple: (alpha_star, beta_star)
+        """
+        d = S_inv.shape[0]  # Dimensionality
+
+        # Compute squared trace norm of S_inv
+        trace_norm_sq_S_inv = np.trace(S_inv @ S_inv)
+
+        # Compute squared Frobenius norm of Pi0
+        frobenius_norm_sq_Pi0 = np.linalg.norm(Pi0, 'fro') ** 2
+
+        # Compute trace of (S_inv * Pi0)
+        trace_S_inv_Pi0 = np.trace(S_inv @ Pi0)
+
+        # Compute α*
+        numerator = (1 / n) * trace_norm_sq_S_inv * frobenius_norm_sq_Pi0
+        denominator = (trace_norm_sq_S_inv * frobenius_norm_sq_Pi0) - (trace_S_inv_Pi0 ** 2)
+        alpha_star = 1 - (d / n) - (numerator / denominator)
+
+        # Compute β*
+        beta_star = (1 - (d / n) - alpha_star) * (trace_S_inv_Pi0 / frobenius_norm_sq_Pi0)
+
+        return alpha_star, beta_star
 
     def get_precision_matrix(self, DX, regularization_factor=0.01):
         """
@@ -42,26 +76,23 @@ class AnalysisEnKFNercomeShrinkage(Analysis):
         Returns:
             precision_matrix (ndarray): Precision matrix
         """
-        # Step 1: Compute the sample covariance matrix
-        n, m = DX.shape  # n = number of features, m = ensemble size
-        sample_covariance = np.cov(DX, bias=True)
+        n, ensemble_size = DX.shape
 
-        # Step 2: Compute the eigenvalues and eigenvectors of the sample covariance matrix
-        eigenvalues, eigenvectors = np.linalg.eigh(sample_covariance)
+        # Compute sample covariance matrix S
+        S = np.cov(DX, rowvar=True, bias=True)
+        
+        # Compute empirical precision matrix (inverse of S)
+        S_inv = np.linalg.inv(S)
 
-        # Step 3: Apply nonlinear shrinkage to the eigenvalues
-        # Shrinkage formula: λ_i_shrunk = max(λ_i, threshold)
-        # Here, we use a simple nonlinear shrinkage approach
-        threshold = np.mean(eigenvalues)  # Example threshold (can be tuned)
-        shrunk_eigenvalues = np.maximum(eigenvalues, threshold)
+        # Define a default target precision matrix (e.g., identity matrix)
+        Pi0 = np.eye(S.shape[0])
 
-        # Step 4: Reconstruct the shrunk covariance matrix
-        shrunk_covariance = eigenvectors @ np.diag(shrunk_eigenvalues) @ eigenvectors.T
+        alpha_star, beta_star = self.compute_shrinkage_weights(S_inv, Pi0, n)
 
-        # Step 5: Compute the precision matrix (inverse of the shrunk covariance matrix)
-        precision_matrix = np.linalg.inv(shrunk_covariance)
+        # Compute the shrinkage precision matrix
+        Theta_hat = alpha_star * S_inv + beta_star * Pi0
 
-        return precision_matrix
+        return Theta_hat
 
     def perform_assimilation(self, background, observation):
         """Perform assimilation step of ensemble Xa given the background and the observations
