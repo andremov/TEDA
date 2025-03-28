@@ -3,11 +3,10 @@
 import numpy as np
 import scipy as sci
 from analysis.analysis import Analysis
-from sklearn.linear_model import Ridge
+from sklearn.covariance import LedoitWolf
 
-
-class AnalysisEnKFCosmologicalPrecision(Analysis):
-    """Analysis EnKF Cosmological Precision decomposition
+class AnalysisEnKFLedoitWolfShrinkage(Analysis):
+    """Analysis EnKF Ledoit Wolf Shrinkage
     
     Attributes:
         model (Model object): An object that has all the methods and attributes of the model
@@ -24,7 +23,7 @@ class AnalysisEnKFCosmologicalPrecision(Analysis):
 
     def __init__(self, model, r=1, **kwargs):
         """
-        Initialize an instance of AnalysisEnKFCosmologicalPrecision.
+        Initialize an instance of AnalysisEnKFLedoitWolfShrinkage.
 
         Parameters:
             model (Model object): An object that has all the methods and attributes of the model given
@@ -44,28 +43,15 @@ class AnalysisEnKFCosmologicalPrecision(Analysis):
         Returns:
             precision_matrix (ndarray): Precision matrix
         """
+        # Compute the covariance matrix using Ledoit-Wolf shrinkage
+        lw = LedoitWolf()
+        lw.fit(DX.T)  # Transpose DX because LedoitWolf expects samples as rows
+        covariance_matrix = lw.covariance_
 
-        # TODO: 1. calcular la inverse sample covariance matrix (cosmologica)
-            # A. implementar las forumlas de silla^1 o silla^2 (y T^2 en este caso)
-        # TODO: 2. aproximar la inverse background error covariance matrix (usando la sample cov. mat.)
-        # TODO: 3. profit
+        # Compute the precision matrix (inverse of the covariance matrix)
+        precision_matrix = np.linalg.inv(covariance_matrix)
 
-        n, ensemble_size = DX.shape
-        lr = Ridge(fit_intercept=False, alpha=regularization_factor)
-        L = np.eye(n)
-        D = np.zeros((n, n))
-        D[0, 0] = 1 / np.var(DX[0, :])  # We are estimating D^{-1}
-        for i in range(1, n):
-            ind_prede = self.model.get_pre(i, self.r)
-            y = DX[i, :]
-            X = DX[ind_prede, :].T
-            lr_fit = lr.fit(X, y)
-            err_i = y - lr_fit.predict(X)
-            D[i, i] = 1 / np.var(err_i) # ecuacion 13b de paper1 pp10
-            L[i, ind_prede] = -lr_fit.coef_
-        
-        # inverse background error covariance matrix
-        return L.T @ (D @ L) # ecuacion 14a de paper1 pp10
+        return precision_matrix
 
     def perform_assimilation(self, background, observation):
         """Perform assimilation step of ensemble Xa given the background and the observations
@@ -82,29 +68,15 @@ class AnalysisEnKFCosmologicalPrecision(Analysis):
         H = observation.get_observation_operator()
         R = observation.get_data_error_covariance()
         n, ensemble_size = Xb.shape
-
-        xb = np.mean(Xb, axis=1) # ensemble mean, x_bar
+        Ys = np.random.multivariate_normal(y, R, size=ensemble_size).T
+        xb = np.mean(Xb, axis=1)
         DX = Xb - np.outer(xb, np.ones(ensemble_size))
-        P = self.get_precision_matrix(DX, self.r)
-
-        # Ys = np.random.multivariate_normal(y, R, size=ensemble_size).T
-        # D = Ys - H @ Xb
-        # Rinv = np.diag(np.reciprocal(np.diag(R)))
-        # IN = Binv + H.T @ (Rinv @ H)
-        # Z = np.linalg.solve(IN, H.T @ (Rinv @ D))
-
-        # Compute Kalman gain using a direct method
-        # Step 1: Compute the term H * P
-        HP = H @ P
-
-        # Step 2: Compute S = H * P * H^T + R
-        S = HP @ H.T + R
-
-        # Step 3: Compute Kalman gain K
-        K = HP.T @ np.linalg.inv(S)
-
-        # Compute the updated state
-        self.Xa = xb + K @ (y - H @ xb)
+        Binv = self.get_precision_matrix(DX, self.r)
+        D = Ys - H @ Xb
+        Rinv = np.diag(np.reciprocal(np.diag(R)))
+        IN = Binv + H.T @ (Rinv @ H)
+        Z = np.linalg.solve(IN, H.T @ (Rinv @ D))
+        self.Xa = Xb + Z
         return self.Xa
 
     def get_analysis_state(self):
