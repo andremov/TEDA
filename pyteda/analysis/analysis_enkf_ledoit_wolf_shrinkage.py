@@ -10,7 +10,6 @@ class AnalysisEnKFLedoitWolfShrinkage(Analysis):
     
     Attributes:
         model (Model object): An object that has all the methods and attributes of the model
-        r (int): Value used in the process of removing correlations
 
     Methods:
         get_precision_matrix(DX, regularization_factor=0.01): Returns the computed precision matrix
@@ -21,24 +20,21 @@ class AnalysisEnKFLedoitWolfShrinkage(Analysis):
         inflate_ensemble(inflation_factor): Computes new ensemble Xa given the inflation factor
     """
 
-    def __init__(self, model, r=1, **kwargs):
+    def __init__(self, model, **kwargs):
         """
         Initialize an instance of AnalysisEnKFLedoitWolfShrinkage.
 
         Parameters:
             model (Model object): An object that has all the methods and attributes of the model given
-            r (int, optional): Value used in the process of removing correlations
         """
         self.model = model
-        self.r = r
 
-    def get_precision_matrix(self, DX, regularization_factor=0.01):
+    def get_precision_matrix(self, DX):
         """
         Perform calculations to get the precision matrix given the deviation matrix.
 
         Parameters:
             DX (ndarray): Deviation matrix
-            regularization_factor (float, optional): Value used as alpha in the ridge model
 
         Returns:
             precision_matrix (ndarray): Precision matrix
@@ -71,7 +67,7 @@ class AnalysisEnKFLedoitWolfShrinkage(Analysis):
         Ys = np.random.multivariate_normal(y, R, size=ensemble_size).T
         xb = np.mean(Xb, axis=1)
         DX = Xb - np.outer(xb, np.ones(ensemble_size))
-        Binv = self.get_precision_matrix(DX, self.r)
+        Binv = self.get_precision_matrix(DX)
         D = Ys - H @ Xb
         Rinv = np.diag(np.reciprocal(np.diag(R)))
         IN = Binv + H.T @ (Rinv @ H)
