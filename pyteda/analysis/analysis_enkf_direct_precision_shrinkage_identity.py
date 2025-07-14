@@ -7,11 +7,13 @@ from sklearn.linear_model import Ridge
 
 class AnalysisEnKFDirectPrecisionShrinkageIdentity(Analysis):
     """Analysis EnKF Direct Precision Shrinkage Identity
-    This class implements the EnKF Direct Precision Shrinkage method with an identity target precision matrix.
+    This class implements the EnKF Direct Precision Shrinkage method with an identity target precision matrix 
+    based on Looijmans et al. (2024). Following equation (15), it uses Pi0^(3) = I (identity matrix)
+    as the target precision matrix. This represents the assumption of independent, unit-variance priors
+    for all state variables, making it the simplest choice among the precision shrinkage methods.
     The shrinkage weights are computed based on the empirical precision matrix and the target precision matrix.
-    The target precision matrix is the identity matrix, which is a common choice in ensemble Kalman filters.
-    The method is based on the work of Looijmans et al. (2025) and is designed to improve the performance of the
-    ensemble Kalman filter by reducing the impact of noise in the covariance estimation.
+    The method is designed to improve the performance of the ensemble Kalman filter by reducing the impact 
+    of noise in the covariance estimation.
     The method is particularly useful in high-dimensional state spaces where the number of observations is small
     compared to the number of state variables.
     
@@ -39,21 +41,22 @@ class AnalysisEnKFDirectPrecisionShrinkageIdentity(Analysis):
 
     def compute_target_precision_matrix(self, S):
         """
-        Compute the target precision matrix Pi0^(1), which is the identity matrix
-        for the given sample covariance matrix S.
+        Compute the target precision matrix Pi0^(3) = I, following equation (15)
+        from Looijmans et al. (2024). This is the identity matrix, representing
+        independent unit-variance priors for all state variables.
         
         Parameters:
         S (numpy.ndarray): The sample covariance matrix (d x d).
         
         Returns:
-        numpy.ndarray: The target precision matrix Pi0^(1) (d x d).
+        numpy.ndarray: The target precision matrix Pi0^(3) (d x d).
         """
         return np.eye(S.shape[0])
     
     def compute_shrinkage_weights(self, S_inv, Pi0, data_vector_length, ensemble_size):
         """
         Compute the optimal shrinkage weights alpha* and beta* for the precision matrix
-        according to Looijmans et al. (2025) Equations (11a) and (11b).
+        according to Looijmans et al. (2024) Equations (11a) and (11b).
 
         Parameters:
             S_inv (numpy.ndarray): The sample precision matrix.

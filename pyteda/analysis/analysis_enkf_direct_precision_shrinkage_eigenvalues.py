@@ -7,11 +7,16 @@ from sklearn.linear_model import Ridge
 
 class AnalysisEnKFDirectPrecisionShrinkageEigenvalues(Analysis):
     """Analysis EnKF Direct Precision Shrinkage Eigenvalues
-    This class implements the EnKF Direct Precision Shrinkage method using eigenvalues for the precision matrix.
-    The target precision matrix is computed as a diagonal matrix with the sorted eigenvalues of the empirical precision matrix.
+    This class implements the EnKF Direct Precision Shrinkage method with the first target precision matrix 
+    choice from Looijmans et al. (2024). Following the eigenvalue decomposition approach, it computes 
+    Pi0^(1) as a diagonal matrix containing the sorted eigenvalues of the empirical precision matrix.
+    This approach preserves the spectral information of the sample precision matrix while providing
+    a structured target that maintains the scale of the data but removes correlations.
     The shrinkage weights are computed based on the empirical precision matrix and the target precision matrix.
-    The method is based on the work of Looijmans et al. (2025) and is designed to improve the performance of the
-    ensemble Kalman filter by reducing the impact of noise in the covariance estimation.
+    The method is designed to improve the performance of the ensemble Kalman filter by reducing the impact 
+    of noise in the covariance estimation.
+    The method is particularly useful in high-dimensional state spaces where the number of observations is small
+    compared to the number of state variables.
 
     Attributes:
         model (Model object): An object that has all the methods and attributes of the model
@@ -36,8 +41,9 @@ class AnalysisEnKFDirectPrecisionShrinkageEigenvalues(Analysis):
 
     def compute_target_precision_matrix(self, S_inv):
         """
-        Compute the target precision matrix Pi0^(1), which is a diagonal matrix
-        where the diagonal elements are the sorted eigenvalues of S^(-1).
+        Compute the target precision matrix Pi0^(1) as a diagonal matrix containing
+        the sorted eigenvalues of the empirical precision matrix S^(-1). This approach
+        preserves the spectral information while removing correlations between variables.
         
         Parameters:
         S_inv (numpy.ndarray): The inverse of the sample covariance matrix (d x d).

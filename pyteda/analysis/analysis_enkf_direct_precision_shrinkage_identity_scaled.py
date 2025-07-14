@@ -7,11 +7,13 @@ from sklearn.linear_model import Ridge
 
 class AnalysisEnKFDirectPrecisionShrinkageIdentityScaled(Analysis):
     """Analysis EnKF Direct Precision Shrinkage Identity Scaled
-    This class implements the EnKF Direct Precision Shrinkage method with a scaled identity target precision matrix.
+    This class implements the EnKF Direct Precision Shrinkage method with the second target precision matrix 
+    choice from Looijmans et al. (2024). Following equations (14) and (16), it computes Pi0^(2) = (T^(2))^(-1)
+    where T^(2) is a diagonal covariance matrix target. For general applications beyond cosmology, we use
+    the diagonal variances of the sample covariance matrix as an analogy to the cosmological power spectrum.
     The shrinkage weights are computed based on the empirical precision matrix and the target precision matrix.
-    The target precision matrix is a scaled identity matrix, which is a common choice in ensemble Kalman filtering.
-    The method is based on the work of Looijmans et al. (2025) and is designed to improve the performance of the
-    ensemble Kalman filter by reducing the impact of noise in the covariance estimation.
+    The method is designed to improve the performance of the ensemble Kalman filter by reducing the impact 
+    of noise in the covariance estimation.
     The method is particularly useful in high-dimensional state spaces where the number of observations is small
     compared to the number of state variables.
     
@@ -38,21 +40,34 @@ class AnalysisEnKFDirectPrecisionShrinkageIdentityScaled(Analysis):
 
     def compute_target_precision_matrix(self, S_inv):
         """
-        Compute the target precision matrix Pi0^(1), which is a scaled identity matrix.
+        Compute the target precision matrix Pi0^(2) = (T^(2))^(-1), following equations (14) and (16)
+        from Looijmans et al. (2024). For general applications, we use the diagonal variances
+        of the sample covariance matrix as an analogy to the cosmological power spectrum.
         
         Parameters:
         S_inv (numpy.ndarray): The inverse of the sample covariance matrix (d x d).
         
         Returns:
-        numpy.ndarray: The target precision matrix Pi0^(1) (d x d).
+        numpy.ndarray: The target precision matrix Pi0^(2) (d x d).
         """
         d = S_inv.shape[0]
         
-        trace_S_inv = np.trace(S_inv)
+        # Get the sample covariance matrix S from S_inv
+        S = np.linalg.inv(S_inv)
         
-        scale = trace_S_inv / d
+        # Use diagonal variances as our "power spectrum" analogy
+        variances = np.diag(S)
         
-        Pi0 = scale * np.eye(d)
+        # Use a scaling factor analogous to 2/N_l from equation (14)
+        # For general applications, we use a simple constant scaling
+        scale_factor = 2.0
+        
+        # Create diagonal covariance target T^(2) following equation (14) structure
+        T2_diag = scale_factor * variances
+        T2 = np.diag(T2_diag)
+        
+        # Return the precision matrix Pi0^(2) = (T^(2))^(-1) following equation (16)
+        Pi0 = np.linalg.inv(T2)
         
         return Pi0
 
@@ -177,7 +192,7 @@ class AnalysisEnKFDirectPrecisionShrinkageIdentityScaled(Analysis):
             print(f"Warning: Ensemble size (n={ensemble_size}) is too small relative to dimension (d={n}) for standard inverse/Hartlap factor. Consider alternative regularization.")
             S_inv = Pi_S_unscaled # Or use np.linalg.pinv(S) or add a small diagonal loading
 
-        # Define a default target precision matrix (e.g., identity matrix)
+        # Define the target precision matrix Pi0^(2) = (T^(2))^(-1) following equations (14) and (16)
         Pi0 = self.compute_target_precision_matrix(S_inv)
 
         alpha_star, beta_star = self.compute_shrinkage_weights(S_inv, Pi0, n, ensemble_size)
