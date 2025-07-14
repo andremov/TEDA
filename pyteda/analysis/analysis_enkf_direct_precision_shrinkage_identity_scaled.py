@@ -123,21 +123,6 @@ class AnalysisEnKFDirectPrecisionShrinkageIdentityScaled(Analysis):
         if alpha_star + beta_star > 1:
             beta_star = 1 - alpha_star
 
-        # # --- Debug prints ---
-        # print(f"\n--- Shrinkage Weights Calculation (Based on 11a and assuming 11b) ---")
-        # print(f"d (dim): {data_vector_length}, n (ensemble_size): {ensemble_size}")
-        # print(f"||S_inv||_tr^2: {squared_trace_norm}")
-        # print(f"||Pi0||_F^2: {frobenius_norm_sq_Pi0}")
-        # print(f"tr(S_inv @ Pi0): {trace_S_inv_Pi0}")
-        # print(f"Numerator alpha: {numerator_alpha}")
-        # print(f"Denominator alpha: {denominator_alpha}")
-        # print(f"Alpha* (unclamped): {alpha_star_unclamped:.4f}")
-        # print(f"Beta* (unclamped): {beta_star_unclamped:.4f}")
-        # print(f"Alpha* (clamped): {alpha_star:.4f}")
-        # print(f"Beta* (clamped): {beta_star:.4f}")
-        # print(f"Sum (alpha+beta): {alpha_star + beta_star:.4f}")
-        # print(f"----------------------------------------------------\n")
-
         return alpha_star, beta_star
 
     def get_precision_matrix(self, DX):
@@ -154,31 +139,9 @@ class AnalysisEnKFDirectPrecisionShrinkageIdentityScaled(Analysis):
 
         # Compute sample covariance matrix S
         S = np.cov(DX, rowvar=True, bias=True)
-
-        # print(f"\n--- Debugging get_precision_matrix (before S inversion) ---")
-        # print(f"Dimension (d_dim): {n}, Ensemble Size (n_val): {ensemble_size}")
-        # print(f"S shape: {S.shape}")
-        # print(f"S rank: {np.linalg.matrix_rank(S)}")
-        # print(f"S determinant: {np.linalg.det(S):.4e}") # Print determinant in scientific notation
-        # print(f"S has NaNs? {np.any(np.isnan(S))}")
-        # print(f"S has Infs? {np.any(np.isinf(S))}")
-        # print(f"S diagonal (first 5): {np.diag(S)[:5]}...")
-        # print(f"----------------------------------------------------\n")
         
         # Compute empirical precision matrix (inverse of S)
         Pi_S_unscaled = np.linalg.inv(S)
-
-        # # --- CRITICAL DEBUGGING PRINTS FOR Pi_S_unscaled ---
-        # print(f"\n--- Debugging Pi_S_unscaled (After S inversion, NO REGULARIZATION) ---")
-        # print(f"Pi_S_unscaled shape: {Pi_S_unscaled.shape}")
-        # print(f"Pi_S_unscaled rank: {np.linalg.matrix_rank(Pi_S_unscaled)}")
-        # print(f"Pi_S_unscaled determinant: {np.linalg.det(Pi_S_unscaled):.4e}")
-        # print(f"Pi_S_unscaled max value: {np.max(Pi_S_unscaled):.4e}")
-        # print(f"Pi_S_unscaled min value: {np.min(Pi_S_unscaled):.4e}")
-        # print(f"Pi_S_unscaled mean value: {np.mean(Pi_S_unscaled):.4e}")
-        # print(f"Pi_S_unscaled median value: {np.median(Pi_S_unscaled):.4e}")
-        # print(f"Pi_S_unscaled has NaNs? {np.any(np.isnan(Pi_S_unscaled))}")
-        # print(f"Pi_S_unscaled has Infs? {np.any(np.isinf(Pi_S_unscaled))}")
 
         # Apply Hartlap factor to Pi_S (if applicable)
         # This factor is crucial for optimal performance.
