@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import scipy as sci
-from analysis.analysis import Analysis
+from .analysis_core import Analysis
 from sklearn.covariance import LedoitWolf
 
 class AnalysisEnKFLedoitWolfShrinkage(Analysis):

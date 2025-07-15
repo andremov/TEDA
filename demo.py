@@ -1,15 +1,15 @@
 # Choose the desired method from the pool of available methods:
-from analysis.analysis_enkf_direct_precision_shrinkage_eigenvalues import AnalysisEnKFDirectPrecisionShrinkageEigenvalues
-from analysis.analysis_enkf_direct_precision_shrinkage_identity import AnalysisEnKFDirectPrecisionShrinkageIdentity
-from analysis.analysis_enkf_direct_precision_shrinkage_identity_scaled import AnalysisEnKFDirectPrecisionShrinkageIdentityScaled
-from analysis.analysis_enkf_direct_precision_shrinkage_identity_scaled_cosmo import AnalysisEnKFDirectPrecisionShrinkageIdentityScaledCosmo, create_example_cosmological_parameters_for_lorenz96
-from analysis.analysis_enkf_nercome_shrinkage import AnalysisEnKFNercomeShrinkage
-from analysis.analysis_enkf_ledoit_wolf_shrinkage import AnalysisEnKFLedoitWolfShrinkage
-from analysis.analysis_enkf_modified_cholesky import AnalysisEnKFModifiedCholesky
-from background.background import Background
-from models.lorenz96 import Lorenz96
-from observation.observation import Observation
-from simulation.simulation import Simulation
+from pyteda.analysis.analysis_enkf_direct_precision_shrinkage_eigenvalues import AnalysisEnKFDirectPrecisionShrinkageEigenvalues
+from pyteda.analysis.analysis_enkf_direct_precision_shrinkage_identity import AnalysisEnKFDirectPrecisionShrinkageIdentity
+from pyteda.analysis.analysis_enkf_direct_precision_shrinkage_identity_scaled import AnalysisEnKFDirectPrecisionShrinkageIdentityScaled
+from pyteda.analysis.analysis_enkf_direct_precision_shrinkage_identity_scaled_cosmo import AnalysisEnKFDirectPrecisionShrinkageIdentityScaledCosmo, create_example_cosmological_parameters_for_lorenz96
+from pyteda.analysis.analysis_enkf_nercome_shrinkage import AnalysisEnKFNercomeShrinkage
+from pyteda.analysis.analysis_enkf_ledoit_wolf_shrinkage import AnalysisEnKFLedoitWolfShrinkage
+from pyteda.analysis.analysis_enkf_modified_cholesky import AnalysisEnKFModifiedCholesky
+from pyteda.background.background_core import Background
+from pyteda.models.lorenz96 import Lorenz96
+from pyteda.observation.observation_core import Observation
+from pyteda.simulation.simulation_core import Simulation
 import numpy as np
 
 # Select a model to perform the simulations:
@@ -42,7 +42,7 @@ analysis_cosmo.set_cosmological_parameters(
 observation = Observation(m=32, std_obs=0.01)
 
 # Set up the parameters for the simulation:
-params = {'obs_freq': 0.1, 'obs_times': 10, 'inf_fact': 1.04}
+params = {'obs_freq': 0.1, 'end_time': 10, 'inf_fact': 1.04}
 simulation_direct_identity = Simulation(model, background, analysis_direct_identity, observation, params=params)
 simulation_direct_identity_scaled = Simulation(model, background, analysis_direct_identity_scaled, observation, params=params)
 simulation_direct_eigen = Simulation(model, background, analysis_direct_eigen, observation, params=params)

@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import scipy as sci
-from analysis.analysis import Analysis
-from sklearn.linear_model import Ridge
+from .analysis_core import Analysis
 
 class AnalysisEnKFDirectPrecisionShrinkageIdentity(Analysis):
     """Analysis EnKF Direct Precision Shrinkage Identity
