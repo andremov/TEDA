@@ -7,3 +7,5 @@ venv
 Main_JN.ipynb
 configuration.yaml
 .venv
+paper/
+.vscode/
