@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+
+\title{TEDA: A Computational Toolbox
+for Teaching Ensemble Based Data
+Assimilation}
+\author{Andrés Movilla Obregón}
+\
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This is a simple test document to verify that your LaTeX setup is working correctly. If you can see this text in a PDF, congratulations! Your environment is properly configured.
+
+\section{Estado del Arte}
+
+Here are some basic formatting examples:
+
+\begin{itemize}
+    \item \textbf{Bold text}
+    \item \textit{Italic text}
+    \item \texttt{Monospace text}
+    \item \underline{Underlined text}
+\end{itemize}
+
+\subsection{A Subsection}
+
+You can create subsections and even subsubsections. LaTeX automatically handles numbering for you.
+
+\section{Métodos Propuestos}
+
+If this document compiles successfully, your LaTeX setup is ready to go!
+
+\end{document}

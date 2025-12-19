@@ -1,0 +1,41 @@
+\begin{thebibliography}{1}
+
+\bibitem{evensen2003ensemble}
+Geir Evensen.
+\newblock The ensemble kalman filter: theoretical formulation and practical
+  implementation.
+\newblock {\em Ocean dynamics}, 53(4):343--367, 2003.
+
+\bibitem{hamilton2006measuring}
+Andrew J.~S. Hamilton, Christopher~D. Rimes, and Rom{\'a}n Scoccimarro.
+\newblock On measuring the covariance matrix of the non-linear power spectrum
+  from simulations.
+\newblock {\em Monthly Notices of the Royal Astronomical Society},
+  371(3):1188--1204, 2006.
+
+\bibitem{ledoit2004well}
+Olivier Ledoit and Michael Wolf.
+\newblock A well-conditioned estimator for large-dimensional covariance
+  matrices.
+\newblock {\em Journal of multivariate analysis}, 88(2):365--411, 2004.
+
+\bibitem{looijmans2024comparison}
+Marnix~J. Looijmans, Mike~Shengbo Wang, and Florian Beutler.
+\newblock A comparison of shrinkage estimators of the cosmological precision
+  matrix.
+\newblock {\em arXiv preprint arXiv:2402.13783}, 2024.
+
+\bibitem{nino2022teda}
+Elias~D. Nino-Ruiz and Sebastian~Racedo Valbuena.
+\newblock Teda: A computational toolbox for teaching ensemble based data
+  assimilation.
+\newblock In {\em Computational Science -- ICCS 2022}, volume 13353 of {\em
+  Lecture Notes in Computer Science}, pages 787--801. Springer, Cham, 2022.
+
+\bibitem{pope2008shrinkage}
+Adrian~C. Pope and Istv{\'a}n Szapudi.
+\newblock Shrinkage estimation of the power spectrum covariance matrix.
+\newblock {\em Monthly Notices of the Royal Astronomical Society},
+  389(2):766--774, 2008.
+
+\end{thebibliography}
