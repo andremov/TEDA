@@ -90,64 +90,75 @@
 \newlabel{eq:scaled_target}{{9}{7}{Scaled Identity Target (Novel Adaptation)}{equation.1.3.9}{}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Direct Precision Shrinkage (Cosmological Target)}}{8}{algorithm.3}\protected@file@percent }
 \newlabel{alg:cosmo}{{3}{8}{Cosmological Target}{algorithm.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Computational complexity per assimilation cycle. $n$: state dimension, $N_e$: ensemble size, $r$: Cholesky bandwidth, $B$: number of NERCOME bootstrap draws.}}{8}{table.1.1}\protected@file@percent }
-\newlabel{tab:complexity}{{1}{8}{Computational complexity per assimilation cycle. $n$: state dimension, $N_e$: ensemble size, $r$: Cholesky bandwidth, $B$: number of NERCOME bootstrap draws}{table.1.1}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces Direct Precision Shrinkage (Scaled Identity Target)}}{8}{algorithm.4}\protected@file@percent }
+\newlabel{alg:scaled}{{4}{8}{Scaled Identity Target (Novel Adaptation)}{algorithm.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Computational Complexity}{8}{subsection.1.3.3}\protected@file@percent }
 \newlabel{sec:complexity}{{3.3}{8}{Computational Complexity}{subsection.1.3.3}{}}
 \citation{lorenz1996predictability}
-\citation{looijmans2024comparison}
-\citation{hartlap2007your}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The four shrinkage target matrices $\boldsymbol  {\Pi }_0$ (normalised, $d = 18$). The identity target assigns equal weight to all variables; the eigenvalue target uses the sample precision's spectral information; the scaled and cosmological targets incorporate variance structure from the data or domain knowledge respectively.}}{9}{figure.1.1}\protected@file@percent }
+\newlabel{fig:target_comparison}{{1}{9}{The four shrinkage target matrices $\boldsymbol {\Pi }_0$ (normalised, $d = 18$). The identity target assigns equal weight to all variables; the eigenvalue target uses the sample precision's spectral information; the scaled and cosmological targets incorporate variance structure from the data or domain knowledge respectively}{figure.1.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Computational complexity per assimilation cycle. $n$: state dimension, $N_e$: ensemble size, $r$: Cholesky bandwidth, $B$: number of NERCOME bootstrap draws.}}{9}{table.1.1}\protected@file@percent }
+\newlabel{tab:complexity}{{1}{9}{Computational complexity per assimilation cycle. $n$: state dimension, $N_e$: ensemble size, $r$: Cholesky bandwidth, $B$: number of NERCOME bootstrap draws}{table.1.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Benchmark}{9}{section.1.4}\protected@file@percent }
 \newlabel{sec:benchmark}{{4}{9}{Benchmark}{section.1.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental Setup}{9}{subsection.1.4.1}\protected@file@percent }
 \newlabel{sec:setup}{{4.1}{9}{Experimental Setup}{subsection.1.4.1}{}}
-\newlabel{eq:ar1}{{10}{9}{Experimental Setup}{equation.1.4.10}{}}
-\newlabel{eq:matrix_loss}{{11}{9}{Experimental Setup}{equation.1.4.11}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Evolution of relative RMSE over 100 assimilation cycles for different analysis methods with $N_e = 100$. Shrinkage-based methods (solid lines) and Ledoit-Wolf (dash-dot) are compared against the standard EnKF and EnKF-Cholesky (dashed).}}{10}{figure.1.1}\protected@file@percent }
-\newlabel{fig:rmse_time}{{1}{10}{Evolution of relative RMSE over 100 assimilation cycles for different analysis methods with $N_e = 100$. Shrinkage-based methods (solid lines) and Ledoit-Wolf (dash-dot) are compared against the standard EnKF and EnKF-Cholesky (dashed)}{figure.1.1}{}}
+\citation{looijmans2024comparison}
+\citation{hartlap2007your}
+\newlabel{eq:ar1}{{10}{10}{Experimental Setup}{equation.1.4.10}{}}
+\newlabel{eq:matrix_loss}{{11}{10}{Experimental Setup}{equation.1.4.11}{}}
 \newlabel{eq:rmse}{{12}{10}{Experimental Setup}{equation.1.4.12}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Lorenz~96 Results}{10}{subsection.1.4.2}\protected@file@percent }
 \newlabel{sec:lorenz_results}{{4.2}{10}{Lorenz~96 Results}{subsection.1.4.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Time-averaged relative RMSE ($\times 10^{-2}$) for different methods and ensemble sizes on Lorenz~96. Best result per column in \textbf  {bold}. $^\dagger $Scaled Shrinkage is a novel domain-agnostic adaptation proposed in this work.}}{11}{table.1.2}\protected@file@percent }
-\newlabel{tab:performance}{{2}{11}{Time-averaged relative RMSE ($\times 10^{-2}$) for different methods and ensemble sizes on Lorenz~96. Best result per column in \textbf {bold}. $^\dagger $Scaled Shrinkage is a novel domain-agnostic adaptation proposed in this work}{table.1.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Cosmological Results}{11}{subsection.1.4.3}\protected@file@percent }
-\newlabel{sec:cosmo_results}{{4.3}{11}{Cosmological Results}{subsection.1.4.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Standalone Precision Estimation.}{11}{section*.9}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Time-averaged relative RMSE (over last 50 cycles) as a function of ensemble size $N_e$ on Lorenz~96. Error bars show $\pm 1$ standard deviation over 30 runs.}}{12}{figure.1.2}\protected@file@percent }
-\newlabel{fig:rmse_vs_ne}{{2}{12}{Time-averaged relative RMSE (over last 50 cycles) as a function of ensemble size $N_e$ on Lorenz~96. Error bars show $\pm 1$ standard deviation over 30 runs}{figure.1.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Evolution of relative RMSE over 100 assimilation cycles for different analysis methods with $N_e = 100$. Shrinkage-based methods (solid lines) and Ledoit-Wolf (dash-dot) are compared against the standard EnKF and EnKF-Cholesky (dashed).}}{11}{figure.1.2}\protected@file@percent }
+\newlabel{fig:rmse_time}{{2}{11}{Evolution of relative RMSE over 100 assimilation cycles for different analysis methods with $N_e = 100$. Shrinkage-based methods (solid lines) and Ledoit-Wolf (dash-dot) are compared against the standard EnKF and EnKF-Cholesky (dashed)}{figure.1.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Time-averaged relative RMSE ($\times 10^{-2}$) for different methods and ensemble sizes on Lorenz~96. Best result per column in \textbf  {bold}. $^\dagger $Scaled Shrinkage is a novel domain-agnostic adaptation proposed in this work.}}{12}{table.1.2}\protected@file@percent }
+\newlabel{tab:performance}{{2}{12}{Time-averaged relative RMSE ($\times 10^{-2}$) for different methods and ensemble sizes on Lorenz~96. Best result per column in \textbf {bold}. $^\dagger $Scaled Shrinkage is a novel domain-agnostic adaptation proposed in this work}{table.1.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$). Lower is better. Best result per column in \textbf  {bold}.}}{12}{table.1.3}\protected@file@percent }
+\newlabel{tab:cosmo_direct}{{3}{12}{Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$). Lower is better. Best result per column in \textbf {bold}}{table.1.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Cosmological Results}{12}{subsection.1.4.3}\protected@file@percent }
+\newlabel{sec:cosmo_results}{{4.3}{12}{Cosmological Results}{subsection.1.4.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Standalone Precision Estimation.}{12}{section*.9}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{EnKF Filtering.}{12}{section*.10}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Precision matrix estimates ($40 \times 40$) from different methods with $N_e = 60$: sample precision $\mathbf  {S}^{-1}$, identity shrinkage, scaled shrinkage, eigenvalue shrinkage, Ledoit-Wolf, and modified Cholesky. The direct precision shrinkage estimators produce matrices with much larger magnitude than Ledoit-Wolf and Cholesky, reflecting the ill-conditioning discussed above.}}{13}{figure.1.3}\protected@file@percent }
-\newlabel{fig:precision_heatmap}{{3}{13}{Precision matrix estimates ($40 \times 40$) from different methods with $N_e = 60$: sample precision $\mathbf {S}^{-1}$, identity shrinkage, scaled shrinkage, eigenvalue shrinkage, Ledoit-Wolf, and modified Cholesky. The direct precision shrinkage estimators produce matrices with much larger magnitude than Ledoit-Wolf and Cholesky, reflecting the ill-conditioning discussed above}{figure.1.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$). Lower is better. Best result per column in \textbf  {bold}.}}{13}{table.1.3}\protected@file@percent }
-\newlabel{tab:cosmo_direct}{{3}{13}{Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$). Lower is better. Best result per column in \textbf {bold}}{table.1.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Unclamped $\beta ^*$ as a function of ensemble size $N_e$ on Lorenz~96, by target. Log scale. The identity target produces $\beta ^*$ in the $10^8$--$10^9$ range and the scaled identity in the $10^3$--$10^5$ range, both far outside the valid $[0,1]$ interval and clamped at every cycle. The eigenvalue target sits at $\beta ^* \approx 10^{-4}$, effectively no shrinkage. Cosmological target excluded (not defined for Lorenz~96).}}{13}{figure.1.3}\protected@file@percent }
+\newlabel{fig:beta_vs_ne}{{3}{13}{Unclamped $\beta ^*$ as a function of ensemble size $N_e$ on Lorenz~96, by target. Log scale. The identity target produces $\beta ^*$ in the $10^8$--$10^9$ range and the scaled identity in the $10^3$--$10^5$ range, both far outside the valid $[0,1]$ interval and clamped at every cycle. The eigenvalue target sits at $\beta ^* \approx 10^{-4}$, effectively no shrinkage. Cosmological target excluded (not defined for Lorenz~96)}{figure.1.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Computational Cost}{13}{subsection.1.4.4}\protected@file@percent }
 \newlabel{sec:results}{{4.4}{13}{Computational Cost}{subsection.1.4.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Relative Frobenius loss of precision matrix estimates vs.\ subsample size on BOSS DR12 mock data ($d = 18$). Direct precision shrinkage methods (solid lines) achieve the lowest loss at $n \geq 40$, while Ledoit-Wolf (blue) remains flat near $0.93$. Error bars show $\pm 1$ standard deviation over 100 random draws.}}{14}{figure.1.4}\protected@file@percent }
-\newlabel{fig:cosmo_matrix_loss}{{4}{14}{Relative Frobenius loss of precision matrix estimates vs.\ subsample size on BOSS DR12 mock data ($d = 18$). Direct precision shrinkage methods (solid lines) achieve the lowest loss at $n \geq 40$, while Ledoit-Wolf (blue) remains flat near $0.93$. Error bars show $\pm 1$ standard deviation over 100 random draws}{figure.1.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Time-averaged relative RMSE (over last 50 cycles) as a function of ensemble size $N_e$ on Lorenz~96. Error bars show $\pm 1$ standard deviation over 30 runs.}}{14}{figure.1.4}\protected@file@percent }
+\newlabel{fig:rmse_vs_ne}{{4}{14}{Time-averaged relative RMSE (over last 50 cycles) as a function of ensemble size $N_e$ on Lorenz~96. Error bars show $\pm 1$ standard deviation over 30 runs}{figure.1.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{14}{section.1.5}\protected@file@percent }
 \newlabel{sec:discussion}{{5}{14}{Discussion}{section.1.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Target-Truth Alignment}{14}{subsection.1.5.1}\protected@file@percent }
-\newlabel{sec:disc_alignment}{{5.1}{14}{Target-Truth Alignment}{subsection.1.5.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Precision matrix estimates ($40 \times 40$) from different methods with $N_e = 60$: sample precision $\mathbf  {S}^{-1}$, identity shrinkage, scaled shrinkage, eigenvalue shrinkage, Ledoit-Wolf, and modified Cholesky. The direct precision shrinkage estimators produce matrices with much larger magnitude than Ledoit-Wolf and Cholesky, reflecting the ill-conditioning discussed above.}}{15}{figure.1.5}\protected@file@percent }
+\newlabel{fig:precision_heatmap}{{5}{15}{Precision matrix estimates ($40 \times 40$) from different methods with $N_e = 60$: sample precision $\mathbf {S}^{-1}$, identity shrinkage, scaled shrinkage, eigenvalue shrinkage, Ledoit-Wolf, and modified Cholesky. The direct precision shrinkage estimators produce matrices with much larger magnitude than Ledoit-Wolf and Cholesky, reflecting the ill-conditioning discussed above}{figure.1.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Target-Truth Alignment}{15}{subsection.1.5.1}\protected@file@percent }
+\newlabel{sec:disc_alignment}{{5.1}{15}{Target-Truth Alignment}{subsection.1.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Variance, not Bias, Dominates in Sequential Filtering}{15}{subsection.1.5.2}\protected@file@percent }
+\newlabel{sec:disc_variance}{{5.2}{15}{Variance, not Bias, Dominates in Sequential Filtering}{subsection.1.5.2}{}}
 \citation{ledoit2004well}
 \citation{chen2010shrinkage}
 \citation{bodnar2016direct}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Time-averaged relative RMSE ($\times 10^{-2}$) for the AR(1) cosmological model. Best result per column in \textbf  {bold}. $^\dagger $Scaled Shrinkage is a novel adaptation proposed in this work.}}{15}{table.1.4}\protected@file@percent }
-\newlabel{tab:cosmo_enkf}{{4}{15}{Time-averaged relative RMSE ($\times 10^{-2}$) for the AR(1) cosmological model. Best result per column in \textbf {bold}. $^\dagger $Scaled Shrinkage is a novel adaptation proposed in this work}{table.1.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Variance, not Bias, Dominates in Sequential Filtering}{15}{subsection.1.5.2}\protected@file@percent }
-\newlabel{sec:disc_variance}{{5.2}{15}{Variance, not Bias, Dominates in Sequential Filtering}{subsection.1.5.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Time-averaged relative RMSE vs.\ ensemble size for the AR(1) cosmological model. All methods show stable, monotonic behavior---unlike the Lorenz~96 case (Figure~\ref {fig:rmse_vs_ne}). Ledoit-Wolf achieves the lowest RMSE throughout. Error bars show $\pm 1$ standard deviation over 30 runs.}}{16}{figure.1.5}\protected@file@percent }
-\newlabel{fig:cosmo_enkf_rmse}{{5}{16}{Time-averaged relative RMSE vs.\ ensemble size for the AR(1) cosmological model. All methods show stable, monotonic behavior---unlike the Lorenz~96 case (Figure~\ref {fig:rmse_vs_ne}). Ledoit-Wolf achieves the lowest RMSE throughout. Error bars show $\pm 1$ standard deviation over 30 runs}{figure.1.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Practical Recommendations}{16}{subsection.1.5.3}\protected@file@percent }
-\newlabel{sec:disc_recommendations}{{5.3}{16}{Practical Recommendations}{subsection.1.5.3}{}}
-\citation{bodnar2016direct}
-\citation{bodnar2016direct}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Relative Frobenius loss of precision matrix estimates vs.\ subsample size on BOSS DR12 mock data ($d = 18$). Direct precision shrinkage methods (solid lines) achieve the lowest loss at $n \geq 40$, while Ledoit-Wolf (blue) remains flat near $0.93$. Error bars show $\pm 1$ standard deviation over 100 random draws.}}{16}{figure.1.6}\protected@file@percent }
+\newlabel{fig:cosmo_matrix_loss}{{6}{16}{Relative Frobenius loss of precision matrix estimates vs.\ subsample size on BOSS DR12 mock data ($d = 18$). Direct precision shrinkage methods (solid lines) achieve the lowest loss at $n \geq 40$, while Ledoit-Wolf (blue) remains flat near $0.93$. Error bars show $\pm 1$ standard deviation over 100 random draws}{figure.1.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Time-averaged relative RMSE ($\times 10^{-2}$) for the AR(1) cosmological model. Best result per column in \textbf  {bold}. $^\dagger $Scaled Shrinkage is a novel adaptation proposed in this work.}}{17}{table.1.4}\protected@file@percent }
+\newlabel{tab:cosmo_enkf}{{4}{17}{Time-averaged relative RMSE ($\times 10^{-2}$) for the AR(1) cosmological model. Best result per column in \textbf {bold}. $^\dagger $Scaled Shrinkage is a novel adaptation proposed in this work}{table.1.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Practical Recommendations}{17}{subsection.1.5.3}\protected@file@percent }
+\newlabel{sec:disc_recommendations}{{5.3}{17}{Practical Recommendations}{subsection.1.5.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Limitations and Future Work}{17}{subsection.1.5.4}\protected@file@percent }
 \newlabel{sec:disc_future}{{5.4}{17}{Limitations and Future Work}{subsection.1.5.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{17}{section.1.6}\protected@file@percent }
-\newlabel{sec:conclusions}{{6}{17}{Conclusions}{section.1.6}{}}
+\citation{bodnar2016direct}
+\citation{bodnar2016direct}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Time-averaged relative RMSE vs.\ ensemble size for the AR(1) cosmological model. All methods show stable, monotonic behavior---unlike the Lorenz~96 case (Figure~\ref {fig:rmse_vs_ne}). Ledoit-Wolf achieves the lowest RMSE throughout. Error bars show $\pm 1$ standard deviation over 30 runs.}}{18}{figure.1.7}\protected@file@percent }
+\newlabel{fig:cosmo_enkf_rmse}{{7}{18}{Time-averaged relative RMSE vs.\ ensemble size for the AR(1) cosmological model. All methods show stable, monotonic behavior---unlike the Lorenz~96 case (Figure~\ref {fig:rmse_vs_ne}). Ledoit-Wolf achieves the lowest RMSE throughout. Error bars show $\pm 1$ standard deviation over 30 runs}{figure.1.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{18}{section.1.6}\protected@file@percent }
+\newlabel{sec:conclusions}{{6}{18}{Conclusions}{section.1.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Extrapolated per-cycle estimation cost as a function of state dimension $n$ for $N_e = 80$, anchored to the measured Lorenz~96 timing at $n = 40$. Log-log axes. The $\mathcal  {O}(n^3)$ methods (direct precision shrinkage, Ledoit--Wolf after inversion) scale with slope~3; EnKF-Cholesky with bandwidth $r = 2$ scales linearly in $n$; NERCOME carries an additional factor of $B = 200$ throughout. Vertical dashed lines mark testbed ($n \approx 40$), intermediate testbeds ($n \approx 10^3$), and operational NWP ($n \approx 10^6$).}}{19}{figure.1.8}\protected@file@percent }
+\newlabel{fig:timing_scaling}{{8}{19}{Extrapolated per-cycle estimation cost as a function of state dimension $n$ for $N_e = 80$, anchored to the measured Lorenz~96 timing at $n = 40$. Log-log axes. The $\mathcal {O}(n^3)$ methods (direct precision shrinkage, Ledoit--Wolf after inversion) scale with slope~3; EnKF-Cholesky with bandwidth $r = 2$ scales linearly in $n$; NERCOME carries an additional factor of $B = 200$ throughout. Vertical dashed lines mark testbed ($n \approx 40$), intermediate testbeds ($n \approx 10^3$), and operational NWP ($n \approx 10^6$)}{figure.1.8}{}}
 \bibstyle{splncs04}
 \bibdata{references}
 \bibcite{anderson2001ensemble}{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Regime map for shrinkage-based EnKF precision estimation. Horizontal axis: concentration ratio $n/N_e$. Vertical axis: structural distance from the shrinkage target (e.g.\ off-diagonal energy of the true precision relative to a diagonal target). The two test domains of this work occupy opposite quadrants: BOSS cosmological data is near-diagonal (low vertical), Lorenz~96 is dense (high vertical). The recommended method changes across the map; see text.}}{20}{figure.1.9}\protected@file@percent }
+\newlabel{fig:regime_map}{{9}{20}{Regime map for shrinkage-based EnKF precision estimation. Horizontal axis: concentration ratio $n/N_e$. Vertical axis: structural distance from the shrinkage target (e.g.\ off-diagonal energy of the true precision relative to a diagonal target). The two test domains of this work occupy opposite quadrants: BOSS cosmological data is near-diagonal (low vertical), Lorenz~96 is dense (high vertical). The recommended method changes across the map; see text}{figure.1.9}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Acknowledgements.}{20}{section*.11}\protected@file@percent }
 \bibcite{bodnar2016direct}{2}
 \bibcite{chen2010shrinkage}{3}
 \bibcite{dodelson2013effect}{4}
@@ -158,7 +169,6 @@
 \bibcite{hartlap2007your}{9}
 \bibcite{hoerl1970ridge}{10}
 \bibcite{houtekamer1998data}{11}
-\@writefile{toc}{\contentsline {subsubsection}{Acknowledgements.}{18}{section*.11}\protected@file@percent }
 \bibcite{joachimi2017non}{12}
 \bibcite{lam2016nonparametric}{13}
 \bibcite{ledoit2004well}{14}
@@ -171,4 +181,4 @@
 \bibcite{pope2008shrinkage}{21}
 \bibcite{sellentin2016parameter}{22}
 \bibcite{taylor2014estimating}{23}
-\gdef \@abspage@last{19}
+\gdef \@abspage@last{22}

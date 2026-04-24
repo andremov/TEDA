@@ -63,7 +63,14 @@ Ledoit-Wolf              & $\mathbf{0.09 \pm 0.01}$ & $\mathbf{0.08 \pm 0.01}$ &
 \end{tabular}
 \end{table}
 
-This instability traces to the Bodnar coefficients. While $\alpha^*$ stays near $1 - n/N_e$ across all ensemble sizes and assimilation steps, $\beta^*$ is severely miscalibrated: unclamped values reach $10^8$--$10^9$ for the identity target and $10^3$--$10^5$ for the scaled target, requiring clamping to $[0,1]$ at every step. For the eigenvalue target, $\beta^*$ is effectively zero ($\sim 10^{-4}$), so no shrinkage toward the target occurs. The identity target $\boldsymbol{\Pi}_0 = \mathbf{I}$ is a poor match for Lorenz~96, whose precision matrix has significant off-diagonal entries from spatial coupling. In the formula for $\beta^*$~\eqref{eq:beta_star}, the $\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0) / \|\boldsymbol{\Pi}_0\|_F^2$ factor becomes very large when the sample precision has large diagonal entries relative to the target norm, driving $\beta^*$ to extreme values. After clamping, the resulting precision matrices have condition numbers of $10^7$--$10^{11}$, making the analysis updates numerically unstable.
+This instability traces to the Bodnar coefficients. Figure~\ref{fig:beta_vs_ne} plots the unclamped $\beta^*$ values against ensemble size for each target. While $\alpha^*$ stays near $1 - n/N_e$ across all ensemble sizes and assimilation steps, $\beta^*$ is severely miscalibrated: unclamped values reach $10^8$--$10^9$ for the identity target and $10^3$--$10^5$ for the scaled target, requiring clamping to $[0,1]$ at every step. For the eigenvalue target, $\beta^*$ is effectively zero ($\sim 10^{-4}$), so no shrinkage toward the target occurs. The identity target $\boldsymbol{\Pi}_0 = \mathbf{I}$ is a poor match for Lorenz~96, whose precision matrix has significant off-diagonal entries from spatial coupling. In the formula for $\beta^*$~\eqref{eq:beta_star}, the $\mathrm{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0) / \|\boldsymbol{\Pi}_0\|_F^2$ factor becomes very large when the sample precision has large diagonal entries relative to the target norm, driving $\beta^*$ to extreme values. After clamping, the resulting precision matrices have condition numbers of $10^7$--$10^{11}$, making the analysis updates numerically unstable.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/beta_vs_ne.pdf}
+\caption{Unclamped $\beta^*$ as a function of ensemble size $N_e$ on Lorenz~96, by target. Log scale. The identity target produces $\beta^*$ in the $10^8$--$10^9$ range and the scaled identity in the $10^3$--$10^5$ range, both far outside the valid $[0,1]$ interval and clamped at every cycle. The eigenvalue target sits at $\beta^* \approx 10^{-4}$, effectively no shrinkage. Cosmological target excluded (not defined for Lorenz~96).}
+\label{fig:beta_vs_ne}
+\end{figure}
 
 Figure~\ref{fig:rmse_vs_ne} plots the time-averaged RMSE against $N_e$. The standard EnKF and Ledoit-Wolf improve monotonically with larger ensembles. Modified Cholesky gives stable though not optimal performance across all sizes.
 
@@ -158,4 +165,13 @@ The scaled identity target occupies a middle ground. On Lorenz~96, it outperform
 \subsection{Computational Cost}
 \label{sec:results}
 
-All shrinkage methods except NERCOME are within 15\% of the EnKF baseline cost when $n \leq 40$. On the cosmological domain ($d = 18$, $N_e = 30$), NERCOME takes $26.7$~s per 100 cycles, roughly $190\times$ slower than the EnKF baseline ($0.14$~s) and $100\times$ slower than the direct precision shrinkage variants ($0.20$--$0.28$~s). On Lorenz~96 ($n = 40$, $N_e = 80$), ensemble propagation dominates and the gap narrows: all methods except NERCOME take $26$--$28$~s, with NERCOME at $215$~s. Extrapolating to operational dimensions, the $\mathcal{O}(n^3)$ inversion that the direct precision methods share with Ledoit-Wolf becomes prohibitive at $n \gtrsim 10^4$; beyond that scale, only the modified Cholesky $\mathcal{O}(n\,r\,N_e)$ variant remains tractable without additional approximation.
+All shrinkage methods except NERCOME are within 15\% of the EnKF baseline cost when $n \leq 40$. On the cosmological domain ($d = 18$, $N_e = 30$), NERCOME takes $26.7$~s per 100 cycles, roughly $190\times$ slower than the EnKF baseline ($0.14$~s) and $100\times$ slower than the direct precision shrinkage variants ($0.20$--$0.28$~s). On Lorenz~96 ($n = 40$, $N_e = 80$), ensemble propagation dominates and the gap narrows: all methods except NERCOME take $26$--$28$~s, with NERCOME at $215$~s.
+
+Figure~\ref{fig:timing_scaling} extrapolates the per-cycle estimation cost beyond the dimensions we could run on a laptop, using the asymptotic complexities anchored to the measured Lorenz~96 timing at $n = 40$. At testbed scale ($n \lesssim 10^2$), all $\mathcal{O}(n^3)$ methods are within a factor of two of each other and statistical performance dominates the choice; at intermediate scale ($n \sim 10^2$--$10^3$, e.g.\ quasi-geostrophic models), the $n^3$ inversion starts to dominate and direct precision shrinkage costs $10^2$--$10^3$ times more than EnKF-Cholesky per cycle; at operational scale ($n \gtrsim 10^4$), any method with an explicit $n \times n$ inversion is prohibitive without low-rank or hierarchical approximations, leaving only the $\mathcal{O}(n\,r\,N_e)$ modified Cholesky variant tractable.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/timing_scaling.pdf}
+\caption{Extrapolated per-cycle estimation cost as a function of state dimension $n$ for $N_e = 80$, anchored to the measured Lorenz~96 timing at $n = 40$. Log-log axes. The $\mathcal{O}(n^3)$ methods (direct precision shrinkage, Ledoit--Wolf after inversion) scale with slope~3; EnKF-Cholesky with bandwidth $r = 2$ scales linearly in $n$; NERCOME carries an additional factor of $B = 200$ throughout. Vertical dashed lines mark testbed ($n \approx 40$), intermediate testbeds ($n \approx 10^3$), and operational NWP ($n \approx 10^6$).}
+\label{fig:timing_scaling}
+\end{figure}

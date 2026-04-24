@@ -22,7 +22,7 @@ The four target variants below differ only in their choice of $\boldsymbol{\Pi}_
 
 \subsubsection{Identity Target.}
 
-The simplest choice: $\boldsymbol{\Pi}_0 = \mathbf{I}_n$, assuming independent unit-variance priors. This carries no domain-specific information, but the direct precision formulation still produces a valid precision matrix---unlike inverting a shrunk covariance, which can amplify estimation error. Algorithm~\ref{alg:identity} summarises the procedure; the eigenvalue, cosmological, and scaled identity variants (Algorithms~\ref{alg:eigenvalue}, \ref{alg:cosmo}, and Section~\ref{sec:scaled_target}) follow the same template with different choices of $\boldsymbol{\Pi}_0$.
+The simplest choice: $\boldsymbol{\Pi}_0 = \mathbf{I}_n$, assuming independent unit-variance priors. This carries no domain-specific information, but the direct precision formulation still produces a valid precision matrix---unlike inverting a shrunk covariance, which can amplify estimation error. Algorithm~\ref{alg:identity} summarises the procedure; the eigenvalue, cosmological, and scaled identity variants (Algorithms~\ref{alg:eigenvalue}, \ref{alg:cosmo}, \ref{alg:scaled}) follow the same template with different choices of $\boldsymbol{\Pi}_0$.
 
 \begin{algorithm}[t]
 \caption{Direct Precision Shrinkage (Identity Target)}
@@ -81,7 +81,29 @@ The cosmological target requires power spectrum data $C_\ell$ and mode counts $N
 \label{eq:scaled_target}
 \boldsymbol{\Pi}_0 = \text{diag}\!\left(\frac{1}{2\sigma_1^2}, \ldots, \frac{1}{2\sigma_n^2}\right),
 \end{equation}
-where $\sigma_i^2$ are the diagonal entries of $\mathbf{S}$. The factor of 2 mirrors the $2/N_\ell$ scaling of the cosmological target in Section~\ref{sec:precision_estimation}. This variant tests how much of the direct precision shrinkage performance depends on domain-specific target knowledge versus the general framework itself.
+where $\sigma_i^2$ are the diagonal entries of $\mathbf{S}$. The factor of 2 mirrors the $2/N_\ell$ scaling of the cosmological target in Section~\ref{sec:precision_estimation}. This variant tests how much of the direct precision shrinkage performance depends on domain-specific target knowledge versus the general framework itself. Algorithm~\ref{alg:scaled} summarises the procedure.
+
+\begin{algorithm}[t]
+\caption{Direct Precision Shrinkage (Scaled Identity Target)}
+\label{alg:scaled}
+\begin{algorithmic}[1]
+\REQUIRE Deviation matrix $\mathbf{DX} \in \mathbb{R}^{n \times N_e}$
+\STATE Compute $\mathbf{S}$, $\hat{\boldsymbol{\Pi}}_S$ as in Algorithm~\ref{alg:identity} (Steps 1--2)
+\STATE Read per-variable variances $\sigma_i^2 = \mathbf{S}_{ii}$ for $i = 1, \ldots, n$
+\STATE Set target: $\boldsymbol{\Pi}_0 = \mathrm{diag}(1/(2\sigma_1^2), \ldots, 1/(2\sigma_n^2))$
+\STATE Compute $\alpha^*, \beta^*$ via Eqs.~\eqref{eq:alpha_star}--\eqref{eq:beta_star}
+\RETURN $\boldsymbol{\Pi}_{\text{LS}} = \alpha^* \hat{\boldsymbol{\Pi}}_S + \beta^* \boldsymbol{\Pi}_0$
+\end{algorithmic}
+\end{algorithm}
+
+Figure~\ref{fig:target_comparison} visualises the four targets at $d = 18$. All are diagonal by construction; they differ only in how the diagonal entries are filled.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/target_comparison.pdf}
+\caption{The four shrinkage target matrices $\boldsymbol{\Pi}_0$ (normalised, $d = 18$). The identity target assigns equal weight to all variables; the eigenvalue target uses the sample precision's spectral information; the scaled and cosmological targets incorporate variance structure from the data or domain knowledge respectively.}
+\label{fig:target_comparison}
+\end{figure}
 
 \subsection{Computational Complexity}
 \label{sec:complexity}

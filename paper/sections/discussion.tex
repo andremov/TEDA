@@ -22,6 +22,15 @@ This observation points to a gap in the shrinkage-estimation literature. Ledoit 
 \subsection{Practical Recommendations}
 \label{sec:disc_recommendations}
 
+Figure~\ref{fig:regime_map} places both experiments on a two-dimensional plane spanned by the concentration ratio $n/N_e$ and the structural distance from the shrinkage target. The map summarises which regime each combination of method and target falls into, and which method choice is appropriate.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/shrinkage_regime_map.pdf}
+\caption{Regime map for shrinkage-based EnKF precision estimation. Horizontal axis: concentration ratio $n/N_e$. Vertical axis: structural distance from the shrinkage target (e.g.\ off-diagonal energy of the true precision relative to a diagonal target). The two test domains of this work occupy opposite quadrants: BOSS cosmological data is near-diagonal (low vertical), Lorenz~96 is dense (high vertical). The recommended method changes across the map; see text.}
+\label{fig:regime_map}
+\end{figure}
+
 Combining the accuracy and cost results, a small decision table emerges. When $N_e \leq n$ (rank-deficient), only localization and the modified Cholesky variant apply; direct precision shrinkage is undefined. When $N_e \approx n$ (ill-conditioned) with near-diagonal precision and a known domain-specific target, direct precision shrinkage with that target gives the best standalone estimate; for sequential use, Ledoit--Wolf is the safer choice because of its low cycle-to-cycle variance. When the precision is dense, Ledoit--Wolf (or EnKF-Cholesky at intermediate $n$) is preferred; diagonal direct-precision targets fail. When $N_e \gg n$ (well-sampled), the sample precision is already accurate, and all shrinkage methods converge toward it. In all cases, NERCOME is ruled out for sequential use by its $\mathcal{O}(B)$ eigendecomposition cost.
 
 The scaled identity target we propose occupies the niche where the precision is near-diagonal but no domain-specific target is available. It gives modest gains over the plain identity without requiring external information, and matches or beats Ledoit--Wolf on standalone estimation at small $n$. Its ad-hoc factor of~2, borrowed by analogy from the cosmological $2/N_\ell$ term, is admittedly heuristic and could likely be improved through cross-validation or a Bayesian argument.

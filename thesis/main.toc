@@ -51,8 +51,8 @@
 \contentsline {section}{\numberline {3.3}Worked Example}{29}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Computational Complexity}{30}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Implementation in TEDA}{31}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Architecture}{32}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Estimator Classes}{32}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.1}Architecture}{31}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Estimator Classes}{33}{subsection.3.5.2}%
 \contentsline {section}{\numberline {3.6}Summary of Methods}{33}{section.3.6}%
 \contentsline {chapter}{\numberline {4}Benchmark}{35}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Experimental Setup}{35}{section.4.1}%
