@@ -1,0 +1,88 @@
+\chapter{Introduction}
+\label{ch:introduction}
+
+Ensemble Kalman filters require the inverse of the background error covariance matrix, but in most operational settings the ensemble is far too small to estimate that matrix reliably. When the state dimension $n$ exceeds the ensemble size $N_e$, the sample covariance is rank-deficient and cannot be inverted at all~\citep{houtekamer1998data}; even when $N_e > n$, sampling noise introduces spurious correlations that contaminate the precision matrix~\citep{anderson2001ensemble}. The same problem appears in cosmological data analysis, where the number of mock catalogs available to estimate power spectrum covariances is often comparable to the data dimension~\citep{hamilton2006measuring}.
+
+Covariance matrix estimation is central to both fields. In data assimilation, the background error covariance determines how observations are weighted against the model forecast. In cosmology, the covariance of power spectrum estimates governs the precision of parameter constraints extracted from galaxy surveys. In both cases, the sample covariance computed from a limited number of realizations (ensemble members in data assimilation, mock catalogs in cosmology) is a poor estimator when the sample size is comparable to the data dimension. The eigenvalues of the sample covariance are systematically spread relative to the true eigenvalues: the largest are overestimated, the smallest underestimated, and in the rank-deficient case some eigenvalues are exactly zero~\citep{ledoit2004well}.
+
+Shrinkage estimation offers a practical remedy: combine the noisy sample estimate with a structured, low-variance target matrix, accepting some bias in exchange for reduced mean squared error. Most shrinkage work operates in covariance space. \citep{ledoit2004well} derived an optimal intensity for shrinking toward a scaled identity target, and this approach has become a standard reference in high-dimensional settings. \citep{pope2008shrinkage} brought shrinkage estimation to cosmology, showing that even a simple diagonal target improves power spectrum covariance estimation when few simulations are available. \citep{chen2010shrinkage} proposed oracle-approximating algorithms that improve on Ledoit-Wolf in high dimensions. \citep{haff1991variational} derived improved Bayes estimators for the covariance matrix via eigenvalue shrinkage. All of these methods trade bias for variance reduction; they differ in how the target encodes prior assumptions about the covariance structure.
+
+\citep{bodnar2016direct} took a different route, shrinking the precision matrix directly rather than first shrinking the covariance and then inverting. This can be advantageous when the precision matrix has known structure. For instance, when it is approximately diagonal, as is the case for Gaussian random fields observed at independent modes. \citep{looijmans2024comparison} applied this direct precision framework to cosmological data, comparing several target choices and showing that domain-informed targets outperform generic ones when the true precision is near-diagonal.
+
+In the data assimilation community, the problem of ill-conditioned covariance estimation has been addressed primarily through localization~\citep{gaspari1999construction, ott2004local, hunt2007efficient} and inflation~\citep{anderson1999monte, anderson2001ensemble}. Localization zeroes out long-range correlations that are likely spurious, producing a sparse covariance matrix that is well-conditioned by construction. Inflation artificially increases the ensemble spread to prevent filter divergence. These techniques are complementary to shrinkage estimation: localization imposes sparsity structure, while shrinkage imposes a bias-variance tradeoff. The modified Cholesky decomposition~\citep{nino2018ensemble} provides a third approach, estimating a banded precision matrix directly from local regressions without ever forming or inverting the full covariance matrix.
+
+Two gaps remain in the literature. First, \citep{looijmans2024comparison} used these estimators for standalone precision matrix estimation, not inside a sequential filter. The Ensemble Kalman Filter recomputes the precision matrix at every assimilation cycle, and errors in the precision estimate feed back through the forecast model into subsequent cycles. It is unclear whether an estimator that performs well in a one-shot setting will also perform well when applied repeatedly across hundreds of assimilation cycles. Second, the direct precision targets in the literature are either generic (identity, eigenvalues) or domain-specific (cosmological), with no middle ground for practitioners who lack prior knowledge of the precision structure but want something better than the identity.
+
+We address both gaps. We embed the \citep{bodnar2016direct} direct precision shrinkage framework inside the dual formulation of the Ensemble Kalman Filter, recomputing the shrinkage coefficients at each assimilation cycle using the current ensemble. We propose a scaled identity target that uses empirical per-variable variances as a domain-agnostic alternative to the cosmological target. To stress-test the framework under contrasting conditions, we choose two systems with opposite precision structure: the Lorenz~96 model~\citep{lorenz1996predictability} ($n = 40$, dense off-diagonal precision from chaotic spatial coupling) and BOSS DR12 cosmological mock data~\citep{looijmans2024comparison} ($d = 18$, near-diagonal precision from independent modes). This dual-domain design allows us to separate the effect of the shrinkage framework itself from the effect of target-truth alignment, a distinction that single-domain studies cannot make. All implementations are publicly available in the TEDA framework~\citep{nino2022teda}.
+
+\section{Notation}
+\label{sec:notation}
+
+Table~\ref{tab:notation} summarizes the main notation used throughout this thesis.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of notation.}
+\label{tab:notation}
+\begin{tabular}{@{}cl@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$n$ & State dimension \\
+$m$ & Number of observations \\
+$N_e$ & Ensemble size \\
+$\mathbf{x} \in \mathbb{R}^n$ & State vector \\
+$\mathbf{y} \in \mathbb{R}^m$ & Observation vector \\
+$\mathbf{H} \in \mathbb{R}^{m \times n}$ & Observation operator \\
+$\mathbf{R} \in \mathbb{R}^{m \times m}$ & Observation error covariance \\
+$\mathbf{P}^b, \mathbf{B} \in \mathbb{R}^{n \times n}$ & Background error covariance \\
+$\mathbf{S} \in \mathbb{R}^{n \times n}$ & Sample covariance \\
+$\boldsymbol{\Sigma} \in \mathbb{R}^{n \times n}$ & True covariance \\
+$\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1}$ & Sample precision matrix \\
+$\boldsymbol{\Pi}_0$ & Shrinkage target (precision) \\
+$\boldsymbol{\Pi}_{\text{LS}}$ & Shrinkage precision estimator \\
+$\alpha^*, \beta^*$ & Optimal shrinkage coefficients \\
+$\lambda^*$ & Covariance shrinkage intensity \\
+$\mathbf{K}$ & Kalman gain \\
+$\Delta\mathbf{X}^b$ & Ensemble perturbation matrix \\
+$\|\cdot\|_F$ & Frobenius norm \\
+$\|\cdot\|_{\text{tr}}$ & Trace norm \\
+$\rho$ & Inflation factor \\
+$r$ & Cholesky bandwidth / localization radius \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Scope and Contributions}
+\label{sec:contributions}
+
+This thesis makes the following contributions:
+
+\begin{enumerate}
+\item We embed the \citep{bodnar2016direct} framework into the dual formulation of the Ensemble Kalman Filter, recomputing the shrinkage coefficients $\alpha^*$ and $\beta^*$ at each assimilation cycle using the current ensemble. This is the first application of direct precision shrinkage in a sequential filtering context, as opposed to standalone estimation.
+
+\item We propose a new shrinkage target that uses empirical per-variable variances from the sample covariance, providing a middle ground between the plain identity (which ignores variable scales) and the cosmological target (which requires domain-specific prior knowledge). The factor of 2 mirrors the cosmological $2/N_\ell$ scaling but requires no external parameters.
+
+\item We test six shrinkage-based estimators on two systems with opposite precision structure, Lorenz~96 (dense precision) and BOSS DR12 cosmological mock data (near-diagonal precision), alongside two baselines (standard EnKF, EnKF-Cholesky). This dual-domain design reveals the strong dependence of direct precision shrinkage on target-truth alignment.
+
+\item We show empirically that the best standalone precision estimator (as measured by Frobenius loss) is not the best EnKF filter (as measured by RMSE). We trace this to the sequential accumulation of estimator variance over many assimilation cycles, and argue that variance reduction matters as much as bias reduction in sequential filtering.
+
+\item We provide a systematic study of the shrinkage coefficients, clamping rates, and condition numbers across 12 ensemble sizes, revealing the mechanism behind the failure of diagonal targets on systems with dense precision structure.
+\end{enumerate}
+
+\section{Thesis Organization}
+\label{sec:organization}
+
+The remainder of this thesis is organized as follows.
+
+Chapter~\ref{ch:preliminaries} reviews the theoretical foundations: data assimilation (sequential and variational), the Ensemble Kalman Filter (stochastic EnKF, dual EnKF, LETKF), filter drawbacks (localization and inflation), the Wishart distribution and sample precision properties, shrinkage estimation for covariance and precision matrices (Ledoit-Wolf, oracle, NERCOME, Bodnar et al.), and the modified Cholesky decomposition.
+
+Chapter~\ref{ch:proposed_method} presents the proposed method of embedding direct precision shrinkage in the EnKF. It describes the four shrinkage targets (identity, eigenvalue, cosmological, scaled identity), provides a worked numerical example of the coefficient computation, analyzes computational complexity, and describes the TEDA implementation.
+
+Chapter~\ref{ch:benchmark} reports the experimental results on Lorenz~96 and BOSS DR12 cosmological data, including RMSE time series, ensemble size sensitivity, shrinkage coefficient diagnostics, standalone precision estimation quality, and computational cost comparisons.
+
+Chapter~\ref{ch:discussion} analyzes the results in depth: the role of target-truth alignment, why Ledoit-Wolf wins in sequential filtering, domain dependence of shrinkage performance, the modified Cholesky alternative, and practical recommendations.
+
+Chapter~\ref{ch:conclusions} summarizes the contributions, discusses limitations, and outlines directions for future research including localization interaction, higher-dimensional systems, adaptive target selection, and theoretical analysis of sequential accumulation.
+
+Appendices~\ref{app:diagnostics}--\ref{app:ar1} provide full diagnostic tables and model details.

@@ -1,0 +1,546 @@
+\appendix
+
+\chapter{Supplementary Diagnostic Data}
+\label{app:diagnostics}
+
+This appendix presents the full diagnostic data from the shrinkage coefficient analysis described in Section~\ref{sec:coefficient_analysis}. Table~\ref{tab:diag_identity} through Table~\ref{tab:diag_eigenvalue} report the shrinkage coefficients, clamping rates, and condition numbers for each direct precision shrinkage target across 12 ensemble sizes from $N_e = 45$ to $N_e = 100$ on Lorenz~96 ($n = 40$).
+
+All values are averaged over 100 assimilation cycles per run. The ``$\alpha^*$ mean'' column shows the mean value of $\alpha^*$ (which is never clamped, as it stays within $[0, 1]$). The ``$\beta^*$ unclamped'' columns show the mean, minimum, and maximum of the unclamped $\beta^*$ values. ``$\beta^*$ clamp \%'' is the fraction of assimilation steps where $\beta^*$ required clamping to $[0, 1]$. ``Cond.\ mean'' and ``Cond.\ max'' are the mean and maximum condition numbers of the resulting precision estimator $\boldsymbol{\Pi}_{\text{LS}}$.
+
+\section{Identity Target}
+\label{app:diag_identity}
+
+\begin{table}[htbp]
+\centering
+\caption{Full diagnostic data for the identity target on Lorenz~96 ($n = 40$).}
+\label{tab:diag_identity}
+\begin{tabular}{@{}rcccccc@{}}
+\toprule
+$N_e$ & RMSE & $\alpha^*$ & $\beta^*$ uncl.\ mean & $\beta^*$ clamp \% & Cond.\ mean & Cond.\ max \\
+\midrule
+45  & 0.213 & 0.088 & $4.18 \times 10^7$  & 100\% & $4.77 \times 10^8$  & $3.09 \times 10^9$ \\
+50  & 0.121 & 0.180 & $4.49 \times 10^8$  & 100\% & $2.56 \times 10^9$  & $2.19 \times 10^{10}$ \\
+55  & 0.298 & 0.254 & $3.90 \times 10^8$  & 100\% & $8.92 \times 10^9$  & $8.16 \times 10^{10}$ \\
+60  & 0.408 & 0.316 & $2.76 \times 10^8$  & 100\% & $1.79 \times 10^{10}$ & $9.77 \times 10^{10}$ \\
+65  & 0.124 & 0.369 & $2.10 \times 10^8$  & 100\% & $7.76 \times 10^9$  & $4.35 \times 10^{10}$ \\
+70  & 0.122 & 0.414 & $2.05 \times 10^8$  & 100\% & $1.26 \times 10^{10}$ & $9.97 \times 10^{10}$ \\
+75  & 1.233 & 0.453 & $1.84 \times 10^8$  & 100\% & $1.64 \times 10^{10}$ & $1.14 \times 10^{11}$ \\
+80  & 1.087 & 0.487 & $1.45 \times 10^8$  & 100\% & $1.77 \times 10^{10}$ & $1.60 \times 10^{11}$ \\
+85  & 0.900 & 0.517 & $1.42 \times 10^8$  & 100\% & $1.25 \times 10^{10}$ & $8.78 \times 10^{10}$ \\
+90  & 0.467 & 0.544 & $1.28 \times 10^8$  & 100\% & $1.42 \times 10^{10}$ & $1.21 \times 10^{11}$ \\
+95  & 0.129 & 0.568 & $1.13 \times 10^8$  & 100\% & $8.04 \times 10^9$  & $5.28 \times 10^{10}$ \\
+100 & 0.667 & 0.590 & $1.09 \times 10^8$  & 100\% & $2.10 \times 10^{10}$ & $2.18 \times 10^{11}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The RMSE column shows the non-monotonic behavior discussed in Section~\ref{sec:ensemble_sensitivity}: increasing $N_e$ does not consistently reduce the RMSE. For instance, the RMSE at $N_e = 75$ ($1.233$) is worse than at $N_e = 45$ ($0.213$). This erratic behavior is caused by the interaction between the sample precision quality (which improves with $N_e$) and the clamped shrinkage coefficients (which introduce a different kind of error at each $N_e$).
+
+The $\beta^*$ values are clamped at 100\% of assimilation steps for all ensemble sizes. The unclamped values decrease from $4.18 \times 10^7$ at $N_e = 45$ to $1.09 \times 10^8$ at $N_e = 100$ (the unclamped value actually \emph{increases} before decreasing, reflecting the interplay between the $(1 - n/N_e - \alpha^*)$ factor, which increases with $N_e$, and the $\text{tr}(\hat{\boldsymbol{\Pi}}_S)/n$ factor, which also changes with $N_e$ as the sample precision becomes more accurate).
+
+The condition numbers of $\boldsymbol{\Pi}_{\text{LS}}$ range from $10^8$ to $10^{11}$, with no clear trend in $N_e$. The maximum condition number across assimilation steps is typically 5--10 times the mean, indicating that some steps produce particularly ill-conditioned estimates. These are the steps that trigger the RMSE spikes seen in the time series plots.
+
+\section{Scaled Identity Target}
+\label{app:diag_scaled}
+
+\begin{table}[htbp]
+\centering
+\caption{Full diagnostic data for the scaled identity target on Lorenz~96 ($n = 40$).}
+\label{tab:diag_scaled}
+\begin{tabular}{@{}rcccccc@{}}
+\toprule
+$N_e$ & RMSE & $\alpha^*$ & $\beta^*$ uncl.\ mean & $\beta^*$ clamp \% & Cond.\ mean & Cond.\ max \\
+\midrule
+45  & 0.194 & 0.088 & $9.55 \times 10^4$  & 100\% & $2.76 \times 10^7$  & $2.78 \times 10^8$ \\
+50  & 0.135 & 0.179 & $5.46 \times 10^4$  & 100\% & $3.31 \times 10^8$  & $2.83 \times 10^9$ \\
+55  & 0.356 & 0.254 & $2.20 \times 10^4$  & 100\% & $9.05 \times 10^8$  & $6.72 \times 10^9$ \\
+60  & 0.561 & 0.316 & $1.27 \times 10^4$  & 100\% & $1.41 \times 10^9$  & $9.58 \times 10^9$ \\
+65  & 0.208 & 0.369 & $9.85 \times 10^3$  & 100\% & $6.71 \times 10^8$  & $5.37 \times 10^9$ \\
+70  & 0.176 & 0.414 & $7.53 \times 10^3$  & 100\% & $1.33 \times 10^9$  & $1.36 \times 10^{10}$ \\
+75  & 0.814 & 0.453 & $5.42 \times 10^3$  & 100\% & $1.31 \times 10^9$  & $1.14 \times 10^{10}$ \\
+80  & 0.855 & 0.487 & $4.28 \times 10^3$  & 100\% & $1.79 \times 10^9$  & $1.36 \times 10^{10}$ \\
+85  & 0.913 & 0.517 & $5.06 \times 10^3$  & 100\% & $1.57 \times 10^9$  & $1.07 \times 10^{10}$ \\
+90  & 0.424 & 0.544 & $3.85 \times 10^3$  & 100\% & $1.79 \times 10^9$  & $1.57 \times 10^{10}$ \\
+95  & 0.145 & 0.568 & $2.76 \times 10^3$  & 100\% & $1.16 \times 10^9$  & $7.89 \times 10^9$ \\
+100 & 0.484 & 0.590 & $2.69 \times 10^3$  & 100\% & $2.35 \times 10^9$  & $2.50 \times 10^{10}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The scaled identity target shows similar patterns to the identity target but with important quantitative differences. The unclamped $\beta^*$ values are 3--4 orders of magnitude smaller ($10^3$--$10^5$ versus $10^7$--$10^9$), reflecting the better scale calibration of the scaled target. The condition numbers are correspondingly lower by 1--2 orders of magnitude ($10^7$--$10^{10}$ versus $10^8$--$10^{11}$). The RMSE values are generally lower than the identity target (compare Tables~\ref{tab:diag_identity} and~\ref{tab:diag_scaled}), confirming the benefit of scaling by empirical variances.
+
+Despite these improvements, the scaled target still requires 100\% clamping of $\beta^*$, and the condition numbers remain far above those of Ledoit-Wolf ($10^2$--$10^3$). The scaling reduces the severity of the mismatch but does not resolve the fundamental issue: on Lorenz~96, no diagonal target can adequately represent the true precision structure.
+
+\section{Eigenvalue Target}
+\label{app:diag_eigenvalue}
+
+\begin{table}[htbp]
+\centering
+\caption{Full diagnostic data for the eigenvalue target on Lorenz~96 ($n = 40$).}
+\label{tab:diag_eigenvalue}
+\begin{tabular}{@{}rcccccc@{}}
+\toprule
+$N_e$ & RMSE & $\alpha^*$ & $\beta^*$ uncl.\ mean & $\beta^*$ clamp \% & Cond.\ mean & Cond.\ max \\
+\midrule
+45  & 0.279 & 0.089 & $3.0 \times 10^{-4}$ & 0\% & $2.11 \times 10^8$  & $1.38 \times 10^9$ \\
+50  & 0.552 & 0.180 & $1.0 \times 10^{-4}$ & 0\% & $1.19 \times 10^8$  & $4.37 \times 10^8$ \\
+55  & 0.476 & 0.255 & $< 10^{-4}$          & 0\% & $7.96 \times 10^7$  & $1.84 \times 10^8$ \\
+60  & 1.236 & 0.317 & $< 10^{-4}$          & 0\% & $6.84 \times 10^7$  & $4.51 \times 10^8$ \\
+65  & 2.038 & 0.369 & $< 10^{-4}$          & 0\% & $1.61 \times 10^8$  & $1.08 \times 10^9$ \\
+70  & 0.239 & 0.414 & $< 10^{-4}$          & 0\% & $7.91 \times 10^7$  & $3.91 \times 10^8$ \\
+75  & 0.741 & 0.453 & $< 10^{-4}$          & 0\% & $1.76 \times 10^8$  & $2.88 \times 10^9$ \\
+80  & 0.615 & 0.488 & $< 10^{-4}$          & 0\% & $4.84 \times 10^7$  & $1.73 \times 10^8$ \\
+85  & 0.534 & 0.518 & $< 10^{-4}$          & 0\% & $5.74 \times 10^7$  & $1.99 \times 10^8$ \\
+90  & 0.400 & 0.544 & $< 10^{-4}$          & 0\% & $6.71 \times 10^7$  & $2.43 \times 10^8$ \\
+95  & 2.051 & 0.568 & $< 10^{-4}$          & 0\% & $5.35 \times 10^8$  & $4.83 \times 10^9$ \\
+100 & 0.273 & 0.590 & $1.0 \times 10^{-4}$ & 0\% & $5.36 \times 10^7$  & $3.97 \times 10^8$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The eigenvalue target behaves qualitatively differently from the identity and scaled targets. The $\beta^*$ values are negligible ($< 10^{-4}$) and never require clamping. The estimator therefore reduces to $\boldsymbol{\Pi}_{\text{LS}} \approx \alpha^* \hat{\boldsymbol{\Pi}}_S$, a simple rescaling of the sample precision without any contribution from the target. The eigenvalue target effectively provides no shrinkage.
+
+This occurs because the eigenvalue target $\boldsymbol{\Pi}_0^{(1)} = \text{diag}(e_1, \ldots, e_n)$ is derived from the eigenvalues of $\hat{\boldsymbol{\Pi}}_S$ itself. By the Cauchy-Schwarz inequality, $\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0^{(1)})$ is close to $\|\hat{\boldsymbol{\Pi}}_S\|_F \|\boldsymbol{\Pi}_0^{(1)}\|_F$ (since the two matrices share eigenvalues up to ordering), making the denominator $\|\hat{\boldsymbol{\Pi}}_S\|_F^2 \|\boldsymbol{\Pi}_0^{(1)}\|_F^2 - (\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0^{(1)}))^2$ very large. In the Bodnar formula for $\alpha^*$, the correction term $N_e^{-1} \|\hat{\boldsymbol{\Pi}}_S\|_{\text{tr}}^2 \|\boldsymbol{\Pi}_0\|_F^2$ divided by this large denominator is negligible, so $\alpha^* \approx 1 - n/N_e$. Then $(1 - n/N_e - \alpha^*) \approx 0$, giving $\beta^* \approx 0$.
+
+Despite the near-zero shrinkage, the eigenvalue target produces the highest RMSE among the three targets at several ensemble sizes ($2.038$ at $N_e = 65$, $2.051$ at $N_e = 95$). Without the regularizing effect of shrinkage toward a target, the estimator is essentially the rescaled sample precision $\alpha^* \mathbf{S}^{-1}$, which is ill-conditioned when $\mathbf{S}$ is poorly conditioned. The condition numbers ($10^7$--$10^9$) are lower than those of the identity target but still high enough to cause numerical instability in the EnKF analysis.
+
+\chapter{Standalone Estimation Results}
+\label{app:standalone}
+
+This appendix presents the full standalone precision estimation results on BOSS DR12 mock data, complementing the summary in Table~\ref{tab:cosmo_direct}.
+
+\section{Frobenius Loss by Subsample Size}
+
+Table~\ref{tab:app_cosmo_full} reproduces the standalone estimation results with additional precision, showing the mean and standard deviation of the relative Frobenius loss across 100 random subsets of mocks.
+
+\begin{table}[htbp]
+\centering
+\caption{Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$), full precision. Mean $\pm$ std over 100 random subsets.}
+\label{tab:app_cosmo_full}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Method & $n = 24$ & $n = 30$ & $n = 40$ & $n = 50$ \\
+\midrule
+Sample (Hartlap)         & $1.152 \pm 1.008$ & $0.740 \pm 0.440$ & $0.467 \pm 0.148$ & $0.430 \pm 0.162$ \\
+Identity Shrinkage       & $1.177 \pm 1.130$ & $0.683 \pm 0.433$ & $0.453 \pm 0.123$ & $0.407 \pm 0.141$ \\
+Scaled Shrinkage         & $0.905 \pm 0.962$ & $0.598 \pm 0.361$ & $0.515 \pm 0.105$ & $0.464 \pm 0.126$ \\
+Eigenvalue Shrinkage     & $1.196 \pm 1.127$ & $0.698 \pm 0.433$ & $0.459 \pm 0.126$ & $0.411 \pm 0.142$ \\
+Cosmological Shrinkage   & $1.190 \pm 1.127$ & $0.693 \pm 0.433$ & $0.458 \pm 0.125$ & $0.409 \pm 0.142$ \\
+NERCOME                  & $0.816 \pm 0.055$ & $0.725 \pm 0.078$ & $0.632 \pm 0.081$ & $0.525 \pm 0.084$ \\
+Ledoit-Wolf              & $0.959 \pm 0.008$ & $0.954 \pm 0.009$ & $0.941 \pm 0.010$ & $0.929 \pm 0.012$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Analysis of Variance Components}
+
+The high standard deviations of the Bodnar methods at small $n$ ($\pm 1.13$ at $n = 24$) deserve further analysis. These are not measurement noise. They reflect genuinely different estimation quality across different random subsets of mocks. Some subsets produce sample covariance matrices that are well-conditioned and close to the truth, yielding good precision estimates. Other subsets produce ill-conditioned sample covariances, yielding poor precision estimates with Frobenius losses exceeding 3.
+
+The variance has two components:
+\begin{enumerate}
+\item \textbf{Sample covariance variance}: Different subsets of $n$ mocks produce different sample covariance matrices, with eigenvalue spread that depends on the particular subset.
+\item \textbf{Coefficient variance}: The shrinkage coefficients $\alpha^*$ and $\beta^*$ are functions of the sample covariance (through $\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1}$), so they inherit and potentially amplify the variance of $\mathbf{S}$.
+\end{enumerate}
+
+Ledoit-Wolf has near-zero variance ($\pm 0.008$--$0.012$) because its shrinkage intensity $\lambda^*_{\text{LW}}$ is computed from the sample covariance $\mathbf{S}$ without inversion, and the shrunk covariance $(1 - \lambda)\mathbf{S} + \lambda\mu\mathbf{I}$ is always well-conditioned. NERCOME has intermediate variance ($\pm 0.055$--$0.084$) because its bootstrap averaging reduces but does not eliminate the variance from random splitting.
+
+At $n = 24$ ($n/d = 1.33$), any single precision estimate from the Bodnar methods is unreliable, as the standard deviation exceeds the mean. An ensemble of estimates (e.g., averaging over multiple random subsets) would reduce this variance, but at the cost of requiring more mock catalogs.
+
+\section{Improvement Over the Sample Precision}
+
+To assess the practical benefit of shrinkage, Table~\ref{tab:app_improvement} shows the percentage improvement of each method over the Hartlap-corrected sample precision at each subsample size.
+
+\begin{table}[htbp]
+\centering
+\caption{Percentage improvement in Frobenius loss over the Hartlap-corrected sample precision. Positive values indicate improvement; negative values indicate the method is worse than the sample.}
+\label{tab:app_improvement}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Method & $n = 24$ & $n = 30$ & $n = 40$ & $n = 50$ \\
+\midrule
+Identity Shrinkage       & $-2.2\%$ & $7.7\%$  & $3.0\%$  & $5.4\%$ \\
+Scaled Shrinkage         & $21.4\%$ & $19.2\%$ & $-10.3\%$ & $-7.9\%$ \\
+Eigenvalue Shrinkage     & $-3.8\%$ & $5.7\%$  & $1.6\%$  & $4.4\%$ \\
+Cosmological Shrinkage   & $-3.3\%$ & $6.4\%$  & $1.9\%$  & $4.9\%$ \\
+NERCOME                  & $29.2\%$ & $2.0\%$  & $-35.4\%$ & $-22.1\%$ \\
+Ledoit-Wolf              & $16.8\%$ & $-28.9\%$ & $-101.5\%$ & $-116.1\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At $n = 24$, NERCOME and the scaled identity target provide the largest improvements (29\% and 21\%, respectively). At $n = 30$, the identity and cosmological targets provide 6--8\% improvement, while the scaled target leads at 19\%. At $n = 40$--$50$, the Bodnar methods provide modest improvements (1--5\%), but NERCOME and Ledoit-Wolf are worse than the sample. Ledoit-Wolf is dramatically worse at larger $n$ because its covariance shrinkage-then-invert strategy is fundamentally suboptimal for precision estimation on near-diagonal data.
+
+\chapter{Lorenz~96 Model Details}
+\label{app:lorenz96}
+
+The Lorenz~96 model~\citep{lorenz1996predictability} was introduced as a simplified representation of atmospheric dynamics on a latitude circle. The model consists of $n$ variables $x_1, \ldots, x_n$ arranged on a periodic domain, governed by:
+\begin{equation}
+\frac{dx_i}{dt} = (x_{i+1} - x_{i-2})x_{i-1} - x_i + F, \quad i = 1, \ldots, n,
+\end{equation}
+with cyclic indices: $x_{-1} = x_{n-1}$, $x_0 = x_n$, $x_{n+1} = x_1$.
+
+\section{Physical Interpretation}
+
+The three terms have the following interpretations:
+\begin{itemize}
+\item $(x_{i+1} - x_{i-2})x_{i-1}$: A quadratic advection term, representing the transport of quantities along the domain. It conserves total energy ($\sum x_i^2$) and total momentum ($\sum x_i$), analogous to the advection terms in the Navier-Stokes equations.
+\item $-x_i$: A linear damping term, representing dissipation. Without forcing, all variables decay to zero.
+\item $F$: A constant forcing term, representing external energy input (e.g., solar heating). The value $F = 8$ produces chaotic dynamics, with a Lyapunov time of approximately 0.3 time units and a correlation time of approximately 0.6 time units.
+\end{itemize}
+
+\section{Dynamical Regimes}
+
+The behavior of the Lorenz~96 model depends on the forcing parameter $F$:
+\begin{itemize}
+\item $F < 8/9 \approx 0.89$: The trivial fixed point $x_i = F$ for all $i$ is stable.
+\item $0.89 < F < \sim 3$: Periodic or quasi-periodic solutions.
+\item $3 < F < \sim 5$: Intermittent chaos.
+\item $F > 5$: Fully developed chaos with positive Lyapunov exponents.
+\item $F = 8$: Strongly chaotic, the most common choice in data assimilation studies. The decorrelation length is approximately 4--5 grid points, which determines the effective range of dynamical correlations in the background covariance.
+\end{itemize}
+
+We use $n = 40$ and $F = 8$ throughout. The state dimension $n = 40$ is large enough to produce interesting covariance structure but small enough to allow exhaustive parameter sweeps. With $N_e = 50$--$100$ ensemble members, the ratio $n/N_e$ ranges from 0.4 to 0.8, spanning the moderately ill-conditioned regime where shrinkage is most needed.
+
+\section{Numerical Integration}
+
+The model is integrated using a fourth-order Runge-Kutta scheme with time step $\Delta t = 0.01$ time units. Observations are assimilated every $\Delta t_{\text{obs}} = 0.1$ time units (10 integration steps per assimilation cycle), giving 100 assimilation cycles over a total integration time of $T = 10$ time units. This corresponds to approximately 33 Lyapunov times, long enough for the filter to equilibrate and for the time-averaged RMSE to converge.
+
+\section{Observation Configuration}
+
+We randomly select $m = 32$ of the $n = 40$ state variables as observation locations (80\% coverage). The observation operator $\mathbf{H} \in \mathbb{R}^{32 \times 40}$ is a selection matrix that picks these 32 rows from the identity. Observation errors are i.i.d.\ Gaussian with standard deviation $\sigma_o = 0.01$, giving an observation error covariance $\mathbf{R} = 10^{-4} \mathbf{I}_{32}$. This is a relatively low observation error compared to the typical state magnitude ($|x_i| \sim 5$--$15$), making the observations highly informative and placing the primary challenge on the covariance estimation rather than on the observation quality.
+
+\chapter{AR(1) Cosmological Model Details}
+\label{app:ar1}
+
+The AR(1) cosmological model is a synthetic dynamical system designed to test shrinkage estimators on data with near-diagonal precision structure. It is calibrated to the statistics of the BOSS DR12 Patchy mock catalogs~\citep{looijmans2024comparison}.
+
+\section{Model Construction}
+
+The model has $d = 18$ state variables representing power spectrum measurements at 9 $k$-bins $\times$ 2 multipole moments ($\ell = 0, 2$). The dynamics follow:
+\begin{equation}
+\mathbf{x}_{t+1} = \phi \, \mathbf{x}_t + (1 - \phi) \, \boldsymbol{\mu} + \boldsymbol{\varepsilon}, \quad \boldsymbol{\varepsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q}),
+\end{equation}
+with three parameters:
+\begin{itemize}
+\item $\boldsymbol{\mu} \in \mathbb{R}^{18}$: The mean power spectrum, computed from the 2048 mock catalogs. These values range from $10^{-5}$ to $10^{-3}$ (in units of $h^{-3}\text{Mpc}^3$), reflecting the amplitude of galaxy clustering at different scales and multipoles.
+\item $\phi = 0.95$: The persistence parameter, controlling how quickly the state reverts to the mean. A value of 0.95 means the state ``remembers'' 95\% of its previous value at each step, producing smooth temporal evolution. The decorrelation time is $-1/\ln(\phi) \approx 20$ steps.
+\item $\mathbf{Q} = (1 - \phi^2) \boldsymbol{\Sigma}_{\text{mock}}$: The innovation covariance, chosen so the stationary distribution has covariance $\boldsymbol{\Sigma}_{\text{mock}}$. This ensures that the model's equilibrium statistics match the mock catalog statistics.
+\end{itemize}
+
+\section{Stationary Distribution}
+
+The stationary covariance of the AR(1) process satisfies:
+\begin{equation}
+\boldsymbol{\Sigma}_{\text{stat}} = \phi^2 \boldsymbol{\Sigma}_{\text{stat}} + \mathbf{Q}.
+\end{equation}
+Substituting $\mathbf{Q} = (1 - \phi^2)\boldsymbol{\Sigma}_{\text{mock}}$ gives $\boldsymbol{\Sigma}_{\text{stat}} = \boldsymbol{\Sigma}_{\text{mock}}$, confirming that the model reproduces the mock catalog covariance in equilibrium. Because $\boldsymbol{\Sigma}_{\text{mock}}$ is approximately diagonal (the mock catalogs simulate Gaussian random fields at independent modes), the precision matrix $\boldsymbol{\Sigma}_{\text{stat}}^{-1}$ is also approximately diagonal.
+
+\section{Observation Configuration}
+
+We observe $m = 14$ of the $d = 18$ state variables ($\approx 78\%$ coverage), with Gaussian observation error $\sigma_o = 100$. The observation error is deliberately large relative to the state values ($|x_i| \sim 10^{-4}$--$10^{-3}$), so $\sigma_o / |x_i| \sim 10^5$--$10^6$. This means each individual observation provides very little information, and the filter must rely heavily on the precision of the background covariance estimate to extract useful signal. This setup amplifies the differences between estimation methods, making it a sensitive test of precision matrix quality.
+
+Inflation is set to $\rho = 1.02$, lighter than the Lorenz~96 value of $\rho = 1.05$, because the near-linear AR(1) dynamics produce less covariance underestimation than the chaotic Lorenz~96 model.
+
+\chapter{Computational Timing Details}
+\label{app:timing}
+
+This appendix provides the full timing data from the computational cost experiments described in Section~\ref{sec:timing}. Table~\ref{tab:app_timing_cosmo} and Table~\ref{tab:app_timing_lorenz} report the wall-clock time per 100 assimilation cycles for each method on each domain, averaged over 5 repetitions.
+
+\section{Cosmological Domain}
+
+\begin{table}[htbp]
+\centering
+\caption{Computational cost per 100 assimilation cycles on the AR(1) cosmological model ($d = 18$, $N_e = 30$). Mean $\pm$ std over 5 runs.}
+\label{tab:app_timing_cosmo}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Method & Time (seconds) & Relative to EnKF \\
+\midrule
+EnKF (standard)          & $0.141 \pm 0.001$ & $1.0\times$ \\
+Eigenvalue Shrinkage     & $0.200 \pm 0.002$ & $1.4\times$ \\
+Identity Shrinkage       & $0.200 \pm 0.003$ & $1.4\times$ \\
+Ledoit-Wolf              & $0.218 \pm 0.004$ & $1.5\times$ \\
+Cosmological Shrinkage   & $0.242 \pm 0.007$ & $1.7\times$ \\
+Scaled Shrinkage         & $0.278 \pm 0.004$ & $2.0\times$ \\
+EnKF-Cholesky            & $0.510 \pm 0.013$ & $3.6\times$ \\
+NERCOME                  & $26.720 \pm 0.870$ & $189.5\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At $d = 18$, the matrix operations ($\mathcal{O}(d^3) = \mathcal{O}(5832)$) are fast enough that the overhead of setting up the analysis (Python object creation, array allocation) is comparable to the actual computation. This explains why the direct precision methods are only 1.4--2.0 times slower than the baseline EnKF despite requiring an additional matrix inversion: the inversion of an $18 \times 18$ matrix takes microseconds.
+
+The EnKF-Cholesky method is unexpectedly slow ($3.6\times$ the EnKF baseline) because its Python implementation loops over each state variable to perform the local regression, and the loop overhead dominates at small $d$. A vectorized implementation could reduce this gap significantly.
+
+NERCOME's $189.5\times$ slowdown comes from its 200 bootstrap resamples, each requiring an eigendecomposition. At $d = 18$, each eigendecomposition is fast ($\mathcal{O}(18^3) \approx 6000$ operations), but 200 of them plus the associated random splitting and matrix products add up.
+
+\section{Lorenz~96 Domain}
+
+\begin{table}[htbp]
+\centering
+\caption{Computational cost per 100 assimilation cycles on Lorenz~96 ($n = 40$, $N_e = 80$). Mean $\pm$ std over 5 runs.}
+\label{tab:app_timing_lorenz}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Method & Time (seconds) & Relative to EnKF \\
+\midrule
+EnKF (standard)          & $25.986 \pm 0.688$ & $1.0\times$ \\
+Identity Shrinkage       & $26.431 \pm 0.382$ & $1.0\times$ \\
+Ledoit-Wolf              & $26.630 \pm 0.472$ & $1.0\times$ \\
+EnKF-Cholesky            & $27.058 \pm 0.345$ & $1.0\times$ \\
+Scaled Shrinkage         & $27.321 \pm 0.291$ & $1.1\times$ \\
+Eigenvalue Shrinkage     & $27.532 \pm 0.266$ & $1.1\times$ \\
+NERCOME                  & $215.391 \pm 13.179$ & $8.3\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At $n = 40$, the runtime balance shifts. The Lorenz~96 model propagation (fourth-order Runge-Kutta integration of 40 coupled ODEs for 10 time steps per cycle, for each of 80 ensemble members) dominates the runtime, accounting for approximately 25 seconds of the 26--27 second total. The analysis step (matrix inversion, shrinkage coefficient computation, and the linear solve) takes only 1--2 seconds. As a result, all methods except NERCOME are within 6\% of the baseline EnKF cost.
+
+NERCOME's relative slowdown is less dramatic than on the cosmological domain ($8.3\times$ versus $189.5\times$) because the model propagation cost is shared by all methods. In absolute terms, NERCOME adds approximately 190 seconds of analysis time on top of the 26-second propagation cost.
+
+For systems where model propagation is the bottleneck (i.e., most real-world applications), the choice of covariance estimation method has negligible impact on total runtime. NERCOME is the exception and should be avoided when computational resources are limited.
+
+\chapter{Derivation of the Bodnar Shrinkage Coefficients}
+\label{app:bodnar_derivation}
+
+This appendix outlines the derivation of the optimal shrinkage coefficients $\alpha^*$ and $\beta^*$ from \citep{bodnar2016direct}, filling in steps that are compressed in the original paper.
+
+\section{Setup}
+
+The estimator is $\boldsymbol{\Pi}_{\text{LS}} = \alpha \hat{\boldsymbol{\Pi}}_S + \beta \boldsymbol{\Pi}_0$, where $\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1}$ and $\boldsymbol{\Pi}_0$ is a fixed target. The goal is to find $\alpha^*$ and $\beta^*$ that minimize the expected Frobenius loss:
+\begin{equation}
+\label{eq:app_loss}
+L(\alpha, \beta) = \mathbb{E}\left[\|\alpha \hat{\boldsymbol{\Pi}}_S + \beta \boldsymbol{\Pi}_0 - \boldsymbol{\Sigma}^{-1}\|_F^2\right].
+\end{equation}
+
+\section{Expansion}
+
+Expanding the Frobenius norm:
+\begin{align}
+L(\alpha, \beta) &= \alpha^2 \mathbb{E}[\|\hat{\boldsymbol{\Pi}}_S\|_F^2] + \beta^2 \|\boldsymbol{\Pi}_0\|_F^2 + \|\boldsymbol{\Sigma}^{-1}\|_F^2 \nonumber \\
+&\quad + 2\alpha\beta \, \mathbb{E}[\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0)] - 2\alpha \, \mathbb{E}[\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Sigma}^{-1})] - 2\beta \, \text{tr}(\boldsymbol{\Pi}_0 \boldsymbol{\Sigma}^{-1}). \label{eq:app_expanded}
+\end{align}
+
+\section{Wishart Moments}
+
+The key moments needed are:
+\begin{align}
+\mathbb{E}[\hat{\boldsymbol{\Pi}}_S] &= \frac{N_e - 1}{N_e - n - 2} \boldsymbol{\Sigma}^{-1} = c_1 \boldsymbol{\Sigma}^{-1}, \label{eq:app_moment1} \\
+\mathbb{E}[\|\hat{\boldsymbol{\Pi}}_S\|_F^2] &= c_2 \|\boldsymbol{\Sigma}^{-1}\|_F^2 + c_3 \|\boldsymbol{\Sigma}^{-1}\|_{\text{tr}}^2, \label{eq:app_moment2}
+\end{align}
+where $c_1, c_2, c_3$ are constants depending on $n$ and $N_e$, derived from the moments of the inverse Wishart distribution. For large $N_e$, $c_1 \approx 1 + n/N_e$, $c_2 \approx 1 + 2n/N_e$, and $c_3 \approx 1/N_e$.
+
+\section{First-Order Conditions}
+
+Setting $\partial L / \partial \alpha = 0$ and $\partial L / \partial \beta = 0$ and substituting the Wishart moments gives a $2 \times 2$ linear system in $\alpha$ and $\beta$. After algebraic simplification (replacing the unknown $\boldsymbol{\Sigma}^{-1}$ with the observable $\hat{\boldsymbol{\Pi}}_S$ and correcting for bias using the Wishart moments), the solution yields Eqs.~\eqref{eq:alpha_star}--\eqref{eq:beta_star}.
+
+The key step is the replacement of $\|\boldsymbol{\Sigma}^{-1}\|_F^2$ and $\text{tr}(\boldsymbol{\Sigma}^{-1} \boldsymbol{\Pi}_0)$ with their sample counterparts, using the bias correction $\mathbb{E}[\hat{\boldsymbol{\Pi}}_S] = c_1 \boldsymbol{\Sigma}^{-1}$. This introduces the $(1 - n/N_e)$ term that appears in the formulas. The Cauchy-Schwarz term in the denominator of $\alpha^*$ arises from the determinant of the $2 \times 2$ system, ensuring that the solution is unique when $\hat{\boldsymbol{\Pi}}_S$ and $\boldsymbol{\Pi}_0$ are not proportional.
+
+For the complete derivation with all intermediate steps, see \citep{bodnar2016direct}, Theorem~4.1 and Corollary~4.1.
+
+\chapter{TEDA Code Listings}
+\label{app:code}
+
+This appendix presents the core Python code for the direct precision shrinkage estimators implemented in TEDA, as described in Section~\ref{sec:implementation}.
+
+\section{Shrinkage Coefficient Computation}
+
+The following function computes the shrinkage coefficients $\alpha^*$ and $\beta^*$ from Eqs.~\eqref{eq:alpha_star}--\eqref{eq:beta_star}. It is shared by all four direct precision shrinkage variants.
+
+\begin{verbatim}
+def compute_shrinkage_coefficients(S_inv, target, n, Ne):
+    """
+    Compute Bodnar et al. shrinkage coefficients.
+
+    Parameters
+    ----------
+    S_inv : ndarray (n, n)
+        Sample precision matrix (raw inverse of S).
+    target : ndarray (n, n)
+        Shrinkage target Pi_0.
+    n : int
+        State dimension.
+    Ne : int
+        Ensemble size.
+
+    Returns
+    -------
+    alpha, beta : float
+        Clamped shrinkage coefficients.
+    """
+    # Norms
+    frob_S_inv = np.sum(S_inv ** 2)       # ||S^-1||_F^2
+    trace_S_inv = np.trace(S_inv)          # ||S^-1||_tr
+    frob_target = np.sum(target ** 2)      # ||Pi_0||_F^2
+    cross = np.trace(S_inv @ target)       # tr(S^-1 Pi_0)
+
+    # Cauchy-Schwarz denominator
+    denom = frob_S_inv * frob_target - cross ** 2
+
+    # Alpha*
+    if denom == 0:
+        alpha = 1.0 - n / Ne
+    else:
+        correction = (trace_S_inv ** 2 * frob_target) \
+                     / (Ne * denom)
+        alpha = 1.0 - n / Ne - correction
+
+    # Clamp alpha
+    alpha = max(0.0, min(1.0, alpha))
+
+    # Beta*
+    remaining = 1.0 - n / Ne - alpha
+    beta = remaining * cross / frob_target
+
+    # Clamp beta
+    beta = max(0.0, min(1.0 - alpha, beta))
+
+    return alpha, beta
+\end{verbatim}
+
+\section{Identity Target Estimator}
+
+The identity target estimator is the simplest variant:
+
+\begin{verbatim}
+class AnalysisEnKFDirectPrecisionShrinkageIdentity:
+    """EnKF with direct precision shrinkage
+    (identity target)."""
+
+    def get_precision_matrix(self, S, n, Ne):
+        """Compute shrinkage precision estimate."""
+        S_inv = np.linalg.inv(S)
+        target = np.eye(n)
+        alpha, beta = compute_shrinkage_coefficients(
+            S_inv, target, n, Ne
+        )
+        return alpha * S_inv + beta * target
+\end{verbatim}
+
+\section{Scaled Identity Target Estimator}
+
+The scaled identity target uses per-variable variances:
+
+\begin{verbatim}
+class AnalysisEnKFDirectPrecisionShrinkageScaled:
+    """EnKF with direct precision shrinkage
+    (scaled identity target, novel)."""
+
+    def get_precision_matrix(self, S, n, Ne):
+        """Compute shrinkage precision estimate."""
+        S_inv = np.linalg.inv(S)
+        # Scaled target: diag(1 / (2 * sigma_i^2))
+        variances = np.diag(S)
+        target = np.diag(1.0 / (2.0 * variances))
+        alpha, beta = compute_shrinkage_coefficients(
+            S_inv, target, n, Ne
+        )
+        return alpha * S_inv + beta * target
+\end{verbatim}
+
+\section{Eigenvalue Target Estimator}
+
+The eigenvalue target uses the sorted eigenvalues of $\hat{\boldsymbol{\Pi}}_S$:
+
+\begin{verbatim}
+class AnalysisEnKFDirectPrecisionShrinkageEigenvalues:
+    """EnKF with direct precision shrinkage
+    (eigenvalue target)."""
+
+    def get_precision_matrix(self, S, n, Ne):
+        """Compute shrinkage precision estimate."""
+        S_inv = np.linalg.inv(S)
+        eigenvalues = np.sort(
+            np.linalg.eigvalsh(S_inv)
+        )
+        target = np.diag(eigenvalues)
+        alpha, beta = compute_shrinkage_coefficients(
+            S_inv, target, n, Ne
+        )
+        return alpha * S_inv + beta * target
+\end{verbatim}
+
+\section{Cosmological Target Estimator}
+
+The cosmological target uses the theoretical power spectrum covariance:
+
+\begin{verbatim}
+class AnalysisEnKFDirectPrecisionShrinkageCosmo:
+    """EnKF with direct precision shrinkage
+    (cosmological target)."""
+
+    def __init__(self, C_ell, N_ell):
+        self.C_ell = C_ell   # Power spectrum values
+        self.N_ell = N_ell   # Mode counts
+
+    def get_precision_matrix(self, S, n, Ne):
+        """Compute shrinkage precision estimate."""
+        S_inv = np.linalg.inv(S)
+        # Cosmological target covariance:
+        #   T_ii = 2/N_ell * C_ell^2
+        T_cov = np.diag(
+            2.0 / self.N_ell * self.C_ell ** 2
+        )
+        target = np.linalg.inv(T_cov)
+        alpha, beta = compute_shrinkage_coefficients(
+            S_inv, target, n, Ne
+        )
+        return alpha * S_inv + beta * target
+\end{verbatim}
+
+Note: The code listings above are simplified for clarity. The actual TEDA implementations include additional error handling, logging, and integration with the \texttt{Analysis} base class. The full source code is available at \url{https://github.com/enino84/TEDA.git}.
+
+\chapter{Statistical Significance Tests}
+\label{app:significance}
+
+This appendix reports the pairwise Welch's $t$-test results mentioned in Section~\ref{sec:cosmo_filtering}. For each pair of methods, we test the null hypothesis that the time-averaged RMSE values across 30 runs are drawn from the same distribution.
+
+\section{Lorenz~96 Results}
+
+Table~\ref{tab:app_sig_lorenz} shows the $p$-values for pairwise comparisons of Ledoit-Wolf against each other method at $N_e = 80$ on Lorenz~96.
+
+\begin{table}[htbp]
+\centering
+\caption{Welch's $t$-test $p$-values comparing Ledoit-Wolf against each method on Lorenz~96 at $N_e = 80$. Values below 0.05 (bold) indicate statistically significant differences.}
+\label{tab:app_sig_lorenz}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Method & $p$-value & Significant? \\
+\midrule
+EnKF (standard)          & 0.312 & No \\
+EnKF-Cholesky            & $\mathbf{< 0.001}$ & Yes \\
+Identity Shrinkage       & $\mathbf{< 0.001}$ & Yes \\
+Scaled Shrinkage         & $\mathbf{< 0.001}$ & Yes \\
+Eigenvalue Shrinkage     & $\mathbf{< 0.001}$ & Yes \\
+NERCOME                  & $\mathbf{< 0.001}$ & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Ledoit-Wolf's advantage is statistically significant ($p < 0.001$) against all shrinkage methods and EnKF-Cholesky. It is not significantly different from the standard EnKF ($p = 0.312$), which at $N_e = 80$ achieves comparable RMSE ($0.07$ vs.\ $0.07$).
+
+\section{Cosmological Results}
+
+Table~\ref{tab:app_sig_cosmo} shows the $p$-values for pairwise comparisons at $N_e = 30$ on the cosmological AR(1) model.
+
+\begin{table}[htbp]
+\centering
+\caption{Welch's $t$-test $p$-values comparing Ledoit-Wolf against each method on the AR(1) cosmological model at $N_e = 30$.}
+\label{tab:app_sig_cosmo}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Method & $p$-value & Significant? \\
+\midrule
+EnKF (standard)          & $\mathbf{0.003}$ & Yes \\
+EnKF-Cholesky            & 0.574 & No \\
+Identity Shrinkage       & 0.757 & No \\
+Scaled Shrinkage         & 0.831 & No \\
+Eigenvalue Shrinkage     & $\mathbf{0.010}$ & Yes \\
+Cosmological Shrinkage   & $\mathbf{0.017}$ & Yes \\
+NERCOME                  & 0.370 & No \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+On the cosmological domain, Ledoit-Wolf is significantly better than the standard EnKF ($p = 0.003$) and the eigenvalue and cosmological shrinkage targets ($p < 0.02$). It is not significantly different from EnKF-Cholesky, identity shrinkage, scaled shrinkage, or NERCOME ($p > 0.3$). This confirms the observation from Section~\ref{sec:cosmo_filtering} that the identity and scaled identity targets are competitive with Ledoit-Wolf on near-diagonal data, while the eigenvalue target is significantly worse (it effectively provides no shrinkage, as shown in Appendix~\ref{app:diag_eigenvalue}).

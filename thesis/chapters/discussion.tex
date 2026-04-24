@@ -1,0 +1,163 @@
+\chapter{Discussion}
+\label{ch:discussion}
+
+This chapter examines the results from Chapter~\ref{ch:benchmark} in more depth, relates them to the broader literature, and identifies the patterns that cut across the two test domains.
+
+\section{The Role of Target-Truth Alignment}
+\label{sec:disc_alignment}
+
+The success or failure of direct precision shrinkage depends on how well the target $\boldsymbol{\Pi}_0$ matches the true precision structure. This is a structural constraint imposed by the Bodnar formula.
+
+The shrinkage coefficients $\alpha^*$ and $\beta^*$ are derived under the assumption that $\boldsymbol{\Pi}_{\text{LS}} = \alpha \hat{\boldsymbol{\Pi}}_S + \beta \boldsymbol{\Pi}_0$ is in the span of $\hat{\boldsymbol{\Pi}}_S$ and $\boldsymbol{\Pi}_0$. The optimal coefficients minimize the expected Frobenius loss $\mathbb{E}[\|\boldsymbol{\Pi}_{\text{LS}} - \boldsymbol{\Sigma}^{-1}\|_F^2]$ over this two-dimensional space. If the true precision $\boldsymbol{\Sigma}^{-1}$ is well-approximated by some linear combination of $\hat{\boldsymbol{\Pi}}_S$ and $\boldsymbol{\Pi}_0$, the optimal coefficients produce a good estimator. If $\boldsymbol{\Sigma}^{-1}$ lies far outside this two-dimensional space, no choice of $\alpha$ and $\beta$ can produce a good estimator, and the formula will assign coefficients that are mathematically optimal but practically useless.
+
+On Lorenz~96, the true precision matrix has dense off-diagonal structure from spatial coupling. The identity target $\boldsymbol{\Pi}_0 = \mathbf{I}$ has no off-diagonal entries, so $\boldsymbol{\Sigma}^{-1}$ cannot be well-approximated by $\alpha \hat{\boldsymbol{\Pi}}_S + \beta \mathbf{I}$ unless $\alpha$ is very close to 1 (i.e., all weight on the sample precision). But the formula constraints $\alpha^*$ to be at most $1 - n/N_e$, which is far below 1 at the ensemble sizes we test. The result is that $\beta^*$ explodes to compensate, and clamping destroys the theoretical optimality.
+
+On cosmological data, the true precision is near-diagonal, so $\boldsymbol{\Sigma}^{-1} \approx \alpha \hat{\boldsymbol{\Pi}}_S + \beta \boldsymbol{\Pi}_0$ is achievable with moderate $\alpha$ and $\beta$. The formula works as intended.
+
+Figure~\ref{fig:regime_map} illustrates this dependence schematically. The horizontal axis is the concentration ratio $n/N_e$ (how close the problem is to rank-deficiency), and the vertical axis represents the alignment between the shrinkage target and the true precision structure. Our two experiments occupy opposite corners of this space: Lorenz~96 has moderate concentration ratio but poor target alignment, while the cosmological data has low concentration ratio and good alignment.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/shrinkage_regime_map.pdf}
+\caption{Schematic regime map for direct precision shrinkage. The method works well (green region) when the target aligns with the true precision structure; it fails (red region) when the target is misaligned, regardless of ensemble size. The rank-deficient regime ($N_e < n$, blue region) requires alternative methods. Our two experiments (circles) occupy opposite corners.}
+\label{fig:regime_map}
+\end{figure}
+
+This analysis suggests a practical heuristic: before applying direct precision shrinkage, check whether the sample precision $\hat{\boldsymbol{\Pi}}_S$ is approximately diagonal. If not, the diagonal targets will fail, and a covariance-space method (Ledoit-Wolf) or a localization-based method (modified Cholesky) should be preferred.
+
+\section{Why Ledoit-Wolf Wins in Sequential Filtering}
+\label{sec:disc_lw}
+
+The finding that Ledoit-Wolf (the worst standalone precision estimator on cosmological data) produces the best EnKF filtering RMSE is a surprising result. We have attributed this to ``sequential accumulation'': Ledoit-Wolf's low variance outweighs its high bias when errors compound over 100 cycles. Here we explore this explanation in more depth.
+
+\subsection{Variance as a Compounding Risk}
+\label{sec:disc_variance}
+
+Consider a simplified model of sequential filtering. At each cycle $k$, the analysis error is:
+\begin{equation}
+\label{eq:error_model}
+\mathbf{e}_k^a = f(\mathbf{e}_{k-1}^a, \boldsymbol{\epsilon}_k),
+\end{equation}
+where $f$ represents the forecast-analysis cycle and $\boldsymbol{\epsilon}_k$ is the precision estimation error at cycle $k$. If $f$ is contractive (the model is observable and the filter is stable), then $\|\mathbf{e}_k^a\| \leq \rho \|\mathbf{e}_{k-1}^a\| + c\|\boldsymbol{\epsilon}_k\|$ for some contraction rate $\rho < 1$ and constant $c$. The long-run expected error is:
+\begin{equation}
+\label{eq:longrun_error}
+\lim_{K \to \infty} \mathbb{E}[\|\mathbf{e}_K^a\|^2] \leq \frac{c^2}{1 - \rho^2} \left(\text{bias}^2 + \text{var}\right),
+\end{equation}
+where $\text{bias}$ and $\text{var}$ are the bias and variance of $\boldsymbol{\epsilon}_k$. When $\rho$ is close to 1 (weakly contractive filter, as with large ensemble sizes), the denominator $1 - \rho^2$ is small, amplifying both terms. The critical point is that both bias and variance contribute equally to the long-run error; there is no factor favoring one over the other.
+
+So why does low variance ``win'' in our experiments? The answer lies in the non-contractivity of poorly conditioned analysis steps. When $\boldsymbol{\epsilon}_k$ is large (a high-variance event), the resulting analysis update can move the ensemble mean \emph{away} from the truth, making $\|\mathbf{e}_k^a\| > \|\mathbf{e}_{k-1}^a\|$. This violates the contraction assumption and triggers an error cascade: the next forecast starts from a bad analysis, producing a bad forecast, which leads to a bad analysis at the next cycle. The cascade persists until a sequence of low-error cycles brings the filter back to equilibrium.
+
+Figure~\ref{fig:variance_vs_bias} illustrates this by plotting each method's standalone estimation variance against its filtering RMSE on the cosmological domain, showing a clear positive correlation. Ledoit-Wolf sits in the bottom-left corner (low variance, low RMSE), while the direct precision methods cluster in the upper-right (high variance, higher RMSE). NERCOME occupies an intermediate position, with low standalone variance but higher filtering RMSE due to its bootstrap variance compounding over cycles.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/variance_vs_bias.pdf}
+\caption{Standalone estimation variance (horizontal) vs.\ EnKF filtering RMSE (vertical) on the cosmological domain ($n = 30$, $N_e = 30$). Methods with lower estimation variance tend to achieve lower filtering RMSE, regardless of their standalone estimation accuracy.}
+\label{fig:variance_vs_bias}
+\end{figure}
+
+Ledoit-Wolf never triggers cascades because its precision estimates are consistently well-conditioned (condition numbers $10^2$--$10^3$). The direct precision methods produce occasional extremely ill-conditioned estimates (condition numbers $10^{10}$--$10^{11}$) that trigger cascades. Even though these cascades are rare (perhaps 5--10 out of 100 cycles), they dominate the time-averaged RMSE.
+
+\subsection{Implications for Estimator Design}
+\label{sec:disc_design}
+
+This analysis suggests that for sequential filtering, the relevant figure of merit is not the expected Frobenius loss but rather the \emph{tail risk} of the precision estimate, defined as the probability of producing an extremely ill-conditioned estimate that triggers a cascade. Ledoit-Wolf has low tail risk because it operates in covariance space and never inverts a poorly conditioned matrix. The direct precision methods have high tail risk because they invert the sample covariance (which can be poorly conditioned) and then apply shrinkage coefficients that may be clamped.
+
+A modified Bodnar estimator that bounds the condition number of $\boldsymbol{\Pi}_{\text{LS}}$ (e.g., by truncating small eigenvalues before inversion) could potentially combine the accuracy advantages of direct precision shrinkage with the stability advantages of Ledoit-Wolf. We leave this as a direction for future work.
+
+A related unexplored middle ground is covariance shrinkage with a precision-aware target. The Ledoit-Wolf estimator uses a scaled identity covariance target, which is optimal for covariance estimation but agnostic to precision structure. One could instead shrink toward a diagonal covariance target informed by the known or estimated precision structure --- for instance, using the inverse of the diagonal entries of the sample precision. However, the Ledoit-Wolf optimal intensity has a closed-form solution only for the scaled identity target; a general diagonal target would require either a new analytical derivation or numerical cross-validation to select the intensity, adding complexity. Whether such a hybrid approach could retain Ledoit-Wolf's low variance while improving its precision estimation accuracy remains an open question.
+
+\section{Domain Dependence of Shrinkage Performance}
+\label{sec:disc_domain}
+
+The reversal of method rankings between the two test domains is not an artefact of our experimental setup; it reflects a fundamental tension in shrinkage estimation. On systems with dense precision structure (Lorenz~96), diagonal shrinkage targets are misleading and produce worse estimates than the unshrunk sample precision. On systems with sparse precision structure (cosmological data), the same targets are informative and produce better estimates.
+
+This domain dependence is well-established in the covariance estimation literature. \citet{ledoit2004well} noted that the optimal shrinkage intensity depends on the ``concentration ratio'' $n/N_e$ and the structure of the true covariance relative to the target. What our results add is that this dependence is \emph{qualitatively different} for precision estimation than for covariance estimation:
+
+\begin{itemize}
+\item In covariance shrinkage, a mismatched target is suboptimal but not catastrophic. The estimator simply converges more slowly to the truth as $N_e$ increases.
+\item In precision shrinkage, a mismatched target can cause the shrinkage coefficients to diverge to extreme values, producing ill-conditioned estimates that are worse than the unshrunk sample precision. The failure mode is structural, not a matter of slow convergence.
+\end{itemize}
+
+This asymmetry arises because precision shrinkage operates on $\mathbf{S}^{-1}$, which amplifies the noise in $\mathbf{S}$. When the shrinkage target does not capture the dominant structure of $\mathbf{S}^{-1}$, the formula attempts to ``correct'' a matrix that is already noisy, producing extreme coefficients.
+
+\section{The Modified Cholesky Alternative}
+\label{sec:disc_cholesky}
+
+The modified Cholesky decomposition occupies a unique position among the methods we tested. It is the only method that:
+\begin{enumerate}
+\item Estimates the precision matrix directly (like the Bodnar methods).
+\item Does not require $N_e > n$ (works with any ensemble size, as long as $N_e > r + 2$).
+\item Provides implicit localization (the banded structure zeroes out long-range correlations).
+\item Is computationally cheap ($\mathcal{O}(n \cdot r \cdot N_e)$).
+\end{enumerate}
+
+On Lorenz~96, EnKF-Cholesky achieves consistent RMSE of $0.13$--$0.14 \times 10^{-2}$ regardless of ensemble size, which is better than all direct precision shrinkage methods and competitive with Ledoit-Wolf. It is not the best method overall (the standard EnKF at $N_e = 100$ and Ledoit-Wolf at all sizes achieve lower RMSE), but it is the most robust: its RMSE never spikes, its standard deviation is $\pm 0.01$, and it works in the rank-deficient regime ($N_e < n$) where the other precision methods cannot be applied.
+
+The bandwidth $r$ is the key tuning parameter. On Lorenz~96 with nearest-neighbor coupling, $r = 2$ captures the dominant covariance structure. On systems with longer-range correlations, a larger $r$ would be needed, at the cost of increased variance in the regression estimates. A principled method for selecting $r$, for instance through cross-validation within the ensemble or based on the decorrelation length of the model, would improve the practical usability of this approach.
+
+On cosmological data, EnKF-Cholesky performs comparably to the shrinkage methods (Table~\ref{tab:cosmo_enkf}), despite the fact that the near-diagonal precision structure would seem to favor the Bodnar methods. This is because the AR(1) model is sufficiently simple that even a crude banded precision estimate is adequate for the filter to converge.
+
+\section{Comparison with Looijmans et al.}
+\label{sec:disc_looijmans}
+
+Our standalone precision estimation results on BOSS DR12 mock data (Table~\ref{tab:cosmo_direct}) are broadly consistent with the findings of \citep{looijmans2024comparison}, with several nuances.
+
+Both studies find that direct precision shrinkage outperforms Ledoit-Wolf on near-diagonal cosmological data at $n \geq 30$, that the cosmological target provides modest improvement over the identity target, and that NERCOME is competitive at small sample sizes thanks to its low variance.
+
+Our results use the TEDA framework with independent implementations of the shrinkage formulas, rather than the original code from \citep{looijmans2024comparison}. The close agreement (differences $< 5\%$ in mean Frobenius loss) provides an independent validation of both implementations. We additionally test the scaled identity target, which was not considered by \citep{looijmans2024comparison}, and find it competitive at intermediate sample sizes ($n = 30$).
+
+The key contribution beyond \citep{looijmans2024comparison} is the sequential filtering evaluation. Their work evaluated estimators in a one-shot setting, concluding that direct precision shrinkage with cosmological targets provides the best precision estimates. Our EnKF experiments show that this conclusion does not extend to sequential filtering: the best one-shot estimator is not the best filter. This finding could not have been obtained from the standalone evaluation alone.
+
+\section{Sensitivity to Experimental Parameters}
+\label{sec:disc_sensitivity}
+
+Our results depend on several experimental choices that could influence the conclusions.
+
+\paragraph{Inflation factor.} We use $\rho = 1.05$ for Lorenz~96 and $\rho = 1.02$ for the cosmological model. Different inflation values would change the effective ensemble spread and thereby the quality of the sample covariance. Higher inflation produces wider ensemble spread, making the sample covariance better conditioned but also increasing the forecast error. The direct precision methods are more sensitive to inflation than Ledoit-Wolf because the condition number of $\hat{\boldsymbol{\Pi}}_S$ depends on the eigenvalue spectrum of $\mathbf{S}$, which is affected by inflation. A systematic sensitivity study over $\rho \in [1.01, 1.10]$ would quantify this dependence but was beyond the scope of this work.
+
+\paragraph{Observation coverage.} We observe 80\% of the state on Lorenz~96 ($m = 32$ of $n = 40$) and 78\% on the cosmological model ($m = 14$ of $d = 18$). With fewer observations, the analysis relies more heavily on the background covariance, amplifying the impact of precision estimation quality. With more observations, the analysis is dominated by the observation term in Eq.~\eqref{eq:dual_enkf}, and the precision estimation becomes less important. Our high observation coverage favors methods with good precision estimates; at lower coverage, the differences between methods would likely be more pronounced.
+
+\paragraph{Observation error.} The Lorenz~96 observation error ($\sigma_o = 0.01$) is very small relative to the state magnitude, making observations highly informative. The cosmological observation error ($\sigma_o = 100$) is very large relative to the state magnitude, making the filter heavily dependent on the background. These opposite regimes test different aspects of the precision estimation: on Lorenz~96, the observations dominate and the precision estimate mainly controls the analysis increment; on the cosmological model, the background dominates and the precision estimate controls how much the filter trusts the forecast.
+
+\paragraph{Assimilation window.} We use 100 assimilation cycles. With fewer cycles, the transient phase (where the filter is converging from the initial ensemble) would dominate the time-averaged RMSE, potentially masking the steady-state performance differences. With more cycles, the sequential accumulation effect would be more pronounced, further favoring low-variance methods. Our choice of 100 cycles with 50-cycle transient discarding is a reasonable compromise.
+
+\section{Practical Recommendations}
+\label{sec:disc_practical}
+
+The following guidelines summarize the practical implications of our experimental results for choosing a precision estimator in the EnKF:
+
+\begin{enumerate}
+\item Ledoit-Wolf is the default choice for sequential filtering without domain-specific knowledge. It provides the best overall RMSE and the lowest variance across runs, requires no tuning parameters, and works at any ensemble size. The main limitation is computational: it requires inverting the shrunk covariance, which costs $\mathcal{O}(n^3)$. For $n < 10^3$, this is negligible; for $n > 10^4$, alternative approaches are needed.
+
+\item When the true precision matrix is known or suspected to be near-diagonal (as in cosmological applications), direct precision shrinkage with an appropriate target can improve standalone precision estimates by a factor of 2 in Frobenius loss. However, this advantage does not necessarily translate to better filtering performance due to the sequential accumulation effect. Direct precision shrinkage is therefore preferable for standalone estimation (e.g., covariance estimation from mock catalogs), while Ledoit-Wolf remains the better choice for sequential filtering.
+
+\item For spatially extended systems, the modified Cholesky decomposition is the strongest choice when:
+\begin{itemize}
+    \item $N_e < n$ (ruling out direct precision methods entirely),
+    \item The system has known spatial structure (decay of correlations with distance),
+    \item Implicit localization is desirable without specifying a localization function.
+\end{itemize}
+The bandwidth $r$ should be set based on the decorrelation length of the system. For Lorenz~96 with nearest-neighbor coupling, $r = 2$--$5$ works well. For atmospheric models with longer-range correlations, $r = 10$--$20$ may be needed.
+
+\item NERCOME should be avoided in sequential settings. Its computational cost ($\sim 100$--$200\times$ slower than alternatives) and its increasing RMSE at larger ensemble sizes on Lorenz~96 make it a poor choice for sequential filtering. It excels in standalone estimation at very small sample sizes ($n/d < 1.5$) where its low variance compensates for higher bias, but this advantage disappears inside a filter. If NERCOME must be used, reducing the number of bootstrap draws from the default 200 to 50--100 mitigates the variance compounding.
+
+\item When domain-specific prior knowledge is unavailable, the scaled identity target provides 10--30\% improvement over the plain identity in both standalone estimation and filtering RMSE. The improvement comes from calibrating the target to per-variable variances, which reduces the severity of coefficient clamping. The computational overhead is negligible ($\mathcal{O}(n)$ to read diagonal entries of $\mathbf{S}$). The ad-hoc factor of 2 is the main weakness; a cross-validated factor would be an easy improvement.
+
+\item Before applying Bodnar methods, it is advisable to check target alignment using a simple diagnostic: compute the ratio $R_{\text{diag}} = \sum_i (\hat{\boldsymbol{\Pi}}_S)_{ii}^2 / \|\hat{\boldsymbol{\Pi}}_S\|_F^2$. If $R_{\text{diag}} > 0.8$, the precision is nearly diagonal and diagonal targets are appropriate. If $R_{\text{diag}} < 0.5$, off-diagonal entries dominate and diagonal targets will produce extreme $\beta^*$ values; Ledoit-Wolf or modified Cholesky should be used instead.
+\end{enumerate}
+
+These guidelines are summarized in Figure~\ref{fig:regime_map}, which maps the two key parameters (concentration ratio $n/N_e$ and target-truth alignment) to the recommended method.
+
+\section{Relationship to Other Regularization Approaches}
+\label{sec:disc_other}
+
+The shrinkage estimators studied in this thesis are one approach to regularizing ill-conditioned covariance or precision matrices. Several other approaches exist in the literature, and understanding their relationship to shrinkage provides broader context for our results.
+
+Tapering and banding methods zero out entries beyond a distance threshold~\citep{gaspari1999construction}, rather than shrinking the covariance toward a structured target. Banding retains only entries within a band of width $r$ around the diagonal. The modified Cholesky decomposition used in this thesis is a form of banding applied to the precision matrix. Tapering and shrinkage can be combined: first taper the sample covariance to remove spurious long-range correlations, then shrink toward a target to reduce eigenvalue spread. This combination has not been explored for direct precision shrinkage.
+
+Soft and hard thresholding methods set small entries of the sample covariance to zero, producing a sparse estimate. This is related to the LASSO (Least Absolute Shrinkage and Selection Operator) in regression and to the graphical LASSO for precision matrix estimation. Unlike the Bodnar framework, which assumes a specific parametric form for the estimator ($\alpha \hat{\boldsymbol{\Pi}}_S + \beta \boldsymbol{\Pi}_0$), thresholding methods impose sparsity without assuming a target structure. However, they require tuning the threshold parameter, which plays a role similar to the shrinkage intensity $\lambda$.
+
+The Marchenko-Pastur law and its extensions provide analytical corrections for the eigenvalue spreading of sample covariance matrices. Rather than shrinking toward a target, these methods directly correct the eigenvalues of $\mathbf{S}$ based on the known distribution of Wishart eigenvalues. The Oracle Approximating Shrinkage (OAS) estimator of \citep{chen2010shrinkage} is related in spirit, though it works by iteratively approximating the clairvoyant (oracle) shrinkage estimator via MMSE optimization under Gaussian assumptions rather than directly applying random matrix theory corrections. The NERCOME estimator~\citep{lam2016nonparametric} achieves a similar effect empirically through cross-validated eigenvalue estimation.
+
+All of these approaches regularize a high-dimensional covariance or precision estimate from a limited sample, but through different mechanisms. The choice among them depends on the available prior knowledge (structural sparsity, eigenvalue distribution, target matrix) and the computational budget. Our results suggest that for sequential filtering applications, the variance of the estimator matters at least as much as the mechanism used to achieve regularization.

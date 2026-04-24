@@ -1,0 +1,526 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {chapter}{Declaration of Authorship}{iii}{Doc-Start}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Abstract}{vii}{Doc-Start}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Acknowledgements}{ix}{Doc-Start}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{List of Algorithms}{xxi}{chapter*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{List of Abbreviations}{xxiii}{chapter*.5}\protected@file@percent }
+\citation{houtekamer1998data}
+\citation{anderson2001ensemble}
+\citation{hamilton2006measuring}
+\citation{ledoit2004well}
+\citation{ledoit2004well}
+\citation{pope2008shrinkage}
+\citation{chen2010shrinkage}
+\citation{haff1991variational}
+\citation{bodnar2016direct}
+\citation{looijmans2024comparison}
+\citation{gaspari1999construction,ott2004local,hunt2007efficient}
+\citation{anderson1999monte,anderson2001ensemble}
+\citation{nino2018ensemble}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{ch:introduction}{{1}{1}{Introduction}{chapter.1}{}}
+\citation{looijmans2024comparison}
+\citation{bodnar2016direct}
+\citation{lorenz1996predictability}
+\citation{looijmans2024comparison}
+\citation{nino2022teda}
+\citation{bodnar2016direct}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Notation}{2}{section.1.1}\protected@file@percent }
+\newlabel{sec:notation}{{1.1}{2}{Notation}{section.1.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}Scope and Contributions}{2}{section.1.2}\protected@file@percent }
+\newlabel{sec:contributions}{{1.2}{2}{Scope and Contributions}{section.1.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces Summary of notation.}}{3}{table.caption.6}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:notation}{{1.1}{3}{Summary of notation}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Thesis Organization}{4}{section.1.3}\protected@file@percent }
+\newlabel{sec:organization}{{1.3}{4}{Thesis Organization}{section.1.3}{}}
+\citation{lorenc1986analysis}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Preliminaries}{5}{chapter.2}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{ch:preliminaries}{{2}{5}{Preliminaries}{chapter.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Data Assimilation}{5}{section.2.1}\protected@file@percent }
+\newlabel{sec:da}{{2.1}{5}{Data Assimilation}{section.2.1}{}}
+\newlabel{eq:model}{{2.1}{5}{Data Assimilation}{equation.2.1.1}{}}
+\newlabel{eq:observation}{{2.2}{5}{Data Assimilation}{equation.2.1.2}{}}
+\newlabel{eq:bayes}{{2.3}{5}{Data Assimilation}{equation.2.1.3}{}}
+\newlabel{eq:cost}{{2.4}{5}{Data Assimilation}{equation.2.1.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Bayesian inference: the posterior (green) combines the prior from the model forecast (orange) with the likelihood from the observation (blue). The posterior is narrower than either source, reflecting the information gain from assimilation.}}{6}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:bayesian_inference}{{2.1}{6}{Bayesian inference: the posterior (green) combines the prior from the model forecast (orange) with the likelihood from the observation (blue). The posterior is narrower than either source, reflecting the information gain from assimilation}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces The sequential data assimilation cycle. At each step, the forecast (gray) is corrected by observations (blue) to produce the analysis (green), which is propagated by the model (red arrow) to the next forecast.}}{6}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:da_cycle}{{2.2}{6}{The sequential data assimilation cycle. At each step, the forecast (gray) is corrected by observations (blue) to produce the analysis (green), which is propagated by the model (red arrow) to the next forecast}{figure.caption.8}{}}
+\newlabel{eq:analysis}{{2.5}{6}{Data Assimilation}{equation.2.1.5}{}}
+\citation{lorenc1986analysis}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}The Kalman Filter}{7}{subsection.2.1.1}\protected@file@percent }
+\newlabel{sec:kalman_filter}{{2.1.1}{7}{The Kalman Filter}{subsection.2.1.1}{}}
+\newlabel{eq:kf_forecast_state}{{2.6}{7}{The Kalman Filter}{equation.2.1.6}{}}
+\newlabel{eq:kf_forecast_cov}{{2.7}{7}{The Kalman Filter}{equation.2.1.7}{}}
+\newlabel{eq:kf_gain}{{2.8}{7}{The Kalman Filter}{equation.2.1.8}{}}
+\newlabel{eq:kf_update}{{2.9}{7}{The Kalman Filter}{equation.2.1.9}{}}
+\newlabel{eq:kf_analysis_cov}{{2.10}{7}{The Kalman Filter}{equation.2.1.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}Sequential vs.\ Variational Data Assimilation}{7}{subsection.2.1.2}\protected@file@percent }
+\newlabel{sec:seq_vs_var}{{2.1.2}{7}{Sequential vs.\ Variational Data Assimilation}{subsection.2.1.2}{}}
+\citation{evensen2003ensemble}
+\newlabel{eq:4dvar}{{2.11}{8}{Sequential vs.\ Variational Data Assimilation}{equation.2.1.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Comparison of data assimilation approaches. ``Model requirement'' indicates what information about the dynamical model is needed beyond the forward integration.}}{8}{table.caption.9}\protected@file@percent }
+\newlabel{tab:da_comparison}{{2.1}{8}{Comparison of data assimilation approaches. ``Model requirement'' indicates what information about the dynamical model is needed beyond the forward integration}{table.caption.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}The Ensemble Kalman Filter}{8}{section.2.2}\protected@file@percent }
+\newlabel{sec:enkf}{{2.2}{8}{The Ensemble Kalman Filter}{section.2.2}{}}
+\newlabel{eq:ens_mean}{{2.12}{8}{The Ensemble Kalman Filter}{equation.2.2.12}{}}
+\citation{burgers1998analysis,houtekamer1998data}
+\citation{nino2018ensemble}
+\citation{nino2022teda}
+\citation{hunt2007efficient}
+\newlabel{eq:deviation}{{2.13}{9}{The Ensemble Kalman Filter}{equation.2.2.13}{}}
+\newlabel{eq:sample_cov}{{2.14}{9}{The Ensemble Kalman Filter}{equation.2.2.14}{}}
+\newlabel{eq:stochastic_enkf}{{2.15}{9}{The Ensemble Kalman Filter}{equation.2.2.15}{}}
+\newlabel{eq:kalman_gain}{{2.16}{9}{The Ensemble Kalman Filter}{equation.2.2.16}{}}
+\newlabel{eq:analysis_cov}{{2.17}{9}{The Ensemble Kalman Filter}{equation.2.2.17}{}}
+\newlabel{eq:dual_enkf}{{2.18}{9}{The Ensemble Kalman Filter}{equation.2.2.18}{}}
+\newlabel{eq:ensemble_space}{{2.19}{9}{The Ensemble Kalman Filter}{equation.2.2.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}The Local Ensemble Transform Kalman Filter}{9}{subsection.2.2.1}\protected@file@percent }
+\newlabel{sec:letkf}{{2.2.1}{9}{The Local Ensemble Transform Kalman Filter}{subsection.2.2.1}{}}
+\citation{houtekamer1998data,anderson2001ensemble}
+\citation{gaspari1999construction}
+\newlabel{eq:letkf_mean}{{2.20}{10}{The Local Ensemble Transform Kalman Filter}{equation.2.2.20}{}}
+\newlabel{eq:letkf_ensemble}{{2.21}{10}{The Local Ensemble Transform Kalman Filter}{equation.2.2.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Filter Drawbacks}{10}{subsection.2.2.2}\protected@file@percent }
+\newlabel{sec:filter_drawbacks}{{2.2.2}{10}{Filter Drawbacks}{subsection.2.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Localization}{10}{subsection.2.2.3}\protected@file@percent }
+\newlabel{sec:localization}{{2.2.3}{10}{Localization}{subsection.2.2.3}{}}
+\newlabel{eq:localization}{{2.22}{10}{Localization}{equation.2.2.22}{}}
+\newlabel{eq:loc_matrix}{{2.23}{10}{Localization}{equation.2.2.23}{}}
+\citation{gaspari1999construction}
+\citation{ott2004local}
+\citation{hunt2007efficient}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Gaspari-Cohn localization matrix $\hat  {\boldsymbol  {\Lambda }}$ at different radii of influence on the Lorenz~96 grid ($n = 40$, cyclic). At $r = 2$, the matrix is nearly diagonal; at $r = 10$, most entries are non-zero. The cyclic boundary conditions are visible as the non-zero corners.}}{11}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:localization_matrices}{{2.3}{11}{Gaspari-Cohn localization matrix $\hat {\boldsymbol {\Lambda }}$ at different radii of influence on the Lorenz~96 grid ($n = 40$, cyclic). At $r = 2$, the matrix is nearly diagonal; at $r = 10$, most entries are non-zero. The cyclic boundary conditions are visible as the non-zero corners}{figure.caption.10}{}}
+\newlabel{eq:gaspari_cohn}{{2.24}{11}{Localization}{equation.2.2.24}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.4}Inflation}{12}{subsection.2.2.4}\protected@file@percent }
+\newlabel{sec:inflation}{{2.2.4}{12}{Inflation}{subsection.2.2.4}{}}
+\newlabel{eq:inflation}{{2.25}{12}{Inflation}{equation.2.2.25}{}}
+\newlabel{eq:inflated_cov}{{2.26}{12}{Inflation}{equation.2.2.26}{}}
+\newlabel{eq:additive_inflation}{{2.27}{12}{Inflation}{equation.2.2.27}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}The Wishart Distribution and Sample Precision}{12}{section.2.3}\protected@file@percent }
+\newlabel{sec:wishart}{{2.3}{12}{The Wishart Distribution and Sample Precision}{section.2.3}{}}
+\newlabel{eq:wishart}{{2.28}{12}{The Wishart Distribution and Sample Precision}{equation.2.3.28}{}}
+\citation{hartlap2007your}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Eigenvalue spectrum of the sample covariance $\mathbf  {S}$ (red circles) compared to a reference from $N_e = 500$ (black line) on Lorenz~96 ($n = 40$). At small $N_e$, the eigenvalues are systematically spread: the largest are overestimated and the smallest underestimated.}}{13}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:eigenvalue_spectrum}{{2.4}{13}{Eigenvalue spectrum of the sample covariance $\mathbf {S}$ (red circles) compared to a reference from $N_e = 500$ (black line) on Lorenz~96 ($n = 40$). At small $N_e$, the eigenvalues are systematically spread: the largest are overestimated and the smallest underestimated}{figure.caption.11}{}}
+\newlabel{eq:inverse_wishart_mean}{{2.29}{13}{The Wishart Distribution and Sample Precision}{equation.2.3.29}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Covariance Matrix Estimation}{13}{section.2.4}\protected@file@percent }
+\newlabel{sec:cov_estimation}{{2.4}{13}{Covariance Matrix Estimation}{section.2.4}{}}
+\citation{ledoit2004well}
+\citation{lam2016nonparametric}
+\newlabel{eq:shrinkage_cov}{{2.30}{14}{Covariance Matrix Estimation}{equation.2.4.30}{}}
+\newlabel{eq:optimal_lambda}{{2.31}{14}{Covariance Matrix Estimation}{equation.2.4.31}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Ledoit-Wolf Estimator}{14}{subsection.2.4.1}\protected@file@percent }
+\newlabel{sec:lw}{{2.4.1}{14}{Ledoit-Wolf Estimator}{subsection.2.4.1}{}}
+\newlabel{eq:lw_lambda}{{2.32}{14}{Ledoit-Wolf Estimator}{equation.2.4.32}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Oracle Estimator}{14}{subsection.2.4.2}\protected@file@percent }
+\newlabel{sec:oracle}{{2.4.2}{14}{Oracle Estimator}{subsection.2.4.2}{}}
+\newlabel{eq:oracle}{{2.33}{14}{Oracle Estimator}{equation.2.4.33}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}NERCOME Estimator}{14}{subsection.2.4.3}\protected@file@percent }
+\newlabel{sec:nercome}{{2.4.3}{14}{NERCOME Estimator}{subsection.2.4.3}{}}
+\citation{lam2016nonparametric}
+\citation{joachimi2017non}
+\newlabel{eq:nercome_avg}{{2.34}{15}{NERCOME Estimator}{equation.2.4.34}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Why Shrink? The Bias-Variance Tradeoff}{15}{section.2.5}\protected@file@percent }
+\newlabel{sec:bias_variance}{{2.5}{15}{Why Shrink? The Bias-Variance Tradeoff}{section.2.5}{}}
+\newlabel{eq:mse_decomposition}{{2.35}{15}{Why Shrink? The Bias-Variance Tradeoff}{equation.2.5.35}{}}
+\citation{bodnar2016direct}
+\citation{bodnar2016direct}
+\citation{hartlap2007your}
+\citation{pope2008shrinkage}
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Inverse Covariance Matrix Estimation}{16}{section.2.6}\protected@file@percent }
+\newlabel{sec:precision_estimation}{{2.6}{16}{Inverse Covariance Matrix Estimation}{section.2.6}{}}
+\newlabel{eq:direct_precision}{{2.36}{16}{Inverse Covariance Matrix Estimation}{equation.2.6.36}{}}
+\newlabel{eq:alpha_star}{{2.37}{16}{Inverse Covariance Matrix Estimation}{equation.2.6.37}{}}
+\newlabel{eq:beta_star}{{2.38}{16}{Inverse Covariance Matrix Estimation}{equation.2.6.38}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.1}Cosmological Precision Matrix Structure}{16}{subsection.2.6.1}\protected@file@percent }
+\newlabel{sec:cosmo_cov}{{2.6.1}{16}{Cosmological Precision Matrix Structure}{subsection.2.6.1}{}}
+\newlabel{eq:cosmo_cov}{{2.39}{16}{Cosmological Precision Matrix Structure}{equation.2.6.39}{}}
+\citation{pope2008shrinkage}
+\citation{looijmans2024comparison}
+\citation{ledoit2004well}
+\citation{chen2010shrinkage}
+\citation{ledoit2012nonlinear}
+\citation{ledoit2020analytical}
+\newlabel{eq:cosmo_precision}{{2.40}{17}{Cosmological Precision Matrix Structure}{equation.2.6.40}{}}
+\newlabel{eq:cosmo_target}{{2.41}{17}{Cosmological Precision Matrix Structure}{equation.2.6.41}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.2}Related Shrinkage Approaches}{17}{subsection.2.6.2}\protected@file@percent }
+\newlabel{sec:related}{{2.6.2}{17}{Related Shrinkage Approaches}{subsection.2.6.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Linear covariance shrinkage.}{17}{paragraph*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Nonlinear covariance shrinkage.}{17}{paragraph*.13}\protected@file@percent }
+\citation{haff1991variational}
+\citation{lam2016nonparametric}
+\citation{friedman2008sparse}
+\citation{gaspari1999construction}
+\citation{houtekamer1998data}
+\citation{pope2008shrinkage}
+\citation{looijmans2024comparison}
+\citation{joachimi2017non}
+\citation{looijmans2024comparison}
+\citation{bodnar2016direct}
+\@writefile{toc}{\contentsline {paragraph}{Eigenvalue-based covariance estimators.}{18}{paragraph*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Sparse precision estimation.}{18}{paragraph*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Localization in data assimilation.}{18}{paragraph*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cosmological precision estimation.}{18}{paragraph*.17}\protected@file@percent }
+\citation{bodnar2016direct}
+\citation{haff1991variational}
+\citation{chen2010shrinkage}
+\citation{nino2018ensemble}
+\@writefile{toc}{\contentsline {paragraph}{Summary.}{19}{paragraph*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6.3}Comparison of Covariance Estimators}{19}{subsection.2.6.3}\protected@file@percent }
+\newlabel{sec:cov_comparison}{{2.6.3}{19}{Comparison of Covariance Estimators}{subsection.2.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Comparison of covariance matrix estimators. ``Bias'' refers to the bias of the covariance estimate; ``Variance'' to the variance across different realizations.}}{19}{table.caption.19}\protected@file@percent }
+\newlabel{tab:cov_estimator_comparison}{{2.2}{19}{Comparison of covariance matrix estimators. ``Bias'' refers to the bias of the covariance estimate; ``Variance'' to the variance across different realizations}{table.caption.19}{}}
+\citation{nino2018ensemble}
+\@writefile{toc}{\contentsline {section}{\numberline {2.7}Modified Cholesky Decomposition}{20}{section.2.7}\protected@file@percent }
+\newlabel{sec:cholesky}{{2.7}{20}{Modified Cholesky Decomposition}{section.2.7}{}}
+\newlabel{eq:cholesky}{{2.42}{20}{Modified Cholesky Decomposition}{equation.2.7.42}{}}
+\newlabel{eq:cholesky_regression}{{2.43}{20}{Modified Cholesky Decomposition}{equation.2.7.43}{}}
+\newlabel{eq:cholesky_residual}{{2.44}{20}{Modified Cholesky Decomposition}{equation.2.7.44}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.8}EnKF via Modified Cholesky Decomposition}{20}{section.2.8}\protected@file@percent }
+\newlabel{sec:enkf_cholesky}{{2.8}{20}{EnKF via Modified Cholesky Decomposition}{section.2.8}{}}
+\newlabel{eq:enkf_cholesky_system}{{2.45}{20}{EnKF via Modified Cholesky Decomposition}{equation.2.8.45}{}}
+\citation{bodnar2016direct}
+\citation{looijmans2024comparison}
+\citation{bodnar2016direct}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Proposed Method}{23}{chapter.3}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{ch:proposed_method}{{3}{23}{Proposed Method}{chapter.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Direct Precision Shrinkage for the EnKF}{23}{section.3.1}\protected@file@percent }
+\newlabel{sec:dps_enkf}{{3.1}{23}{Direct Precision Shrinkage for the EnKF}{section.3.1}{}}
+\newlabel{eq:direct_precision_method}{{3.1}{23}{Direct Precision Shrinkage for the EnKF}{equation.3.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Why Shrink the Precision Directly?}{23}{subsection.3.1.1}\protected@file@percent }
+\newlabel{sec:why_direct}{{3.1.1}{23}{Why Shrink the Precision Directly?}{subsection.3.1.1}{}}
+\citation{looijmans2024comparison}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Shrinkage Targets}{24}{section.3.2}\protected@file@percent }
+\newlabel{sec:targets}{{3.2}{24}{Shrinkage Targets}{section.3.2}{}}
+\citation{looijmans2024comparison}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces The four shrinkage target matrices $\boldsymbol  {\Pi }_0$ (normalized, $d = 18$). All are diagonal by construction. The identity target assigns equal weight to all variables; the eigenvalue target uses the sample precision's spectral information; the scaled and cosmological targets incorporate variance structure from the data or domain knowledge.}}{25}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:target_comparison}{{3.1}{25}{The four shrinkage target matrices $\boldsymbol {\Pi }_0$ (normalized, $d = 18$). All are diagonal by construction. The identity target assigns equal weight to all variables; the eigenvalue target uses the sample precision's spectral information; the scaled and cosmological targets incorporate variance structure from the data or domain knowledge}{figure.caption.20}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Direct Precision Shrinkage (Identity Target)}}{25}{algorithm.1}\protected@file@percent }
+\newlabel{alg:identity}{{1}{25}{Direct Precision Shrinkage (Identity Target)}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Identity Target}{25}{subsection.3.2.1}\protected@file@percent }
+\newlabel{sec:identity_target}{{3.2.1}{25}{Identity Target}{subsection.3.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Eigenvalue Target}{25}{subsection.3.2.2}\protected@file@percent }
+\newlabel{sec:eigenvalue_target}{{3.2.2}{25}{Eigenvalue Target}{subsection.3.2.2}{}}
+\citation{looijmans2024comparison}
+\citation{hamilton2006measuring}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Direct Precision Shrinkage (Eigenvalue Target)}}{26}{algorithm.2}\protected@file@percent }
+\newlabel{alg:eigenvalue}{{2}{26}{Direct Precision Shrinkage (Eigenvalue Target)}{algorithm.2}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Direct Precision Shrinkage (Cosmological Target)}}{26}{algorithm.3}\protected@file@percent }
+\newlabel{alg:cosmo}{{3}{26}{Direct Precision Shrinkage (Cosmological Target)}{algorithm.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Cosmological Target}{26}{subsection.3.2.3}\protected@file@percent }
+\newlabel{sec:cosmo_target}{{3.2.3}{26}{Cosmological Target}{subsection.3.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}Scaled Identity Target (Novel Adaptation)}{26}{subsection.3.2.4}\protected@file@percent }
+\newlabel{sec:scaled_target}{{3.2.4}{26}{Scaled Identity Target (Novel Adaptation)}{subsection.3.2.4}{}}
+\newlabel{eq:scaled_target}{{3.2}{26}{Scaled Identity Target (Novel Adaptation)}{equation.3.2.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Worked Example}{27}{section.3.3}\protected@file@percent }
+\newlabel{sec:worked_example}{{3.3}{27}{Worked Example}{section.3.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Computational complexity per assimilation cycle. $n$: state dimension, $N_e$: ensemble size, $m$: observation dimension, $r$: Cholesky bandwidth, $B$: number of NERCOME bootstrap draws.}}{28}{table.caption.21}\protected@file@percent }
+\newlabel{tab:complexity}{{3.1}{28}{Computational complexity per assimilation cycle. $n$: state dimension, $N_e$: ensemble size, $m$: observation dimension, $r$: Cholesky bandwidth, $B$: number of NERCOME bootstrap draws}{table.caption.21}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Computational Complexity}{28}{section.3.4}\protected@file@percent }
+\newlabel{sec:complexity}{{3.4}{28}{Computational Complexity}{section.3.4}{}}
+\citation{nino2022teda}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Class diagram of the TEDA framework, highlighting the new shrinkage estimator classes (shaded). All analysis methods inherit from the abstract \texttt  {Analysis} base class and are registered via the \texttt  {AnalysisFactory}, enabling interchangeability.}}{29}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:class_diagram}{{3.2}{29}{Class diagram of the TEDA framework, highlighting the new shrinkage estimator classes (shaded). All analysis methods inherit from the abstract \texttt {Analysis} base class and are registered via the \texttt {AnalysisFactory}, enabling interchangeability}{figure.caption.22}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Implementation in TEDA}{29}{section.3.5}\protected@file@percent }
+\newlabel{sec:implementation}{{3.5}{29}{Implementation in TEDA}{section.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Architecture}{30}{subsection.3.5.1}\protected@file@percent }
+\newlabel{sec:architecture}{{3.5.1}{30}{Architecture}{subsection.3.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Estimator Classes}{30}{subsection.3.5.2}\protected@file@percent }
+\newlabel{sec:estimator_classes}{{3.5.2}{30}{Estimator Classes}{subsection.3.5.2}{}}
+\citation{bodnar2016direct}
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Comparison of all methods tested in this thesis. ``Space'' indicates whether the method operates on the covariance matrix ($\mathbf  {P}$) or the precision matrix ($\boldsymbol  {\Pi }$). ``Target'' indicates whether domain-specific prior knowledge is required. ``Min $N_e$'' is the minimum ensemble size for the method to be applicable.}}{31}{table.caption.23}\protected@file@percent }
+\newlabel{tab:method_summary}{{3.2}{31}{Comparison of all methods tested in this thesis. ``Space'' indicates whether the method operates on the covariance matrix ($\mathbf {P}$) or the precision matrix ($\boldsymbol {\Pi }$). ``Target'' indicates whether domain-specific prior knowledge is required. ``Min $N_e$'' is the minimum ensemble size for the method to be applicable}{table.caption.23}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Summary of Methods}{31}{section.3.6}\protected@file@percent }
+\newlabel{sec:method_summary}{{3.6}{31}{Summary of Methods}{section.3.6}{}}
+\citation{lorenz1996predictability}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Benchmark}{33}{chapter.4}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{ch:benchmark}{{4}{33}{Benchmark}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Experimental Setup}{33}{section.4.1}\protected@file@percent }
+\newlabel{sec:setup}{{4.1}{33}{Experimental Setup}{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Lorenz~96}{33}{subsection.4.1.1}\protected@file@percent }
+\newlabel{sec:lorenz96}{{4.1.1}{33}{Lorenz~96}{subsection.4.1.1}{}}
+\newlabel{eq:lorenz96}{{4.1}{33}{Lorenz~96}{equation.4.1.1}{}}
+\citation{looijmans2024comparison}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Sample covariance matrices $\mathbf  {S}$ on Lorenz~96 ($n = 40$) at three ensemble sizes. At $N_e = 45$, the matrix is dominated by sampling noise; at $N_e = 100$, the banded structure from spatial coupling is clearly visible.}}{34}{figure.caption.24}\protected@file@percent }
+\newlabel{fig:sample_cov}{{4.1}{34}{Sample covariance matrices $\mathbf {S}$ on Lorenz~96 ($n = 40$) at three ensemble sizes. At $N_e = 45$, the matrix is dominated by sampling noise; at $N_e = 100$, the banded structure from spatial coupling is clearly visible}{figure.caption.24}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}AR(1) Cosmological Model}{34}{subsection.4.1.2}\protected@file@percent }
+\newlabel{sec:ar1_model}{{4.1.2}{34}{AR(1) Cosmological Model}{subsection.4.1.2}{}}
+\newlabel{eq:ar1}{{4.2}{34}{AR(1) Cosmological Model}{equation.4.1.2}{}}
+\citation{looijmans2024comparison}
+\citation{hartlap2007your}
+\citation{looijmans2024comparison}
+\citation{hartlap2007your}
+\citation{looijmans2024comparison}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}BOSS DR12 Mock Catalog Data}{35}{subsection.4.1.3}\protected@file@percent }
+\newlabel{sec:boss_data}{{4.1.3}{35}{BOSS DR12 Mock Catalog Data}{subsection.4.1.3}{}}
+\newlabel{eq:true_precision}{{4.3}{35}{BOSS DR12 Mock Catalog Data}{equation.4.1.3}{}}
+\newlabel{eq:T_cosmo_data}{{4.4}{35}{BOSS DR12 Mock Catalog Data}{equation.4.1.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Standalone Precision Estimation}{35}{subsection.4.1.4}\protected@file@percent }
+\newlabel{sec:standalone_setup}{{4.1.4}{35}{Standalone Precision Estimation}{subsection.4.1.4}{}}
+\newlabel{eq:matrix_loss}{{4.5}{35}{Standalone Precision Estimation}{equation.4.1.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Evolution of relative RMSE over 100 assimilation cycles for different analysis methods with $N_e = 100$. Shrinkage-based methods (solid lines) and Ledoit-Wolf (dash-dot) are compared against the standard EnKF and EnKF-Cholesky (dashed).}}{36}{figure.caption.25}\protected@file@percent }
+\newlabel{fig:rmse_time}{{4.2}{36}{Evolution of relative RMSE over 100 assimilation cycles for different analysis methods with $N_e = 100$. Shrinkage-based methods (solid lines) and Ledoit-Wolf (dash-dot) are compared against the standard EnKF and EnKF-Cholesky (dashed)}{figure.caption.25}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.5}Error Metrics}{36}{subsection.4.1.5}\protected@file@percent }
+\newlabel{sec:metrics}{{4.1.5}{36}{Error Metrics}{subsection.4.1.5}{}}
+\newlabel{eq:rmse}{{4.6}{36}{Error Metrics}{equation.4.1.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Lorenz~96 Results}{36}{section.4.2}\protected@file@percent }
+\newlabel{sec:lorenz_results}{{4.2}{36}{Lorenz~96 Results}{section.4.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces RMSE over 100 assimilation cycles on Lorenz~96 with $N_e = 50$. The direct precision shrinkage methods (red, orange, purple) show large RMSE spikes, while Ledoit-Wolf (blue) and EnKF-Cholesky (brown) remain stable.}}{37}{figure.caption.26}\protected@file@percent }
+\newlabel{fig:rmse_time_ne50}{{4.3}{37}{RMSE over 100 assimilation cycles on Lorenz~96 with $N_e = 50$. The direct precision shrinkage methods (red, orange, purple) show large RMSE spikes, while Ledoit-Wolf (blue) and EnKF-Cholesky (brown) remain stable}{figure.caption.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces RMSE over 100 assimilation cycles on Lorenz~96 with $N_e = 60$. Similar pattern to $N_e = 50$ but with slightly reduced spike magnitudes.}}{38}{figure.caption.27}\protected@file@percent }
+\newlabel{fig:rmse_time_ne60}{{4.4}{38}{RMSE over 100 assimilation cycles on Lorenz~96 with $N_e = 60$. Similar pattern to $N_e = 50$ but with slightly reduced spike magnitudes}{figure.caption.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces RMSE distribution across 30 runs on Lorenz~96 with $N_e = 50$. The direct precision methods show the widest distributions, reflecting seed-dependent instability.}}{39}{figure.caption.28}\protected@file@percent }
+\newlabel{fig:lorenz_boxplot_ne50}{{4.5}{39}{RMSE distribution across 30 runs on Lorenz~96 with $N_e = 50$. The direct precision methods show the widest distributions, reflecting seed-dependent instability}{figure.caption.28}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Time-averaged relative RMSE ($\times 10^{-2}$) for different methods and ensemble sizes on Lorenz~96. Best result per column in \textbf  {bold}. $^\dagger $Scaled Shrinkage is a novel domain-agnostic adaptation proposed in this work.}}{39}{table.caption.30}\protected@file@percent }
+\newlabel{tab:performance}{{4.1}{39}{Time-averaged relative RMSE ($\times 10^{-2}$) for different methods and ensemble sizes on Lorenz~96. Best result per column in \textbf {bold}. $^\dagger $Scaled Shrinkage is a novel domain-agnostic adaptation proposed in this work}{table.caption.30}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Shrinkage Coefficient Analysis}{39}{subsection.4.2.1}\protected@file@percent }
+\newlabel{sec:coefficient_analysis}{{4.2.1}{39}{Shrinkage Coefficient Analysis}{subsection.4.2.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces RMSE distribution across 30 runs on Lorenz~96 with $N_e = 100$. Distributions are tighter than at $N_e = 50$, but the direct precision methods still show more variability than Ledoit-Wolf.}}{40}{figure.caption.29}\protected@file@percent }
+\newlabel{fig:lorenz_boxplot_ne100}{{4.6}{40}{RMSE distribution across 30 runs on Lorenz~96 with $N_e = 100$. Distributions are tighter than at $N_e = 50$, but the direct precision methods still show more variability than Ledoit-Wolf}{figure.caption.29}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Behavior of $\alpha ^*$.}{40}{subsubsection*.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Behavior of $\beta ^*$ (unclamped).}{40}{subsubsection*.36}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces RMSE over 100 assimilation cycles on Lorenz~96 with $N_e = 80$. The direct precision methods show reduced but still present instability compared to $N_e = 50$ and $N_e = 60$.}}{41}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:rmse_time_ne80}{{4.7}{41}{RMSE over 100 assimilation cycles on Lorenz~96 with $N_e = 80$. The direct precision methods show reduced but still present instability compared to $N_e = 50$ and $N_e = 60$}{figure.caption.31}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Condition number of the estimator.}{41}{subsubsection*.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Ensemble Size Sensitivity}{41}{subsection.4.2.2}\protected@file@percent }
+\newlabel{sec:ensemble_sensitivity}{{4.2.2}{41}{Ensemble Size Sensitivity}{subsection.4.2.2}{}}
+\citation{looijmans2024comparison}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Distribution of time-averaged RMSE ($\times 10^{-2}$) across 30 runs on Lorenz~96 with $N_e = 80$. Ledoit-Wolf shows the tightest distribution; the direct precision methods show wide spread with outlier runs.}}{42}{figure.caption.32}\protected@file@percent }
+\newlabel{fig:lorenz_boxplot}{{4.8}{42}{Distribution of time-averaged RMSE ($\times 10^{-2}$) across 30 runs on Lorenz~96 with $N_e = 80$. Ledoit-Wolf shows the tightest distribution; the direct precision methods show wide spread with outlier runs}{figure.caption.32}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Precision Matrix Quality}{42}{subsection.4.2.3}\protected@file@percent }
+\newlabel{sec:precision_quality}{{4.2.3}{42}{Precision Matrix Quality}{subsection.4.2.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Cosmological Results}{42}{section.4.3}\protected@file@percent }
+\newlabel{sec:cosmo_results}{{4.3}{42}{Cosmological Results}{section.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Standalone Precision Estimation}{42}{subsection.4.3.1}\protected@file@percent }
+\newlabel{sec:cosmo_standalone}{{4.3.1}{42}{Standalone Precision Estimation}{subsection.4.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Per-method RMSE time series across all ensemble sizes on Lorenz~96. Each panel shows one method with $N_e = 50$ (red), 60 (orange), 80 (green), and 100 (blue). Stable methods (Ledoit-Wolf, Cholesky) show consistent improvement with $N_e$; unstable methods (Identity, Eigenvalue) show erratic behavior.}}{43}{figure.caption.33}\protected@file@percent }
+\newlabel{fig:per_method_panels}{{4.9}{43}{Per-method RMSE time series across all ensemble sizes on Lorenz~96. Each panel shows one method with $N_e = 50$ (red), 60 (orange), 80 (green), and 100 (blue). Stable methods (Ledoit-Wolf, Cholesky) show consistent improvement with $N_e$; unstable methods (Identity, Eigenvalue) show erratic behavior}{figure.caption.33}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Shrinkage coefficient $\alpha ^*$ as a function of ensemble size $N_e$ on Lorenz~96 ($n = 40$). All three targets produce values close to the theoretical bound $1 - n/N_e$ (dashed line). The weight on the sample precision increases with $N_e$, but remains below $0.6$ even at $N_e = 100$.}}{44}{figure.caption.35}\protected@file@percent }
+\newlabel{fig:alpha_vs_ne}{{4.10}{44}{Shrinkage coefficient $\alpha ^*$ as a function of ensemble size $N_e$ on Lorenz~96 ($n = 40$). All three targets produce values close to the theoretical bound $1 - n/N_e$ (dashed line). The weight on the sample precision increases with $N_e$, but remains below $0.6$ even at $N_e = 100$}{figure.caption.35}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$). Lower is better. Best result per column in \textbf  {bold}.}}{44}{table.caption.42}\protected@file@percent }
+\newlabel{tab:cosmo_direct}{{4.2}{44}{Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$). Lower is better. Best result per column in \textbf {bold}}{table.caption.42}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}EnKF Filtering}{44}{subsection.4.3.2}\protected@file@percent }
+\newlabel{sec:cosmo_filtering}{{4.3.2}{44}{EnKF Filtering}{subsection.4.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces Absolute value of unclamped $\beta ^*$ as a function of ensemble size $N_e$ on Lorenz~96 ($n = 40$), log scale. The dashed line shows the clamping threshold ($\beta ^* = 1$). The identity target produces $\beta ^*$ values $10^7$--$10^9$ times too large; the scaled target is better but still requires clamping; the eigenvalue target produces negligible $\beta ^*$.}}{45}{figure.caption.37}\protected@file@percent }
+\newlabel{fig:beta_vs_ne}{{4.11}{45}{Absolute value of unclamped $\beta ^*$ as a function of ensemble size $N_e$ on Lorenz~96 ($n = 40$), log scale. The dashed line shows the clamping threshold ($\beta ^* = 1$). The identity target produces $\beta ^*$ values $10^7$--$10^9$ times too large; the scaled target is better but still requires clamping; the eigenvalue target produces negligible $\beta ^*$}{figure.caption.37}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.12}{\ignorespaces Condition number of the shrinkage precision estimator $\boldsymbol  {\Pi }_{\text  {LS}}$ as a function of $N_e$ on Lorenz~96 ($n = 40$), log scale. All targets produce condition numbers of $10^7$--$10^{11}$, compared to $10^2$--$10^3$ for Ledoit-Wolf. Shaded regions show the range from mean to maximum condition number across assimilation steps.}}{46}{figure.caption.39}\protected@file@percent }
+\newlabel{fig:condition_vs_ne}{{4.12}{46}{Condition number of the shrinkage precision estimator $\boldsymbol {\Pi }_{\text {LS}}$ as a function of $N_e$ on Lorenz~96 ($n = 40$), log scale. All targets produce condition numbers of $10^7$--$10^{11}$, compared to $10^2$--$10^3$ for Ledoit-Wolf. Shaded regions show the range from mean to maximum condition number across assimilation steps}{figure.caption.39}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.13}{\ignorespaces Time-averaged relative RMSE (over last 50 cycles) as a function of ensemble size $N_e$ on Lorenz~96. Error bars show $\pm 1$ standard deviation over 30 runs.}}{47}{figure.caption.40}\protected@file@percent }
+\newlabel{fig:rmse_vs_ne}{{4.13}{47}{Time-averaged relative RMSE (over last 50 cycles) as a function of ensemble size $N_e$ on Lorenz~96. Error bars show $\pm 1$ standard deviation over 30 runs}{figure.caption.40}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Time-averaged relative RMSE ($\times 10^{-2}$) for the AR(1) cosmological model. Best result per column in \textbf  {bold}. $^\dagger $Scaled Shrinkage is a novel adaptation proposed in this work.}}{47}{table.caption.48}\protected@file@percent }
+\newlabel{tab:cosmo_enkf}{{4.3}{47}{Time-averaged relative RMSE ($\times 10^{-2}$) for the AR(1) cosmological model. Best result per column in \textbf {bold}. $^\dagger $Scaled Shrinkage is a novel adaptation proposed in this work}{table.caption.48}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}The Scaled Identity Target}{47}{subsection.4.3.3}\protected@file@percent }
+\newlabel{sec:scaled_results}{{4.3.3}{47}{The Scaled Identity Target}{subsection.4.3.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.14}{\ignorespaces Precision matrix estimates ($40 \times 40$) from different methods with $N_e = 60$: sample precision $\mathbf  {S}^{-1}$, identity shrinkage, scaled shrinkage, eigenvalue shrinkage, Ledoit-Wolf, and modified Cholesky. The direct precision shrinkage estimators produce matrices with much larger magnitude than Ledoit-Wolf and Cholesky, reflecting the ill-conditioning discussed above.}}{48}{figure.caption.41}\protected@file@percent }
+\newlabel{fig:precision_heatmap}{{4.14}{48}{Precision matrix estimates ($40 \times 40$) from different methods with $N_e = 60$: sample precision $\mathbf {S}^{-1}$, identity shrinkage, scaled shrinkage, eigenvalue shrinkage, Ledoit-Wolf, and modified Cholesky. The direct precision shrinkage estimators produce matrices with much larger magnitude than Ledoit-Wolf and Cholesky, reflecting the ill-conditioning discussed above}{figure.caption.41}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Effect of Inflation on Shrinkage Performance}{48}{section.4.4}\protected@file@percent }
+\newlabel{sec:inflation_effect}{{4.4}{48}{Effect of Inflation on Shrinkage Performance}{section.4.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.15}{\ignorespaces Relative Frobenius loss of precision matrix estimates vs.\ subsample size on BOSS DR12 mock data ($d = 18$). Direct precision shrinkage methods (solid lines) achieve the lowest loss at $n \geq 40$, while Ledoit-Wolf (blue) remains flat near $0.93$. Error bars show $\pm 1$ standard deviation over 100 random draws.}}{49}{figure.caption.43}\protected@file@percent }
+\newlabel{fig:cosmo_matrix_loss}{{4.15}{49}{Relative Frobenius loss of precision matrix estimates vs.\ subsample size on BOSS DR12 mock data ($d = 18$). Direct precision shrinkage methods (solid lines) achieve the lowest loss at $n \geq 40$, while Ledoit-Wolf (blue) remains flat near $0.93$. Error bars show $\pm 1$ standard deviation over 100 random draws}{figure.caption.43}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Precision Matrix Quality}{49}{section.4.5}\protected@file@percent }
+\newlabel{sec:precision_quality_detail}{{4.5}{49}{Precision Matrix Quality}{section.4.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.16}{\ignorespaces RMSE over 100 assimilation cycles on the AR(1) cosmological model with $N_e = 24$. All methods show stable behavior, unlike the Lorenz~96 case. The standard EnKF has the highest RMSE.}}{50}{figure.caption.44}\protected@file@percent }
+\newlabel{fig:cosmo_rmse_time_ne24}{{4.16}{50}{RMSE over 100 assimilation cycles on the AR(1) cosmological model with $N_e = 24$. All methods show stable behavior, unlike the Lorenz~96 case. The standard EnKF has the highest RMSE}{figure.caption.44}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Computational Cost}{50}{section.4.6}\protected@file@percent }
+\newlabel{sec:timing}{{4.6}{50}{Computational Cost}{section.4.6}{}}
+\citation{bodnar2016direct}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.17}{\ignorespaces RMSE over 100 cycles on the AR(1) model with $N_e = 30$. Methods are starting to converge; Ledoit-Wolf maintains a slight edge throughout.}}{51}{figure.caption.45}\protected@file@percent }
+\newlabel{fig:cosmo_rmse_time_ne30}{{4.17}{51}{RMSE over 100 cycles on the AR(1) model with $N_e = 30$. Methods are starting to converge; Ledoit-Wolf maintains a slight edge throughout}{figure.caption.45}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Cross-Domain Summary}{51}{section.4.7}\protected@file@percent }
+\newlabel{sec:cross_domain}{{4.7}{51}{Cross-Domain Summary}{section.4.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}Estimation Quality vs.\ Filtering Performance}{51}{section.4.8}\protected@file@percent }
+\newlabel{sec:estimation_vs_filtering}{{4.8}{51}{Estimation Quality vs.\ Filtering Performance}{section.4.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.18}{\ignorespaces RMSE over 100 cycles on the AR(1) model with $N_e = 40$. Most methods are nearly indistinguishable.}}{52}{figure.caption.46}\protected@file@percent }
+\newlabel{fig:cosmo_rmse_time_ne40}{{4.18}{52}{RMSE over 100 cycles on the AR(1) model with $N_e = 40$. Most methods are nearly indistinguishable}{figure.caption.46}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Cross-domain summary. Best standalone estimator and best EnKF filter for each domain. The disconnect between estimation quality and filtering performance is the central finding.}}{52}{table.caption.53}\protected@file@percent }
+\newlabel{tab:cross_domain}{{4.4}{52}{Cross-domain summary. Best standalone estimator and best EnKF filter for each domain. The disconnect between estimation quality and filtering performance is the central finding}{table.caption.53}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.19}{\ignorespaces RMSE over 100 cycles on the AR(1) model with $N_e = 50$. All methods have converged to similar performance.}}{53}{figure.caption.47}\protected@file@percent }
+\newlabel{fig:cosmo_rmse_time_ne50}{{4.19}{53}{RMSE over 100 cycles on the AR(1) model with $N_e = 50$. All methods have converged to similar performance}{figure.caption.47}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.20}{\ignorespaces RMSE distribution across 30 runs on the AR(1) cosmological model with $N_e = 30$. All methods show tight distributions, in contrast to the wide spread seen on Lorenz~96 (Figures~\ref {fig:lorenz_boxplot}--\ref {fig:lorenz_boxplot_ne100}).}}{54}{figure.caption.49}\protected@file@percent }
+\newlabel{fig:cosmo_boxplot}{{4.20}{54}{RMSE distribution across 30 runs on the AR(1) cosmological model with $N_e = 30$. All methods show tight distributions, in contrast to the wide spread seen on Lorenz~96 (Figures~\ref {fig:lorenz_boxplot}--\ref {fig:lorenz_boxplot_ne100})}{figure.caption.49}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.21}{\ignorespaces Time-averaged relative RMSE vs.\ ensemble size for the AR(1) cosmological model. All methods show stable, monotonic behavior, unlike the Lorenz~96 case (Figure~\ref {fig:rmse_vs_ne}). Ledoit-Wolf achieves the lowest RMSE throughout. Error bars show $\pm 1$ standard deviation over 30 runs.}}{55}{figure.caption.50}\protected@file@percent }
+\newlabel{fig:cosmo_enkf_rmse}{{4.21}{55}{Time-averaged relative RMSE vs.\ ensemble size for the AR(1) cosmological model. All methods show stable, monotonic behavior, unlike the Lorenz~96 case (Figure~\ref {fig:rmse_vs_ne}). Ledoit-Wolf achieves the lowest RMSE throughout. Error bars show $\pm 1$ standard deviation over 30 runs}{figure.caption.50}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.22}{\ignorespaces Computational cost per 100 assimilation cycles on the AR(1) cosmological model ($d = 18$, $N_e = 30$, left) and Lorenz~96 ($n = 40$, $N_e = 80$, right). Note the logarithmic scale. NERCOME is one to two orders of magnitude slower than all other methods on both domains.}}{55}{figure.caption.51}\protected@file@percent }
+\newlabel{fig:timing}{{4.22}{55}{Computational cost per 100 assimilation cycles on the AR(1) cosmological model ($d = 18$, $N_e = 30$, left) and Lorenz~96 ($n = 40$, $N_e = 80$, right). Note the logarithmic scale. NERCOME is one to two orders of magnitude slower than all other methods on both domains}{figure.caption.51}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.23}{\ignorespaces Time-averaged relative RMSE ($\times 10^{-2}$) for all eight methods on the AR(1) cosmological model at $N_e = 30$. Error bars show $\pm 1$ standard deviation over 30 runs. Ledoit-Wolf achieves the lowest RMSE; the direct precision methods are competitive but do not lead.}}{56}{figure.caption.52}\protected@file@percent }
+\newlabel{fig:cosmo_enkf_bar}{{4.23}{56}{Time-averaged relative RMSE ($\times 10^{-2}$) for all eight methods on the AR(1) cosmological model at $N_e = 30$. Error bars show $\pm 1$ standard deviation over 30 runs. Ledoit-Wolf achieves the lowest RMSE; the direct precision methods are competitive but do not lead}{figure.caption.52}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Discussion}{57}{chapter.5}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{ch:discussion}{{5}{57}{Discussion}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}The Role of Target-Truth Alignment}{57}{section.5.1}\protected@file@percent }
+\newlabel{sec:disc_alignment}{{5.1}{57}{The Role of Target-Truth Alignment}{section.5.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Schematic regime map for direct precision shrinkage. The method works well (green region) when the target aligns with the true precision structure; it fails (red region) when the target is misaligned, regardless of ensemble size. The rank-deficient regime ($N_e < n$, blue region) requires alternative methods. Our two experiments (circles) occupy opposite corners.}}{58}{figure.caption.54}\protected@file@percent }
+\newlabel{fig:regime_map}{{5.1}{58}{Schematic regime map for direct precision shrinkage. The method works well (green region) when the target aligns with the true precision structure; it fails (red region) when the target is misaligned, regardless of ensemble size. The rank-deficient regime ($N_e < n$, blue region) requires alternative methods. Our two experiments (circles) occupy opposite corners}{figure.caption.54}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Why Ledoit-Wolf Wins in Sequential Filtering}{58}{section.5.2}\protected@file@percent }
+\newlabel{sec:disc_lw}{{5.2}{58}{Why Ledoit-Wolf Wins in Sequential Filtering}{section.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Variance as a Compounding Risk}{58}{subsection.5.2.1}\protected@file@percent }
+\newlabel{sec:disc_variance}{{5.2.1}{58}{Variance as a Compounding Risk}{subsection.5.2.1}{}}
+\newlabel{eq:error_model}{{5.1}{58}{Variance as a Compounding Risk}{equation.5.2.1}{}}
+\newlabel{eq:longrun_error}{{5.2}{58}{Variance as a Compounding Risk}{equation.5.2.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Standalone estimation variance (horizontal) vs.\ EnKF filtering RMSE (vertical) on the cosmological domain ($n = 30$, $N_e = 30$). Methods with lower estimation variance tend to achieve lower filtering RMSE, regardless of their standalone estimation accuracy.}}{59}{figure.caption.55}\protected@file@percent }
+\newlabel{fig:variance_vs_bias}{{5.2}{59}{Standalone estimation variance (horizontal) vs.\ EnKF filtering RMSE (vertical) on the cosmological domain ($n = 30$, $N_e = 30$). Methods with lower estimation variance tend to achieve lower filtering RMSE, regardless of their standalone estimation accuracy}{figure.caption.55}{}}
+\citation{ledoit2004well}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Implications for Estimator Design}{60}{subsection.5.2.2}\protected@file@percent }
+\newlabel{sec:disc_design}{{5.2.2}{60}{Implications for Estimator Design}{subsection.5.2.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Domain Dependence of Shrinkage Performance}{60}{section.5.3}\protected@file@percent }
+\newlabel{sec:disc_domain}{{5.3}{60}{Domain Dependence of Shrinkage Performance}{section.5.3}{}}
+\citation{looijmans2024comparison}
+\citation{looijmans2024comparison}
+\citation{looijmans2024comparison}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}The Modified Cholesky Alternative}{61}{section.5.4}\protected@file@percent }
+\newlabel{sec:disc_cholesky}{{5.4}{61}{The Modified Cholesky Alternative}{section.5.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Comparison with Looijmans et al.}{61}{section.5.5}\protected@file@percent }
+\newlabel{sec:disc_looijmans}{{5.5}{61}{Comparison with Looijmans et al}{section.5.5}{}}
+\citation{looijmans2024comparison}
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Sensitivity to Experimental Parameters}{62}{section.5.6}\protected@file@percent }
+\newlabel{sec:disc_sensitivity}{{5.6}{62}{Sensitivity to Experimental Parameters}{section.5.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Inflation factor.}{62}{paragraph*.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Observation coverage.}{62}{paragraph*.57}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Observation error.}{62}{paragraph*.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Assimilation window.}{62}{paragraph*.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.7}Practical Recommendations}{63}{section.5.7}\protected@file@percent }
+\newlabel{sec:disc_practical}{{5.7}{63}{Practical Recommendations}{section.5.7}{}}
+\citation{gaspari1999construction}
+\citation{chen2010shrinkage}
+\citation{lam2016nonparametric}
+\@writefile{toc}{\contentsline {section}{\numberline {5.8}Relationship to Other Regularization Approaches}{64}{section.5.8}\protected@file@percent }
+\newlabel{sec:disc_other}{{5.8}{64}{Relationship to Other Regularization Approaches}{section.5.8}{}}
+\citation{bodnar2016direct}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusions and Future Work}{67}{chapter.6}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{ch:conclusions}{{6}{67}{Conclusions and Future Work}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary of Contributions}{67}{section.6.1}\protected@file@percent }
+\citation{gaspari1999construction,nino2018ensemble}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Limitations}{68}{section.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Future Work}{68}{section.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Supplementary Diagnostic Data}{71}{appendix.A}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{app:diagnostics}{{A}{71}{Supplementary Diagnostic Data}{appendix.A}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Identity Target}{71}{section.A.1}\protected@file@percent }
+\newlabel{app:diag_identity}{{A.1}{71}{Identity Target}{section.A.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces Full diagnostic data for the identity target on Lorenz~96 ($n = 40$).}}{71}{table.caption.60}\protected@file@percent }
+\newlabel{tab:diag_identity}{{A.1}{71}{Full diagnostic data for the identity target on Lorenz~96 ($n = 40$)}{table.caption.60}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}Scaled Identity Target}{72}{section.A.2}\protected@file@percent }
+\newlabel{app:diag_scaled}{{A.2}{72}{Scaled Identity Target}{section.A.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.2}{\ignorespaces Full diagnostic data for the scaled identity target on Lorenz~96 ($n = 40$).}}{72}{table.caption.61}\protected@file@percent }
+\newlabel{tab:diag_scaled}{{A.2}{72}{Full diagnostic data for the scaled identity target on Lorenz~96 ($n = 40$)}{table.caption.61}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}Eigenvalue Target}{72}{section.A.3}\protected@file@percent }
+\newlabel{app:diag_eigenvalue}{{A.3}{72}{Eigenvalue Target}{section.A.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.3}{\ignorespaces Full diagnostic data for the eigenvalue target on Lorenz~96 ($n = 40$).}}{73}{table.caption.62}\protected@file@percent }
+\newlabel{tab:diag_eigenvalue}{{A.3}{73}{Full diagnostic data for the eigenvalue target on Lorenz~96 ($n = 40$)}{table.caption.62}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Standalone Estimation Results}{75}{appendix.B}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{app:standalone}{{B}{75}{Standalone Estimation Results}{appendix.B}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.1}Frobenius Loss by Subsample Size}{75}{section.B.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {B.1}{\ignorespaces Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$), full precision. Mean $\pm $ std over 100 random subsets.}}{75}{table.caption.63}\protected@file@percent }
+\newlabel{tab:app_cosmo_full}{{B.1}{75}{Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$), full precision. Mean $\pm $ std over 100 random subsets}{table.caption.63}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.2}Analysis of Variance Components}{75}{section.B.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B.3}Improvement Over the Sample Precision}{76}{section.B.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {B.2}{\ignorespaces Percentage improvement in Frobenius loss over the Hartlap-corrected sample precision. Positive values indicate improvement; negative values indicate the method is worse than the sample.}}{76}{table.caption.64}\protected@file@percent }
+\newlabel{tab:app_improvement}{{B.2}{76}{Percentage improvement in Frobenius loss over the Hartlap-corrected sample precision. Positive values indicate improvement; negative values indicate the method is worse than the sample}{table.caption.64}{}}
+\citation{lorenz1996predictability}
+\@writefile{toc}{\contentsline {chapter}{\numberline {C}Lorenz~96 Model Details}{77}{appendix.C}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{app:lorenz96}{{C}{77}{Lorenz~96 Model Details}{appendix.C}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C.1}Physical Interpretation}{77}{section.C.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C.2}Dynamical Regimes}{77}{section.C.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C.3}Numerical Integration}{78}{section.C.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C.4}Observation Configuration}{78}{section.C.4}\protected@file@percent }
+\citation{looijmans2024comparison}
+\@writefile{toc}{\contentsline {chapter}{\numberline {D}AR(1) Cosmological Model Details}{79}{appendix.D}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{app:ar1}{{D}{79}{AR(1) Cosmological Model Details}{appendix.D}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {D.1}Model Construction}{79}{section.D.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {D.2}Stationary Distribution}{79}{section.D.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {D.3}Observation Configuration}{80}{section.D.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {E}Computational Timing Details}{81}{appendix.E}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{app:timing}{{E}{81}{Computational Timing Details}{appendix.E}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {E.1}Cosmological Domain}{81}{section.E.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {E.1}{\ignorespaces Computational cost per 100 assimilation cycles on the AR(1) cosmological model ($d = 18$, $N_e = 30$). Mean $\pm $ std over 5 runs.}}{81}{table.caption.65}\protected@file@percent }
+\newlabel{tab:app_timing_cosmo}{{E.1}{81}{Computational cost per 100 assimilation cycles on the AR(1) cosmological model ($d = 18$, $N_e = 30$). Mean $\pm $ std over 5 runs}{table.caption.65}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {E.2}{\ignorespaces Computational cost per 100 assimilation cycles on Lorenz~96 ($n = 40$, $N_e = 80$). Mean $\pm $ std over 5 runs.}}{82}{table.caption.66}\protected@file@percent }
+\newlabel{tab:app_timing_lorenz}{{E.2}{82}{Computational cost per 100 assimilation cycles on Lorenz~96 ($n = 40$, $N_e = 80$). Mean $\pm $ std over 5 runs}{table.caption.66}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {E.2}Lorenz~96 Domain}{82}{section.E.2}\protected@file@percent }
+\citation{bodnar2016direct}
+\@writefile{toc}{\contentsline {chapter}{\numberline {F}Derivation of the Bodnar Shrinkage Coefficients}{83}{appendix.F}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{app:bodnar_derivation}{{F}{83}{Derivation of the Bodnar Shrinkage Coefficients}{appendix.F}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.1}Setup}{83}{section.F.1}\protected@file@percent }
+\newlabel{eq:app_loss}{{F.1}{83}{Setup}{equation.F.1.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.2}Expansion}{83}{section.F.2}\protected@file@percent }
+\newlabel{eq:app_expanded}{{F.2}{83}{Expansion}{equation.F.2.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.3}Wishart Moments}{83}{section.F.3}\protected@file@percent }
+\newlabel{eq:app_moment1}{{F.3}{83}{Wishart Moments}{equation.F.3.3}{}}
+\newlabel{eq:app_moment2}{{F.4}{83}{Wishart Moments}{equation.F.3.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {F.4}First-Order Conditions}{83}{section.F.4}\protected@file@percent }
+\citation{bodnar2016direct}
+\@writefile{toc}{\contentsline {chapter}{\numberline {G}TEDA Code Listings}{85}{appendix.G}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{app:code}{{G}{85}{TEDA Code Listings}{appendix.G}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {G.1}Shrinkage Coefficient Computation}{85}{section.G.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {G.2}Identity Target Estimator}{86}{section.G.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {G.3}Scaled Identity Target Estimator}{86}{section.G.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {G.4}Eigenvalue Target Estimator}{87}{section.G.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {G.5}Cosmological Target Estimator}{87}{section.G.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {H}Statistical Significance Tests}{89}{appendix.H}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{app:significance}{{H}{89}{Statistical Significance Tests}{appendix.H}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {H.1}Lorenz~96 Results}{89}{section.H.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {H.1}{\ignorespaces Welch's $t$-test $p$-values comparing Ledoit-Wolf against each method on Lorenz~96 at $N_e = 80$. Values below 0.05 (bold) indicate statistically significant differences.}}{89}{table.caption.67}\protected@file@percent }
+\newlabel{tab:app_sig_lorenz}{{H.1}{89}{Welch's $t$-test $p$-values comparing Ledoit-Wolf against each method on Lorenz~96 at $N_e = 80$. Values below 0.05 (bold) indicate statistically significant differences}{table.caption.67}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {H.2}Cosmological Results}{89}{section.H.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {H.2}{\ignorespaces Welch's $t$-test $p$-values comparing Ledoit-Wolf against each method on the AR(1) cosmological model at $N_e = 30$.}}{90}{table.caption.68}\protected@file@percent }
+\newlabel{tab:app_sig_cosmo}{{H.2}{90}{Welch's $t$-test $p$-values comparing Ledoit-Wolf against each method on the AR(1) cosmological model at $N_e = 30$}{table.caption.68}{}}
+\bibstyle{plainnat}
+\bibdata{../paper/references}
+\bibcite{anderson2001ensemble}{{1}{2001}{{Anderson}}{{}}}
+\bibcite{anderson1999monte}{{2}{1999}{{Anderson and Anderson}}{{}}}
+\bibcite{bodnar2016direct}{{3}{2016}{{Bodnar et~al.}}{{Bodnar, Gupta, and Parolya}}}
+\bibcite{burgers1998analysis}{{4}{1998}{{Burgers et~al.}}{{Burgers, van Leeuwen, and Evensen}}}
+\bibcite{chen2010shrinkage}{{5}{2010}{{Chen et~al.}}{{Chen, Wiesel, Eldar, and Hero}}}
+\bibcite{evensen2003ensemble}{{6}{2003}{{Evensen}}{{}}}
+\bibcite{friedman2008sparse}{{7}{2008}{{Friedman et~al.}}{{Friedman, Hastie, and Tibshirani}}}
+\bibcite{gaspari1999construction}{{8}{1999}{{Gaspari and Cohn}}{{}}}
+\bibcite{haff1991variational}{{9}{1991}{{Haff}}{{}}}
+\bibcite{hamilton2006measuring}{{10}{2006}{{Hamilton et~al.}}{{Hamilton, Rimes, and Scoccimarro}}}
+\bibcite{hartlap2007your}{{11}{2007}{{Hartlap et~al.}}{{Hartlap, Simon, and Schneider}}}
+\bibcite{houtekamer1998data}{{12}{1998}{{Houtekamer and Mitchell}}{{}}}
+\bibcite{hunt2007efficient}{{13}{2007}{{Hunt et~al.}}{{Hunt, Kostelich, and Szunyogh}}}
+\bibcite{joachimi2017non}{{14}{2017}{{Joachimi}}{{}}}
+\bibcite{lam2016nonparametric}{{15}{2016}{{Lam}}{{}}}
+\bibcite{ledoit2004well}{{16}{2004}{{Ledoit and Wolf}}{{}}}
+\bibcite{ledoit2012nonlinear}{{17}{2012}{{Ledoit and Wolf}}{{}}}
+\bibcite{ledoit2020analytical}{{18}{2020}{{Ledoit and Wolf}}{{}}}
+\bibcite{looijmans2024comparison}{{19}{2024}{{Looijmans et~al.}}{{Looijmans, Wang, and Beutler}}}
+\bibcite{lorenc1986analysis}{{20}{1986}{{Lorenc}}{{}}}
+\bibcite{lorenz1996predictability}{{21}{1996}{{Lorenz}}{{}}}
+\bibcite{nino2022teda}{{22}{2022}{{Nino-Ruiz and Valbuena}}{{}}}
+\bibcite{nino2018ensemble}{{23}{2018}{{Nino-Ruiz et~al.}}{{Nino-Ruiz, Sandu, and Deng}}}
+\bibcite{ott2004local}{{24}{2004}{{Ott et~al.}}{{Ott, Hunt, Szunyogh, Zimin, Kostelich, Corazza, Kalnay, Patil, and Yorke}}}
+\bibcite{pope2008shrinkage}{{25}{2008}{{Pope and Szapudi}}{{}}}
+\gdef \@abspage@last{118}

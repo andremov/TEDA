@@ -1,0 +1,119 @@
+\documentclass[11pt,a4paper,twoside]{MastersDoctoralThesis}
+
+%% Thesis information
+\thesistitle{Implementation of Shrinkage Estimators for Cosmological Precision Matrices}
+\supervisor{Elias D. Ni\~no-Ruiz, Ph.D.}
+\degree{Master of Science}
+\author{Andr\'es F. Movilla Obreg\'on}
+\authordisplay{Andr\'es F.\\ \textsc{Movilla Obreg\'on}}
+\university{Universidad del Norte}
+\department{Department of Software Engineering\\and\\Computer Science}
+\faculty{Engineering Division}
+\thesisdate{March 30, 2026}
+
+%% Graphics path (figures are in the paper directory)
+\graphicspath{{../paper/}}
+
+\hypersetup{
+  pdftitle={Implementation of Shrinkage Estimators for Cosmological Precision Matrices},
+  pdfauthor={Andr\'es F. Movilla Obreg\'on},
+  pdfsubject={Master Thesis, Universidad del Norte},
+}
+
+\begin{document}
+
+%% ============================================================
+%% FRONT MATTER
+%% ============================================================
+\frontmatter
+\pagestyle{plain}
+
+%% Title page
+\maketitle
+
+%% Declaration
+\input{frontmatter/declaration}
+
+%% Epigraph / Quote
+\cleardoublepage
+\thispagestyle{plain}
+\vspace*{5cm}
+\begin{flushright}
+\itshape ``Any sufficiently advanced technology is indistinguishable from magic.''\\[0.3cm]
+\normalfont Arthur C. Clarke\\[1.5cm]
+\itshape ``It's still magic even if you know how it's done.''\\[0.3cm]
+\normalfont Terry Pratchett
+\end{flushright}
+\cleardoublepage
+
+%% Abstract
+\input{frontmatter/abstract}
+
+%% Acknowledgements
+\input{frontmatter/acknowledgements}
+
+%% Table of contents
+\tableofcontents
+
+%% List of figures
+\listoffigures
+
+%% List of tables
+\listoftables
+
+%% List of Algorithms
+\listofalgorithms
+\addcontentsline{toc}{chapter}{List of Algorithms}
+
+%% Abbreviations
+\chapter*{List of Abbreviations}
+\addcontentsline{toc}{chapter}{List of Abbreviations}
+\begin{tabular}{@{}ll@{}}
+\textbf{DA}    & Data Assimilation \\
+\textbf{EnKF}  & Ensemble Kalman Filter \\
+\textbf{LETKF} & Local Ensemble Transform Kalman Filter \\
+\textbf{LEnKF} & Local Ensemble Kalman Filter \\
+\textbf{3D-Var} & Three-Dimensional Variational Assimilation \\
+\textbf{4D-Var} & Four-Dimensional Variational Assimilation \\
+\textbf{RMSE}  & Root Mean Square Error \\
+\textbf{MSE}   & Mean Squared Error \\
+\textbf{NERCOME} & Nonparametric Eigenvalue-Regularized COvariance Matrix Estimator \\
+\textbf{LW}    & Ledoit-Wolf \\
+\textbf{BOSS}  & Baryon Oscillation Spectroscopic Survey \\
+\textbf{DR12}  & Data Release 12 \\
+\textbf{AR(1)} & First-Order Autoregressive Model \\
+\textbf{TEDA}  & Toolbox for Ensemble Data Assimilation \\
+\textbf{OAS}   & Oracle Approximating Shrinkage \\
+\textbf{HMM}   & Hidden Markov Model \\
+\end{tabular}
+\vspace{1cm}
+
+\dedicatory{To my beloved family, colleagues, and friends}
+
+%% ============================================================
+%% MAIN MATTER
+%% ============================================================
+\mainmatter
+\pagestyle{fancy}
+
+\input{chapters/introduction}
+\input{chapters/preliminaries}
+\input{chapters/proposed_method}
+\input{chapters/benchmark}
+\input{chapters/discussion}
+\input{chapters/conclusions}
+
+%% ============================================================
+%% APPENDICES
+%% ============================================================
+\input{chapters/appendix}
+
+%% ============================================================
+%% BACK MATTER
+%% ============================================================
+\backmatter
+
+\bibliographystyle{plainnat}
+\bibliography{../paper/references}
+
+\end{document}

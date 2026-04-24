@@ -1,0 +1,507 @@
+\chapter{Benchmark}
+\label{ch:benchmark}
+
+\section{Experimental Setup}
+\label{sec:setup}
+
+We test on two systems with different precision matrix structures, chosen to bracket the range of conditions the direct precision shrinkage framework is likely to encounter.
+
+\subsection{Lorenz~96}
+\label{sec:lorenz96}
+
+The Lorenz~96 model~\citep{lorenz1996predictability} is a system of $n$ coupled ordinary differential equations:
+\begin{equation}
+\label{eq:lorenz96}
+\frac{dx_i}{dt} = (x_{i+1} - x_{i-2})x_{i-1} - x_i + F, \quad i = 1, \ldots, n,
+\end{equation}
+with cyclic boundary conditions ($x_{-1} = x_{n-1}$, $x_0 = x_n$, $x_{n+1} = x_1$). With $n = 40$ and forcing $F = 8$, the system exhibits chaotic dynamics with a Lyapunov time of approximately 0.3 time units. The spatial coupling through the quadratic advection terms produces a dense background covariance, and consequently a dense precision matrix with significant off-diagonal entries. This makes Lorenz~96 a demanding test for estimators that assume diagonal or near-diagonal precision structure.
+
+We use the following configuration:
+\begin{itemize}
+\item \textbf{State dimension}: $n = 40$.
+\item \textbf{Observations}: $m = 32$ randomly placed, Gaussian error $\sigma_o = 0.01$.
+\item \textbf{Ensemble sizes}: $N_e \in \{50, 60, 80, 100\}$, all above the $N_e > n + 2 = 42$ threshold required for the sample covariance to be invertible (a prerequisite for the direct precision methods).
+\item \textbf{Assimilation window}: 100 cycles, observation frequency $\Delta t_{\text{obs}} = 0.1$ (total time $T = 10$).
+\item \textbf{Inflation}: Multiplicative, $\rho = 1.05$.
+\item \textbf{Repetitions}: 30 runs per configuration with different random seeds.
+\end{itemize}
+
+Seven methods are compared: standard EnKF, EnKF with modified Cholesky decomposition (bandwidth $r = 2$), three direct precision shrinkage variants (identity, scaled identity, eigenvalue targets), NERCOME, and Ledoit-Wolf covariance shrinkage. The cosmological target is excluded from the Lorenz~96 experiments since this model does not produce power spectrum data.
+
+Figure~\ref{fig:sample_cov} illustrates the quality of the sample covariance estimate at different ensemble sizes on Lorenz~96. At $N_e = 45$ (barely above the invertibility threshold), the sample covariance is noisy and the banded structure of the true covariance is obscured. At $N_e = 100$, the tridiagonal pattern from Lorenz~96's nearest-neighbor coupling is clearly visible, and the off-diagonal entries are well resolved. The direct precision shrinkage methods must invert these sample covariance matrices, so the noise at small $N_e$ directly translates into ill-conditioned precision estimates.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/sample_cov_comparison.pdf}
+\caption{Sample covariance matrices $\mathbf{S}$ on Lorenz~96 ($n = 40$) at three ensemble sizes. At $N_e = 45$, the matrix is dominated by sampling noise; at $N_e = 100$, the banded structure from spatial coupling is clearly visible.}
+\label{fig:sample_cov}
+\end{figure}
+
+\subsection{AR(1) Cosmological Model}
+\label{sec:ar1_model}
+
+To test on data with near-diagonal precision structure, we build an AR(1) dynamical model calibrated to BOSS DR12 Patchy mock catalog statistics from \citep{looijmans2024comparison}:
+\begin{equation}
+\label{eq:ar1}
+\mathbf{x}_{t+1} = \phi \, \mathbf{x}_t + (1 - \phi) \, \boldsymbol{\mu} + \boldsymbol{\varepsilon}, \quad \boldsymbol{\varepsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{Q}),
+\end{equation}
+with $\boldsymbol{\mu}$ the mean power spectrum from the mocks, $\phi = 0.95$, and $\mathbf{Q} = (1 - \phi^2) \boldsymbol{\Sigma}_{\text{mock}}$ so the stationary distribution has covariance $\boldsymbol{\Sigma}_{\text{mock}}$. The AR(1) structure provides temporal dynamics (necessary for sequential filtering) while preserving the near-diagonal covariance structure of the mock catalogs. This is admittedly a much simpler dynamical system than a realistic cosmological simulation, but it serves the purpose of testing whether the estimators behave as expected when the precision matrix matches their assumed structure.
+
+Configuration:
+\begin{itemize}
+\item \textbf{State dimension}: $d = 18$ (9 $k$-bins $\times$ 2 multipoles).
+\item \textbf{Observations}: $m = 14$ ($\approx 78\%$ coverage), observation error $\sigma_o = 100$.
+\item \textbf{Ensemble sizes}: $N_e \in \{24, 30, 40, 50\}$.
+\item \textbf{Inflation}: Multiplicative, $\rho = 1.02$.
+\item \textbf{Repetitions}: 30 runs per configuration.
+\end{itemize}
+
+All eight methods are tested, including the cosmological target with BOSS power spectrum parameters.
+
+\subsection{BOSS DR12 Mock Catalog Data}
+\label{sec:boss_data}
+
+The BOSS (Baryon Oscillation Spectroscopic Survey) DR12 data used in our experiments comes from the Patchy mock catalog suite~\citep{looijmans2024comparison}. These mocks simulate the galaxy power spectrum of the BOSS Northern Galactic Cap (NGC) at redshift $z_1$, producing 2048 independent realizations of the $d = 18$ dimensional data vector (9 $k$-bins $\times$ 2 multipole moments, $\ell = 0$ and $\ell = 2$).
+
+The ``true'' precision matrix is computed from all 2048 mocks using the Hartlap correction~\citep{hartlap2007your}:
+\begin{equation}
+\label{eq:true_precision}
+\boldsymbol{\Pi}_{\text{true}} = \frac{N_{\text{mocks}} - d - 2}{N_{\text{mocks}} - 1} \left(\frac{1}{N_{\text{mocks}} - 1} \sum_{i=1}^{N_{\text{mocks}}} (\mathbf{p}_i - \bar{\mathbf{p}})(\mathbf{p}_i - \bar{\mathbf{p}})^T\right)^{-1},
+\end{equation}
+where $\mathbf{p}_i$ is the power spectrum vector from mock $i$ and $\bar{\mathbf{p}}$ is the mean. With $N_{\text{mocks}} = 2048$ and $d = 18$, the Hartlap factor is $\gamma = (2048 - 18 - 2)/(2048 - 1) = 0.990$, so the correction is minimal. This ``true'' precision serves as the ground truth against which all estimators are evaluated.
+
+The cosmological shrinkage target $\mathbf{T}^{(2)}$ is constructed from the theoretical power spectrum model:
+\begin{equation}
+\label{eq:T_cosmo_data}
+T^{(2)}_{ii} = \frac{2}{N_{\ell_i}} C_{\ell_i}^2,
+\end{equation}
+using the power spectrum values $C_\ell$ and mode counts $N_\ell$ from the BOSS survey parameters. The target matrix is pre-computed and stored as a $18 \times 18$ file (\texttt{T\_18\_18.matrix}).
+
+\subsection{Standalone Precision Estimation}
+\label{sec:standalone_setup}
+
+We also replicate the standalone precision estimation experiment of \citep{looijmans2024comparison} using the same BOSS DR12 mock catalogs (2048 power spectrum realizations with $d = 18$ bins). For each subsample size $n \in \{24, 30, 40, 50\}$, we draw $M = 100$ random subsets of $n$ mocks, compute each estimator's precision matrix, and measure the relative Frobenius loss against the ``true'' precision (computed from all 2048 mocks with Hartlap correction~\citep{hartlap2007your}):
+\begin{equation}
+\label{eq:matrix_loss}
+\mathcal{L}(\hat{\boldsymbol{\Pi}}, \boldsymbol{\Pi}_{\text{true}}) = \frac{\|\hat{\boldsymbol{\Pi}} - \boldsymbol{\Pi}_{\text{true}}\|_F}{\|\boldsymbol{\Pi}_{\text{true}}\|_F}.
+\end{equation}
+
+This experiment provides a direct comparison with \citep{looijmans2024comparison} and establishes a baseline for standalone estimation quality, against which the filtering results can be compared.
+
+\subsection{Error Metrics}
+\label{sec:metrics}
+
+For filtering experiments, we report the relative Root Mean Square Error (RMSE) of the analysis state:
+\begin{equation}
+\label{eq:rmse}
+\text{RMSE}(t) = \frac{\|\bar{\mathbf{x}}^a(t) - \mathbf{x}^{\text{true}}(t)\|_2}{\|\mathbf{x}^{\text{true}}(t)\|_2},
+\end{equation}
+time-averaged over the last 50 cycles to discard the initial transient. For standalone estimation, we report the relative Frobenius loss~\eqref{eq:matrix_loss}.
+
+\section{Lorenz~96 Results}
+\label{sec:lorenz_results}
+
+Figure~\ref{fig:rmse_time} shows RMSE over 100 assimilation cycles for six methods at $N_e = 100$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/rmse_time.pdf}
+\caption{Evolution of relative RMSE over 100 assimilation cycles for different analysis methods with $N_e = 100$. Shrinkage-based methods (solid lines) and Ledoit-Wolf (dash-dot) are compared against the standard EnKF and EnKF-Cholesky (dashed).}
+\label{fig:rmse_time}
+\end{figure}
+
+At smaller ensemble sizes, the instability of the direct precision methods is more pronounced. Figures~\ref{fig:rmse_time_ne50} and~\ref{fig:rmse_time_ne60} show the RMSE time series at $N_e = 50$ and $N_e = 60$, respectively. At $N_e = 50$ (only 8 members above the invertibility threshold), the eigenvalue and identity shrinkage methods exhibit large spikes that persist for many cycles. At $N_e = 60$, the behavior is similar though slightly less extreme. In contrast, Ledoit-Wolf and EnKF-Cholesky maintain stable, low RMSE throughout the assimilation window at all ensemble sizes.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/rmse_time_ne50.pdf}
+\caption{RMSE over 100 assimilation cycles on Lorenz~96 with $N_e = 50$. The direct precision shrinkage methods (red, orange, purple) show large RMSE spikes, while Ledoit-Wolf (blue) and EnKF-Cholesky (brown) remain stable.}
+\label{fig:rmse_time_ne50}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/rmse_time_ne60.pdf}
+\caption{RMSE over 100 assimilation cycles on Lorenz~96 with $N_e = 60$. Similar pattern to $N_e = 50$ but with slightly reduced spike magnitudes.}
+\label{fig:rmse_time_ne60}
+\end{figure}
+
+Figures~\ref{fig:rmse_time_ne50}--\ref{fig:rmse_time} show several consistent patterns. The standard EnKF at $N_e = 100$ converges quickly after an initial transient of approximately 10 cycles and maintains low RMSE thereafter. The direct precision shrinkage methods, by contrast, exhibit intermittent spikes even at $N_e = 100$: episodes where the RMSE jumps by an order of magnitude before recovering. These spikes are more frequent and severe at smaller ensemble sizes: at $N_e = 50$, the identity and eigenvalue shrinkage methods spend a significant fraction of the assimilation window in a high-error regime. Ledoit-Wolf and EnKF-Cholesky are remarkably stable across all ensemble sizes, with no visible spikes.
+
+The spikes correspond to assimilation cycles where the shrinkage precision estimate is particularly ill-conditioned, producing an analysis update that moves the ensemble mean away from the truth rather than toward it. Because the analysis becomes the next forecast, this error propagates forward and can persist for several cycles before the filter recovers. This ``error cascade'' effect is a direct consequence of using the precision matrix inside a sequential filter, a consideration that does not arise in standalone estimation.
+
+Table~\ref{tab:performance} summarizes performance across ensemble sizes. Ledoit-Wolf achieves the lowest RMSE at three of four ensemble sizes, with near-zero variance across runs. The direct precision shrinkage methods show erratic non-monotonic behavior (RMSE sometimes jumps at intermediate ensemble sizes before dropping again) and high standard deviations reflecting seed-dependent instability.
+
+Looking at the table entries in detail: the standard EnKF exhibits catastrophic behavior at small ensemble sizes, with RMSE of $3.06 \times 10^{-2}$ at $N_e = 50$ and $1.15 \times 10^{-2}$ at $N_e = 60$, accompanied by enormous standard deviations ($\pm 11.45$ and $\pm 4.33$). These large values reflect occasional filter divergence: a few seeds produce ill-conditioned sample covariances that cause the analysis to diverge, inflating both the mean and variance across 30 runs. At $N_e = 80$ and $N_e = 100$, the standard EnKF stabilizes sharply and achieves the best RMSE of any method ($0.06 \times 10^{-2}$ at $N_e = 100$). This reflects the fact that at sufficiently large ensemble sizes, the sample covariance is a good estimator and shrinkage provides no benefit, only added risk.
+
+Figures~\ref{fig:lorenz_boxplot_ne50} and~\ref{fig:lorenz_boxplot_ne100} show box plots at $N_e = 50$ and $N_e = 100$, respectively, complementing the $N_e = 80$ box plot in Figure~\ref{fig:lorenz_boxplot}. At $N_e = 50$, the direct precision methods show the widest interquartile ranges, with several runs producing RMSE values 3--5 times the median. At $N_e = 100$, the distributions tighten but the direct precision methods still show more outliers than Ledoit-Wolf. The standard EnKF has negligible variance at $N_e = 100$ ($\pm 0.01$) but extreme variance at $N_e = 50$ ($\pm 11.45$), reflecting occasional filter divergence when the sample covariance is ill-conditioned.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/lorenz_rmse_boxplot_ne50.pdf}
+\caption{RMSE distribution across 30 runs on Lorenz~96 with $N_e = 50$. The direct precision methods show the widest distributions, reflecting seed-dependent instability.}
+\label{fig:lorenz_boxplot_ne50}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/lorenz_rmse_boxplot_ne100.pdf}
+\caption{RMSE distribution across 30 runs on Lorenz~96 with $N_e = 100$. Distributions are tighter than at $N_e = 50$, but the direct precision methods still show more variability than Ledoit-Wolf.}
+\label{fig:lorenz_boxplot_ne100}
+\end{figure}
+
+EnKF-Cholesky is the most consistent method: its RMSE stays at $0.13$--$0.14 \times 10^{-2}$ with standard deviation $\pm 0.01$ regardless of ensemble size. The banded precision structure imposed by the modified Cholesky decomposition acts as implicit localization, preventing the ill-conditioning that affects the other precision-based methods. The price is a ceiling on accuracy: even at $N_e = 100$, EnKF-Cholesky cannot match the standard EnKF because the bandwidth $r = 2$ discards real correlations beyond two grid points.
+
+\begin{table}[t]
+\centering
+\caption{Time-averaged relative RMSE ($\times 10^{-2}$) for different methods and ensemble sizes on Lorenz~96. Best result per column in \textbf{bold}. $^\dagger$Scaled Shrinkage is a novel domain-agnostic adaptation proposed in this work.}
+\label{tab:performance}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Method & $N_e = 50$ & $N_e = 60$ & $N_e = 80$ & $N_e = 100$ \\
+\midrule
+EnKF (standard)          & $3.06 \pm 11.45$ & $1.15 \pm 4.33$ & $0.08 \pm 0.02$ & $\mathbf{0.06 \pm 0.01}$ \\
+EnKF-Cholesky            & $0.13 \pm 0.01$ & $0.14 \pm 0.01$ & $0.13 \pm 0.01$ & $0.13 \pm 0.01$ \\
+Identity Shrinkage       & $0.84 \pm 0.57$ & $1.13 \pm 1.19$ & $0.85 \pm 0.46$ & $0.80 \pm 0.65$ \\
+Scaled Shrinkage$^\dagger$ & $0.51 \pm 0.28$ & $0.73 \pm 0.62$ & $0.61 \pm 0.33$ & $0.54 \pm 0.36$ \\
+Eigenvalue Shrinkage     & $1.72 \pm 0.83$ & $1.81 \pm 1.58$  & $1.43 \pm 1.01$ & $1.11 \pm 0.89$ \\
+NERCOME                  & $0.23 \pm 0.15$ & $0.28 \pm 0.15$  & $0.34 \pm 0.17$ & $0.42 \pm 0.18$ \\
+Ledoit-Wolf              & $\mathbf{0.09 \pm 0.01}$ & $\mathbf{0.08 \pm 0.01}$ & $\mathbf{0.07 \pm 0.01}$ & $0.06 \pm 0.01$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:rmse_time_ne80} shows the RMSE time series at $N_e = 80$, an intermediate ensemble size. The direct precision methods still exhibit occasional spikes, though less severe than at $N_e = 50$ or $N_e = 60$. The eigenvalue shrinkage method shows the most persistent instability, consistent with its high RMSE in Table~\ref{tab:performance}. Ledoit-Wolf and EnKF-Cholesky maintain their characteristic stability.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/rmse_time_ne80.pdf}
+\caption{RMSE over 100 assimilation cycles on Lorenz~96 with $N_e = 80$. The direct precision methods show reduced but still present instability compared to $N_e = 50$ and $N_e = 60$.}
+\label{fig:rmse_time_ne80}
+\end{figure}
+
+To quantify the run-to-run variability, Figure~\ref{fig:lorenz_boxplot} shows box plots of the time-averaged RMSE across 30 independent runs at $N_e = 80$. Ledoit-Wolf has the tightest distribution (interquartile range $< 0.01 \times 10^{-2}$), confirming its consistency. The direct precision methods have wide distributions with several outlier runs where the RMSE is 2--3 times the median, reflecting the seed-dependent instability seen in the time series plots.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/lorenz_rmse_boxplot.pdf}
+\caption{Distribution of time-averaged RMSE ($\times 10^{-2}$) across 30 runs on Lorenz~96 with $N_e = 80$. Ledoit-Wolf shows the tightest distribution; the direct precision methods show wide spread with outlier runs.}
+\label{fig:lorenz_boxplot}
+\end{figure}
+
+Figure~\ref{fig:per_method_panels} provides an alternative view, showing each method's RMSE time series across all four ensemble sizes in a single panel. This makes it easy to compare how each method responds to increasing $N_e$. For the standard EnKF, larger ensembles consistently reduce RMSE. For the direct precision methods, the relationship is non-monotonic: some ensemble sizes produce smooth traces while others produce persistent spikes. Ledoit-Wolf and EnKF-Cholesky show nearly identical traces across all $N_e$, confirming their stability.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/lorenz_per_method_panels.pdf}
+\caption{Per-method RMSE time series across all ensemble sizes on Lorenz~96. Each panel shows one method with $N_e = 50$ (red), 60 (orange), 80 (green), and 100 (blue). Stable methods (Ledoit-Wolf, Cholesky) show consistent improvement with $N_e$; unstable methods (Identity, Eigenvalue) show erratic behavior.}
+\label{fig:per_method_panels}
+\end{figure}
+
+\subsection{Shrinkage Coefficient Analysis}
+\label{sec:coefficient_analysis}
+
+To understand the instability of the direct precision methods, we ran a systematic diagnostic study across 12 ensemble sizes from $N_e = 45$ to $N_e = 100$ in steps of 5, recording the shrinkage coefficients $\alpha^*$ and $\beta^*$ (both clamped and unclamped), the Cauchy-Schwarz denominator, and the condition number of the resulting precision estimator at each assimilation step. The results are averaged over all 100 assimilation cycles per run.
+
+\subsubsection{Behavior of $\alpha^*$.}
+
+Figure~\ref{fig:alpha_vs_ne} shows $\alpha^*$ as a function of ensemble size for the three direct precision targets. All three methods produce $\alpha^*$ values that track the theoretical bound $1 - n/N_e$ closely. At $N_e = 45$ (barely above the invertibility threshold $n + 2 = 42$), $\alpha^* \approx 0.09$, meaning only $9\%$ of the weight goes to the sample precision and $91\%$ must come from the target. At $N_e = 100$, $\alpha^*$ reaches approximately $0.6$, giving the sample precision a majority weight.
+
+The identity and cosmological targets produce nearly identical $\alpha^*$ values (differing only in the fourth decimal place), because the correction term in Eq.~\eqref{eq:alpha_star} depends on the target only through the ratio of norms, which is similar for these diagonal targets. The eigenvalue target gives slightly higher $\alpha^*$ at all ensemble sizes, because its target is derived from the sample precision itself, making the Cauchy-Schwarz term in the denominator closer to zero.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/alpha_vs_ne.pdf}
+\caption{Shrinkage coefficient $\alpha^*$ as a function of ensemble size $N_e$ on Lorenz~96 ($n = 40$). All three targets produce values close to the theoretical bound $1 - n/N_e$ (dashed line). The weight on the sample precision increases with $N_e$, but remains below $0.6$ even at $N_e = 100$.}
+\label{fig:alpha_vs_ne}
+\end{figure}
+
+\subsubsection{Behavior of $\beta^*$ (unclamped).}
+
+Figure~\ref{fig:beta_vs_ne} reveals the core problem. The unclamped $\beta^*$ values differ by many orders of magnitude across targets:
+
+\begin{itemize}
+\item \textbf{Identity target}: $|\beta^*| \sim 10^7$--$10^9$, requiring clamping to 1 at every assimilation step (100\% clamping rate). The formula assigns enormous weight to the identity target because $\text{tr}(\hat{\boldsymbol{\Pi}}_S \mathbf{I}) = \text{tr}(\hat{\boldsymbol{\Pi}}_S)$ is very large for the Lorenz~96 precision matrix, while $\|\mathbf{I}\|_F^2 = n = 40$ is modest.
+
+\item \textbf{Scaled target}: $|\beta^*| \sim 10^3$--$10^5$, also requiring 100\% clamping but with values two to four orders of magnitude smaller than the identity target. Scaling by empirical variances reduces the mismatch but does not eliminate it.
+
+\item \textbf{Eigenvalue target}: $|\beta^*| \sim 10^{-4}$, well below the clamping threshold. Because the eigenvalue target is derived from $\hat{\boldsymbol{\Pi}}_S$ itself, the Cauchy-Schwarz denominator $\|\hat{\boldsymbol{\Pi}}_S\|_F^2 \|\boldsymbol{\Pi}_0\|_F^2 - (\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0))^2$ is very large (close to its maximum), driving $\beta^*$ toward zero. Effectively, no shrinkage toward the eigenvalue target occurs.
+\end{itemize}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/beta_vs_ne.pdf}
+\caption{Absolute value of unclamped $\beta^*$ as a function of ensemble size $N_e$ on Lorenz~96 ($n = 40$), log scale. The dashed line shows the clamping threshold ($\beta^* = 1$). The identity target produces $\beta^*$ values $10^7$--$10^9$ times too large; the scaled target is better but still requires clamping; the eigenvalue target produces negligible $\beta^*$.}
+\label{fig:beta_vs_ne}
+\end{figure}
+
+\subsubsection{Condition number of the estimator.}
+
+Figure~\ref{fig:condition_vs_ne} shows the condition number of the resulting precision estimator $\boldsymbol{\Pi}_{\text{LS}}$. All three targets produce estimators with condition numbers of $10^7$--$10^{11}$, with the identity target being the worst (mean condition number $\sim 10^9$ at $N_e = 80$) and the eigenvalue target slightly better ($\sim 10^8$). The shaded regions show the range from mean to maximum condition number across assimilation steps, illustrating the substantial step-to-step variability.
+
+For comparison, Ledoit-Wolf produces precision matrices with condition numbers of $10^2$--$10^3$ on the same system. The five to eight orders of magnitude difference in conditioning accounts for the numerical instability of the direct precision methods as EnKF precision estimators on Lorenz~96.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/condition_vs_ne.pdf}
+\caption{Condition number of the shrinkage precision estimator $\boldsymbol{\Pi}_{\text{LS}}$ as a function of $N_e$ on Lorenz~96 ($n = 40$), log scale. All targets produce condition numbers of $10^7$--$10^{11}$, compared to $10^2$--$10^3$ for Ledoit-Wolf. Shaded regions show the range from mean to maximum condition number across assimilation steps.}
+\label{fig:condition_vs_ne}
+\end{figure}
+
+The root cause is target-truth mismatch. The identity target $\boldsymbol{\Pi}_0 = \mathbf{I}$ is a poor match for Lorenz~96, whose precision matrix has significant off-diagonal entries from spatial coupling. In the formula for $\beta^*$~\eqref{eq:beta_star}, the factor $\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0) / \|\boldsymbol{\Pi}_0\|_F^2$ becomes very large when the sample precision has large diagonal entries relative to the target norm, driving $\beta^*$ to extreme values. After clamping, the mismatch between the intended and actual coefficient values produces ill-conditioned precision matrices.
+
+\subsection{Ensemble Size Sensitivity}
+\label{sec:ensemble_sensitivity}
+
+Figure~\ref{fig:rmse_vs_ne} plots the time-averaged RMSE against $N_e$. The standard EnKF and Ledoit-Wolf improve monotonically with larger ensembles. Modified Cholesky gives stable though not optimal performance across all sizes.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/rmse_vs_ne.pdf}
+\caption{Time-averaged relative RMSE (over last 50 cycles) as a function of ensemble size $N_e$ on Lorenz~96. Error bars show $\pm 1$ standard deviation over 30 runs.}
+\label{fig:rmse_vs_ne}
+\end{figure}
+
+NERCOME shows a counterintuitive trend: RMSE \emph{increases} with ensemble size ($0.23$ at $N_e = 50$ to $0.42$ at $N_e = 100$). At small $N_e$, the sample covariance is noisy and bootstrap resampling provides genuine regularization. At larger $N_e$, the sample covariance is already reasonable, and the variance introduced by 200 bootstrap draws per cycle compounds over 100 sequential updates. This is another manifestation of the sequential accumulation effect discussed in Section~\ref{sec:estimation_vs_filtering}: estimator variance matters more in sequential filtering than in one-shot estimation.
+
+\subsection{Precision Matrix Quality}
+\label{sec:precision_quality}
+
+Figure~\ref{fig:precision_heatmap} compares the precision matrices produced by each method at a representative assimilation step.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/precision_heatmap.pdf}
+\caption{Precision matrix estimates ($40 \times 40$) from different methods with $N_e = 60$: sample precision $\mathbf{S}^{-1}$, identity shrinkage, scaled shrinkage, eigenvalue shrinkage, Ledoit-Wolf, and modified Cholesky. The direct precision shrinkage estimators produce matrices with much larger magnitude than Ledoit-Wolf and Cholesky, reflecting the ill-conditioning discussed above.}
+\label{fig:precision_heatmap}
+\end{figure}
+
+\section{Cosmological Results}
+\label{sec:cosmo_results}
+
+\subsection{Standalone Precision Estimation}
+\label{sec:cosmo_standalone}
+
+Table~\ref{tab:cosmo_direct} shows the relative Frobenius loss for standalone precision matrix estimation on BOSS DR12 mock data. The results reverse compared to Lorenz~96: the direct precision shrinkage methods now outperform Ledoit-Wolf by a wide margin. At $n = 50$, the identity, eigenvalue, and cosmological targets all achieve losses of $\approx 0.41$ versus $0.93$ for Ledoit-Wolf. This confirms the findings of \citep{looijmans2024comparison} that direct precision shrinkage works well when the true precision matrix is near-diagonal.
+
+\begin{table}[t]
+\centering
+\caption{Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$). Lower is better. Best result per column in \textbf{bold}.}
+\label{tab:cosmo_direct}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Method & $n = 24$ & $n = 30$ & $n = 40$ & $n = 50$ \\
+\midrule
+Sample (Hartlap)         & $1.15 \pm 1.01$ & $0.74 \pm 0.44$ & $0.47 \pm 0.15$ & $0.43 \pm 0.16$ \\
+Identity Shrinkage       & $1.18 \pm 1.13$ & $0.68 \pm 0.43$ & $\mathbf{0.45 \pm 0.12}$ & $\mathbf{0.41 \pm 0.14}$ \\
+Scaled Shrinkage$^\dagger$ & $0.90 \pm 0.96$ & $\mathbf{0.60 \pm 0.36}$ & $0.51 \pm 0.11$ & $0.46 \pm 0.13$ \\
+Eigenvalue Shrinkage     & $1.20 \pm 1.13$ & $0.70 \pm 0.43$ & $0.46 \pm 0.13$ & $\mathbf{0.41 \pm 0.14}$ \\
+Cosmological Shrinkage   & $1.19 \pm 1.13$ & $0.69 \pm 0.43$ & $0.46 \pm 0.13$ & $\mathbf{0.41 \pm 0.14}$ \\
+NERCOME                  & $\mathbf{0.82 \pm 0.06}$ & $0.73 \pm 0.08$ & $0.63 \pm 0.08$ & $0.53 \pm 0.08$ \\
+Ledoit-Wolf              & $0.96 \pm 0.01$ & $0.95 \pm 0.01$ & $0.94 \pm 0.01$ & $0.93 \pm 0.01$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:cosmo_matrix_loss} visualizes these trends; the following paragraphs examine each in turn.
+
+Ledoit-Wolf's loss stays nearly flat at $\approx 0.93$--$0.96$ regardless of subsample size. This is because Ledoit-Wolf shrinks the \emph{covariance} toward a diagonal target and then inverts, a suboptimal route when the goal is to estimate a near-diagonal \emph{precision} matrix. The shrinkage is applied in the wrong space: improving the covariance estimate does not necessarily improve the precision estimate when the two have different structure. Even at $n = 50$ (nearly three times the data dimension), the Frobenius loss barely changes from $n = 24$. This is not a failure of the Ledoit-Wolf estimator as such; it is well-suited for covariance estimation. The flat loss is rather a consequence of applying it in a setting where precision estimation is the goal.
+
+NERCOME achieves the lowest loss at $n = 24$ ($0.82 \pm 0.06$) despite having higher mean loss than the Bodnar methods at larger $n$. The distinguishing feature is its extremely low variance: $\pm 0.06$ versus $\pm 1.13$ for the direct precision methods. At small sample sizes, the sample precision $\mathbf{S}^{-1}$ is so noisy that the Bodnar methods occasionally produce very poor estimates, inflating both their mean loss and standard deviation. NERCOME avoids this by never computing $\mathbf{S}^{-1}$ directly; instead, it builds a regularized covariance through cross-validated eigenvalue estimation.
+
+At $n = 40$ and $n = 50$, the identity, eigenvalue, and cosmological targets converge to nearly identical loss values ($0.41$--$0.46$). This convergence occurs because at large enough sample sizes, the sample precision is already close to the truth and the shrinkage coefficients allocate most of the weight to $\hat{\boldsymbol{\Pi}}_S$ rather than the target. The target choice becomes less important as $\alpha^*$ approaches $1 - n/N_e \approx 0.6$--$0.7$.
+
+The scaled identity target achieves the lowest mean loss at $n = 30$ ($0.60 \pm 0.36$), outperforming both the other Bodnar variants and NERCOME. At $n = 30$, $\alpha^*$ is relatively low, so a meaningful fraction of the estimator comes from $\boldsymbol{\Pi}_0$, and the scaled identity turns out to be a reasonable match for the near-diagonal precision structure. At $n = 24$, the sample precision is too noisy for any Bodnar method to compete with NERCOME; at $n = 40$--$50$, the sample is good enough that the target barely matters. The advantage of the scaled identity target is most apparent at this intermediate sample size.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/cosmo_matrix_loss.pdf}
+\caption{Relative Frobenius loss of precision matrix estimates vs.\ subsample size on BOSS DR12 mock data ($d = 18$). Direct precision shrinkage methods (solid lines) achieve the lowest loss at $n \geq 40$, while Ledoit-Wolf (blue) remains flat near $0.93$. Error bars show $\pm 1$ standard deviation over 100 random draws.}
+\label{fig:cosmo_matrix_loss}
+\end{figure}
+
+\subsection{EnKF Filtering}
+\label{sec:cosmo_filtering}
+
+Before examining the summary statistics, Figures~\ref{fig:cosmo_rmse_time_ne24}--\ref{fig:cosmo_rmse_time_ne50} show the RMSE time series for the AR(1) cosmological model at each ensemble size. In contrast to the Lorenz~96 time series (Figures~\ref{fig:rmse_time_ne50}--\ref{fig:rmse_time}), all methods, including the direct precision shrinkage variants, exhibit smooth, stable behavior without spikes. This confirms that the instability observed on Lorenz~96 is caused by target-truth mismatch, not by the shrinkage framework itself.
+
+At $N_e = 24$, the methods are most spread apart, with the standard EnKF starting at the highest RMSE and the shrinkage methods providing clear regularization benefit. By $N_e = 50$, all methods have largely converged. The cosmological target does not provide a visible advantage over the identity target in any of these time series, consistent with the convergence behavior noted in the standalone estimation experiment.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/cosmo_rmse_time_ne24.pdf}
+\caption{RMSE over 100 assimilation cycles on the AR(1) cosmological model with $N_e = 24$. All methods show stable behavior, unlike the Lorenz~96 case. The standard EnKF has the highest RMSE.}
+\label{fig:cosmo_rmse_time_ne24}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/cosmo_rmse_time_ne30.pdf}
+\caption{RMSE over 100 cycles on the AR(1) model with $N_e = 30$. Methods are starting to converge; Ledoit-Wolf maintains a slight edge throughout.}
+\label{fig:cosmo_rmse_time_ne30}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/cosmo_rmse_time_ne40.pdf}
+\caption{RMSE over 100 cycles on the AR(1) model with $N_e = 40$. Most methods are nearly indistinguishable.}
+\label{fig:cosmo_rmse_time_ne40}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/cosmo_rmse_time_ne50.pdf}
+\caption{RMSE over 100 cycles on the AR(1) model with $N_e = 50$. All methods have converged to similar performance.}
+\label{fig:cosmo_rmse_time_ne50}
+\end{figure}
+
+Table~\ref{tab:cosmo_enkf} reports the time-averaged RMSE for the AR(1) cosmological model. Ledoit-Wolf achieves the lowest RMSE at all four ensemble sizes, despite having the worst standalone precision estimates. Unlike on Lorenz~96, the direct precision shrinkage methods now improve smoothly and monotonically with ensemble size, confirming that the erratic Lorenz~96 behavior was caused by target-truth mismatch, not a fundamental flaw in the framework.
+
+\begin{table}[t]
+\centering
+\caption{Time-averaged relative RMSE ($\times 10^{-2}$) for the AR(1) cosmological model. Best result per column in \textbf{bold}. $^\dagger$Scaled Shrinkage is a novel adaptation proposed in this work.}
+\label{tab:cosmo_enkf}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Method & $N_e = 24$ & $N_e = 30$ & $N_e = 40$ & $N_e = 50$ \\
+\midrule
+EnKF (standard)          & $2.75 \pm 0.46$ & $2.32 \pm 0.39$ & $2.17 \pm 0.20$ & $2.11 \pm 0.34$ \\
+EnKF-Cholesky            & $1.99 \pm 0.29$ & $1.81 \pm 0.26$ & $1.87 \pm 0.25$ & $1.88 \pm 0.31$ \\
+Identity Shrinkage       & $1.95 \pm 0.25$ & $1.80 \pm 0.26$ & $1.88 \pm 0.21$ & $1.86 \pm 0.30$ \\
+Scaled Shrinkage$^\dagger$ & $1.99 \pm 0.29$ & $1.81 \pm 0.26$ & $1.89 \pm 0.23$ & $1.87 \pm 0.31$ \\
+Eigenvalue Shrinkage     & $2.35 \pm 0.33$ & $2.05 \pm 0.30$ & $2.00 \pm 0.20$ & $1.97 \pm 0.32$ \\
+Cosmological Shrinkage   & $2.21 \pm 0.30$ & $2.06 \pm 0.31$ & $2.04 \pm 0.21$ & $2.02 \pm 0.33$ \\
+NERCOME                  & $1.88 \pm 0.20$ & $1.82 \pm 0.19$ & $1.91 \pm 0.29$ & $1.85 \pm 0.27$ \\
+Ledoit-Wolf              & $\mathbf{1.88 \pm 0.26}$ & $\mathbf{1.76 \pm 0.26}$ & $\mathbf{1.86 \pm 0.21}$ & $\mathbf{1.84 \pm 0.30}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:cosmo_enkf_rmse} plots RMSE against ensemble size. All methods converge as $N_e$ grows, forming a much tighter cluster than in the Lorenz~96 case. The spread between the best method (Ledoit-Wolf at $1.76 \times 10^{-2}$) and the worst (EnKF at $2.32 \times 10^{-2}$) at $N_e = 30$ is only $0.56 \times 10^{-2}$, compared to a spread of $1.73 \times 10^{-2}$ on Lorenz~96 at $N_e = 60$.
+
+Pairwise Welch's $t$-tests ($n = 30$ runs) show that on Lorenz~96, Ledoit-Wolf's advantage over the direct precision methods is statistically significant ($p < 0.05$) at most ensemble sizes. On the cosmological data, most shrinkage methods do not differ significantly from Ledoit-Wolf ($p > 0.05$) at $N_e \geq 40$. The identity and scaled identity targets match Ledoit-Wolf to within one standard deviation at all ensemble sizes: at $N_e = 30$, for instance, the identity target achieves $1.80 \times 10^{-2}$ and the scaled target $1.81 \times 10^{-2}$, compared to $1.76 \times 10^{-2}$ for Ledoit-Wolf. These differences are not statistically significant.
+
+The most notable difference from the Lorenz~96 results is the behavior of the eigenvalue and cosmological targets. On Lorenz~96, the eigenvalue target performs worst among all methods. On cosmological data, it performs comparably to the other Bodnar variants, confirming that the Lorenz~96 failure is target-specific rather than method-specific. Similarly, the cosmological target (which uses the theoretically optimal prior for this data) performs comparably to but not significantly better than the simpler identity target. This is consistent with the convergence behavior observed in the standalone estimation experiment: at $N_e / d \geq 1.5$, the sample precision is good enough that the target barely matters.
+
+Figure~\ref{fig:cosmo_boxplot} shows box plots of the time-averaged RMSE across 30 runs at $N_e = 30$. Unlike on Lorenz~96, the distributions are tight for all methods, with the interquartile range below $0.3 \times 10^{-2}$ for every method. This confirms that the cosmological domain produces stable, reproducible results regardless of the random seed, consistent with the smooth RMSE time series in Figures~\ref{fig:cosmo_rmse_time_ne24}--\ref{fig:cosmo_rmse_time_ne50}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/cosmo_rmse_boxplot.pdf}
+\caption{RMSE distribution across 30 runs on the AR(1) cosmological model with $N_e = 30$. All methods show tight distributions, in contrast to the wide spread seen on Lorenz~96 (Figures~\ref{fig:lorenz_boxplot}--\ref{fig:lorenz_boxplot_ne100}).}
+\label{fig:cosmo_boxplot}
+\end{figure}
+
+The standard EnKF improves the most with ensemble size, dropping from $2.75 \times 10^{-2}$ at $N_e = 24$ to $2.11 \times 10^{-2}$ at $N_e = 50$, a 23\% reduction. All shrinkage methods show flatter curves, reflecting their regularization effect: they provide the most benefit at small ensemble sizes (where the sample covariance is noisy) and diminishing returns at larger sizes. NERCOME shows essentially flat RMSE from $N_e = 30$ onward, suggesting its 200 bootstrap resamples introduce enough variance to offset the gains from larger ensembles, the same phenomenon observed on Lorenz~96, albeit less pronounced on this simpler system.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/cosmo_enkf_rmse.pdf}
+\caption{Time-averaged relative RMSE vs.\ ensemble size for the AR(1) cosmological model. All methods show stable, monotonic behavior, unlike the Lorenz~96 case (Figure~\ref{fig:rmse_vs_ne}). Ledoit-Wolf achieves the lowest RMSE throughout. Error bars show $\pm 1$ standard deviation over 30 runs.}
+\label{fig:cosmo_enkf_rmse}
+\end{figure}
+
+\subsection{The Scaled Identity Target}
+\label{sec:scaled_results}
+
+The scaled identity target occupies a middle ground. On Lorenz~96, it outperforms the other direct precision variants (Table~\ref{tab:performance}): its RMSE ranges from $0.51$ to $0.73 \times 10^{-2}$ versus $0.80$--$1.81 \times 10^{-2}$ for the identity and eigenvalue targets. Scaling by empirical variances gives a better-conditioned target than the plain identity, reducing (though not eliminating) the coefficient miscalibration.
+
+On cosmological data, the scaled target achieves the lowest mean Frobenius loss at $n = 30$ (Table~\ref{tab:cosmo_direct}) but falls slightly behind the Bodnar methods at larger sample sizes. In the EnKF experiments, it matches the identity target almost exactly (Table~\ref{tab:cosmo_enkf}).
+
+The scaled target serves its intended purpose: modest gains over the identity target without requiring external information, but no substitute for a domain-specific target when one is available. Its ad-hoc factor of 2, borrowed by analogy from the cosmological $2/N_\ell$ term, could potentially be improved through a data-driven selection criterion.
+
+To understand \emph{why} the scaled target outperforms the identity on Lorenz~96, consider the shrinkage coefficients. The identity target has $\|\boldsymbol{\Pi}_0\|_F^2 = n = 40$ and $\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0) = \text{tr}(\hat{\boldsymbol{\Pi}}_S)$, which is large because the Lorenz~96 precision matrix has diagonal entries much greater than 1. The factor $\text{tr}(\hat{\boldsymbol{\Pi}}_S)/n$ that multiplies $(1 - n/N_e - \alpha^*)$ in the $\beta^*$ formula is therefore very large, driving $\beta^*$ to extreme values.
+
+The scaled identity target has $\|\boldsymbol{\Pi}_0\|_F^2 = \sum_i 1/(4\sigma_i^4)$, which is calibrated to the actual scale of the state variables. The factor $\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0)/\|\boldsymbol{\Pi}_0\|_F^2$ is closer to 1 than for the identity target, producing more moderate $\beta^*$ values (though still requiring clamping in most cases). The net effect is that the clamped $\beta^*$ is less wrong: the mismatch between the intended and actual coefficient values is smaller, leading to better-conditioned precision estimates.
+
+On cosmological data, the difference between scaled and identity targets is less pronounced because the true precision is close to diagonal with entries of order 1 relative to the target norms, so both targets produce reasonable $\beta^*$ values without clamping.
+
+\section{Effect of Inflation on Shrinkage Performance}
+\label{sec:inflation_effect}
+
+All experiments in this thesis use a fixed inflation factor ($\rho = 1.05$ for Lorenz~96, $\rho = 1.02$ for the cosmological model). The choice of inflation interacts with the precision estimation in two ways.
+
+First, inflation increases the eigenvalues of the sample covariance by a factor of $\rho^2$, making the sample covariance better conditioned. This reduces the condition number of $\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1}$ and should in principle help the direct precision methods. However, the improvement is modest: $\rho^2 = 1.1025$ for $\rho = 1.05$, which changes the condition number by at most a factor of $\rho^2 \approx 1.1$. Since the condition numbers in our experiments are $10^7$--$10^{11}$, a 10\% change is negligible.
+
+Second, inflation increases the forecast error covariance, which means the analysis trusts the observations more (the Kalman gain $\mathbf{K}$ increases). For the direct precision methods, the analysis update, which is computed using the potentially ill-conditioned shrinkage precision, then has a larger magnitude, amplifying any errors in the precision estimate. This is a subtle but important effect: more inflation helps the sample covariance quality but hurts the analysis quality when the precision estimate is poor.
+
+The interaction between inflation and precision estimation is complex and configuration-dependent. A systematic study varying $\rho$ from 1.01 to 1.10 for each method would quantify this tradeoff but is beyond the scope of the present work.
+
+\section{Precision Matrix Quality}
+\label{sec:precision_quality_detail}
+
+To understand why the direct precision methods produce high RMSE on Lorenz~96, we examine the precision matrices themselves. Figure~\ref{fig:precision_heatmap} shows heatmaps of the precision matrices estimated by each method at a representative assimilation step with $N_e = 60$.
+
+The sample precision $\mathbf{S}^{-1}$ (top left) shows the expected banded structure from Lorenz~96's nearest-neighbor coupling, but with substantial noise in the off-diagonal entries. The direct precision shrinkage estimates (identity, scaled, eigenvalue) retain this noisy structure because the shrinkage does not denoise the off-diagonal entries: the diagonal targets have no off-diagonal information to offer. The entries are larger in magnitude than the true precision, reflecting the positive bias of the inverse Wishart that is only partially corrected by the $(1 - n/N_e)$ factor.
+
+Ledoit-Wolf produces a precision matrix (obtained by inverting the shrunk covariance) with much smaller off-diagonal entries and better conditioning. The shrinkage in covariance space has the effect of regularizing the eigenvalue spectrum, which produces a better-conditioned inverse even though the shrinkage itself does not target the precision structure.
+
+The modified Cholesky estimate is sparse by construction: only entries within bandwidth $r = 2$ of the diagonal are non-zero. This eliminates all long-range correlations, including both spurious noise and genuine dynamical correlations. The resulting matrix has the lowest condition number of any method but may discard real correlations that improve the analysis.
+
+\section{Computational Cost}
+\label{sec:timing}
+
+Table~\ref{tab:complexity} in Chapter~\ref{ch:proposed_method} gives asymptotic complexity bounds, but practical runtime depends on constant factors, implementation efficiency, and problem-specific parameters. We timed each method on both test domains, running 100 assimilation cycles and averaging over 5 repetitions. Figure~\ref{fig:timing} shows the results.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/timing_comparison.pdf}
+\caption{Computational cost per 100 assimilation cycles on the AR(1) cosmological model ($d = 18$, $N_e = 30$, left) and Lorenz~96 ($n = 40$, $N_e = 80$, right). Note the logarithmic scale. NERCOME is one to two orders of magnitude slower than all other methods on both domains.}
+\label{fig:timing}
+\end{figure}
+
+On the cosmological domain ($d = 18$, $N_e = 30$), NERCOME takes 26.7 seconds per 100 cycles, roughly 130 times slower than the EnKF baseline (0.14~s) and 100 times slower than the direct precision shrinkage methods (0.20--0.28~s). Ledoit-Wolf (0.22~s) and the direct precision methods are all comparable in speed, consistent with the $\mathcal{O}(n^2 N_e + n^3)$ analysis: at $n = 18$, the $n^3$ inversion is cheap. The EnKF-Cholesky method is slower than expected (0.51~s) because the regression step involves overhead for the predecessor lookup that is not amortized at small $n$.
+
+On Lorenz~96 ($n = 40$, $N_e = 80$), the differences are less dramatic because the ensemble propagation through the Lorenz~96 model dominates the runtime. All methods except NERCOME take 26--28~seconds, with the $n^3$ inversion adding only a small fraction to the forecast cost. NERCOME takes 215~seconds, again roughly $8\times$ slower, because its 200 bootstrap resamples each require eigendecompositions of the $40 \times 40$ sample covariance.
+
+For practitioners choosing among the shrinkage methods, computational cost is not a differentiator except for NERCOME. The identity, scaled, eigenvalue, and cosmological shrinkage variants are all within 15\% of the baseline EnKF cost when the state dimension is moderate ($n \leq 40$). At larger state dimensions, the $\mathcal{O}(n^3)$ inversion would become the bottleneck, and the modified Cholesky approach ($\mathcal{O}(n \cdot r \cdot N_e)$) would have a clear advantage.
+
+\section{Cross-Domain Summary}
+\label{sec:cross_domain}
+
+Figure~\ref{fig:cosmo_enkf_bar} provides a direct visual comparison of all eight methods at $N_e = 30$ on the cosmological domain, complementing the tabular results in Table~\ref{tab:cosmo_enkf}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/cosmo_enkf_bar.pdf}
+\caption{Time-averaged relative RMSE ($\times 10^{-2}$) for all eight methods on the AR(1) cosmological model at $N_e = 30$. Error bars show $\pm 1$ standard deviation over 30 runs. Ledoit-Wolf achieves the lowest RMSE; the direct precision methods are competitive but do not lead.}
+\label{fig:cosmo_enkf_bar}
+\end{figure}
+
+Table~\ref{tab:cross_domain} summarizes the key findings across both domains. The ranking of methods reverses between standalone estimation and sequential filtering, and the relative performance of the direct precision methods depends on the precision structure of the test system.
+
+\begin{table}[t]
+\centering
+\caption{Cross-domain summary. Best standalone estimator and best EnKF filter for each domain. The disconnect between estimation quality and filtering performance is the central finding.}
+\label{tab:cross_domain}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & Lorenz~96 ($n = 40$) & Cosmological ($d = 18$) \\
+\midrule
+Precision structure & Dense (off-diagonal) & Near-diagonal \\
+Best standalone estimator & N/A (not tested) & Direct precision (Bodnar) \\
+Best EnKF filter & Ledoit-Wolf & Ledoit-Wolf \\
+Direct precision behavior & Erratic, ill-conditioned & Stable, monotonic \\
+Root cause & Target-truth mismatch & Target matches structure \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Estimation Quality vs.\ Filtering Performance}
+\label{sec:estimation_vs_filtering}
+
+The most notable result across both domains is the disconnect between standalone estimation quality and filtering performance. On cosmological data, the \citep{bodnar2016direct} methods achieve Frobenius losses half those of Ledoit-Wolf (Table~\ref{tab:cosmo_direct}), yet Ledoit-Wolf yields the lowest EnKF RMSE (Table~\ref{tab:cosmo_enkf}).
+
+The explanation is sequential accumulation. The precision estimator is applied at every assimilation cycle, and step-to-step variability compounds across 100 updates. Ledoit-Wolf's standard deviation across draws is $\pm 0.01$ in standalone estimation, an order of magnitude below the direct precision methods ($\pm 0.13$--$0.14$). A slightly biased but stable estimator beats a more accurate but variable one when errors accumulate over many cycles.
+
+Consider two estimators applied over $K = 100$ cycles. If estimator A has bias $b_A$ and per-step variance $\sigma_A^2$, and estimator B has bias $b_B < b_A$ but variance $\sigma_B^2 > \sigma_A^2$, then the accumulated error after $K$ cycles scales roughly as $K \cdot b^2 + K \cdot \sigma^2$ (assuming independence between cycles, which is approximate). For Ledoit-Wolf versus the identity shrinkage method on cosmological data, the variance term dominates: Ledoit-Wolf's $\sigma^2$ is roughly $10^{-4}$ versus $10^{-2}$ for the direct precision methods, a 100-fold difference that overwhelms the bias advantage.
+
+The dual-domain comparison confirms that the poor Lorenz~96 results for direct precision shrinkage reflect target-truth mismatch, not a deficiency of the methods. On Lorenz~96, diagonal targets produce erratic RMSE ($0.51$--$1.81 \times 10^{-2}$). On the near-diagonal cosmological data, the same methods achieve stable performance ($1.80$--$2.35 \times 10^{-2}$). The Bodnar framework works as designed when the target captures the dominant structure of the true precision matrix.
+
+Choosing a precision estimator for use inside the EnKF by its standalone Frobenius loss alone is therefore insufficient. Instead, the stability of the estimator, as measured by its variance across different realizations, is at least as important as its accuracy. This is a qualitative departure from the standard shrinkage estimation paradigm, where the objective is to minimize expected loss without regard to variance.
+
+The distinction arises because standalone estimation is a one-shot problem (estimate once, evaluate once), while EnKF filtering is a sequential problem (estimate 100 times, accumulate errors across all 100 cycles). In the one-shot case, an unbiased estimator with high variance is preferred over a biased one with low variance (by the bias-variance tradeoff). In the sequential case, the accumulated variance over $K$ cycles can dominate the accumulated bias, inverting the preference.
+
+The same principle appears in cascaded signal processing. In a single-stage filter, the optimal filter minimizes the mean squared error at each step. In a cascaded filter (where the output of one stage feeds the input of the next), stability constraints override optimality at each stage: an individually optimal but marginally stable filter can cause the cascade to diverge, while a slightly suboptimal but well-damped filter produces better end-to-end performance. The same principle applies here: the EnKF is a cascade of estimation and prediction stages, and the stability of each estimation stage matters more than its per-stage optimality.
+
+For sequential data assimilation, variance reduction matters at least as much as bias reduction. Without domain-specific prior knowledge about the precision structure, Ledoit-Wolf is the safest default among the methods we tested.

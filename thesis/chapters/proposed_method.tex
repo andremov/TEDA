@@ -1,0 +1,301 @@
+\chapter{Proposed Method}
+\label{ch:proposed_method}
+
+\section{Direct Precision Shrinkage for the EnKF}
+\label{sec:dps_enkf}
+
+The \citep{bodnar2016direct} framework was developed for standalone precision matrix estimation and applied to cosmological data by \citep{looijmans2024comparison}. Neither work embedded the estimator inside a sequential filter. We do so here: at each assimilation cycle of the dual EnKF~\eqref{eq:dual_enkf}, we replace the raw sample precision $\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1}$ with the shrinkage estimator
+\begin{equation}
+\label{eq:direct_precision_method}
+\boldsymbol{\Pi}_{\text{LS}} = \alpha^* \hat{\boldsymbol{\Pi}}_S + \beta^* \boldsymbol{\Pi}_0,
+\end{equation}
+where $\boldsymbol{\Pi}_0$ is a structured target and the coefficients $\alpha^*$, $\beta^*$ are computed from Eqs.~\eqref{eq:alpha_star}--\eqref{eq:beta_star} at every cycle using the current ensemble.
+
+The weight $\alpha^*$ on the sample precision is bounded above by $1 - n/N_e$, reflecting the known positive bias of the Wishart inverse. When $N_e$ is only slightly larger than $n$ (as is typical in data assimilation), this bound is tight: for $N_e = 50$ and $n = 40$, the maximum weight on the sample precision is $1 - 40/50 = 0.2$, meaning at least $80\%$ of the estimator comes from the target. This makes the choice of target critically important in the data assimilation setting.
+
+The remaining weight $\beta^*$ on the target depends on how well $\boldsymbol{\Pi}_0$ aligns with $\hat{\boldsymbol{\Pi}}_S$: when $\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0)$ is large relative to $\|\boldsymbol{\Pi}_0\|_F^2$, more weight goes to the target. Both coefficients are clamped to $[0, 1]$ with $\alpha^* + \beta^* \leq 1$ as a finite-sample safeguard, since the asymptotic guarantees of \citep{bodnar2016direct} do not hold at the ensemble sizes typical of data assimilation ($N_e = 20$--$100$).
+
+\subsection{Why Shrink the Precision Directly?}
+\label{sec:why_direct}
+
+An alternative to direct precision shrinkage is to shrink the covariance matrix (e.g., using Ledoit-Wolf) and then invert. This ``shrink-then-invert'' approach has the advantage of working with well-established covariance shrinkage estimators, but it has a fundamental limitation when the goal is precision estimation.
+
+Consider the Ledoit-Wolf estimator $\hat{\mathbf{P}} = (1 - \lambda) \mathbf{S} + \lambda \mu \mathbf{I}$. The shrinkage pulls the eigenvalues of $\mathbf{S}$ toward the grand mean $\mu$, reducing their spread. When inverted, the small eigenvalues of $\hat{\mathbf{P}}$ (which correspond to directions of low variance) become large eigenvalues of $\hat{\mathbf{P}}^{-1}$ (directions of high precision). The shrinkage makes these small eigenvalues larger (pulling them toward $\mu$), which makes their reciprocals smaller, \emph{reducing} the precision in directions where it should be high.
+
+In contrast, direct precision shrinkage operates on $\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1}$ and pulls its eigenvalues toward those of the target $\boldsymbol{\Pi}_0$. If $\boldsymbol{\Pi}_0$ captures the dominant structure of the true precision (e.g., diagonal with appropriate magnitudes), the shrinkage improves the precision estimate in the right coordinate system. This is why direct precision shrinkage outperforms shrink-then-invert on the cosmological data, where the precision is near-diagonal: the target is well-aligned with the true precision structure.
+
+The cost of direct precision shrinkage is that it requires $\mathbf{S}$ to be invertible ($N_e > n$), which rules out the rank-deficient regime. Covariance shrinkage has no such requirement (it works for any $N_e$), making it applicable in a wider range of settings.
+
+To illustrate the difference concretely, consider a $2 \times 2$ example. Suppose the true covariance is $\boldsymbol{\Sigma} = \text{diag}(1, 0.01)$, so one direction has 100 times more variance than the other. The true precision is $\boldsymbol{\Sigma}^{-1} = \text{diag}(1, 100)$.
+
+With Ledoit-Wolf shrinkage toward $\mu\mathbf{I}$ where $\mu = (1 + 0.01)/2 = 0.505$, the shrunk covariance at $\lambda = 0.5$ is:
+\begin{equation*}
+\hat{\mathbf{P}} = 0.5 \begin{pmatrix} 1 & 0 \\ 0 & 0.01 \end{pmatrix} + 0.5 \begin{pmatrix} 0.505 & 0 \\ 0 & 0.505 \end{pmatrix} = \begin{pmatrix} 0.753 & 0 \\ 0 & 0.258 \end{pmatrix}.
+\end{equation*}
+Inverting: $\hat{\mathbf{P}}^{-1} = \text{diag}(1.33, 3.88)$. The precision in the high-precision direction ($j = 2$) is 3.88 instead of the true 100, a factor of 25 too small. The covariance shrinkage has ``filled in'' the small eigenvalue of $\boldsymbol{\Sigma}$, which is correct for covariance estimation, but the resulting precision in that direction is destroyed.
+
+With direct precision shrinkage toward $\mathbf{I}$ at $\alpha = 0.5$, $\beta = 0.5$:\footnote{The values $\alpha = 0.5$, $\beta = 0.5$ are chosen for illustration; the Bodnar formula~\eqref{eq:alpha_star}--\eqref{eq:beta_star} would compute different optimal coefficients for this particular $\mathbf{S}$. The point of the example is to compare the effect of operating in covariance space versus precision space at the same shrinkage intensity, not to show the optimal coefficients.}
+\begin{equation*}
+\boldsymbol{\Pi}_{\text{LS}} = 0.5 \begin{pmatrix} 1 & 0 \\ 0 & 100 \end{pmatrix} + 0.5 \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 50.5 \end{pmatrix}.
+\end{equation*}
+The precision in the high-precision direction is 50.5, still biased downward, but only by a factor of 2 rather than 25. Direct precision shrinkage preserves more of the precision structure because it operates in the right space.
+
+Embedding this estimator in the EnKF introduces a consideration absent from standalone estimation: the precision matrix is recomputed at every assimilation cycle, and errors in the analysis state propagate through the forecast model into subsequent cycles. An estimator that is accurate on average but variable from cycle to cycle can accumulate larger errors over a long assimilation window than a slightly biased but stable one. This sequential accumulation effect is not captured by one-shot metrics like Frobenius loss and must be evaluated through filtering experiments (Chapter~\ref{ch:benchmark}).
+
+\section{Shrinkage Targets}
+\label{sec:targets}
+
+The four target variants below differ only in their choice of $\boldsymbol{\Pi}_0$. The first three follow \citep{looijmans2024comparison}; the fourth is a domain-agnostic adaptation we propose.
+
+Figure~\ref{fig:target_comparison} provides a visual comparison of the four target matrices. The identity and eigenvalue targets are domain-agnostic; the scaled identity and cosmological targets incorporate information about the variable-specific variance structure.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/target_comparison.pdf}
+\caption{The four shrinkage target matrices $\boldsymbol{\Pi}_0$ (normalized, $d = 18$). All are diagonal by construction. The identity target assigns equal weight to all variables; the eigenvalue target uses the sample precision's spectral information; the scaled and cosmological targets incorporate variance structure from the data or domain knowledge.}
+\label{fig:target_comparison}
+\end{figure}
+
+\subsection{Identity Target}
+\label{sec:identity_target}
+
+The simplest choice: $\boldsymbol{\Pi}_0 = \mathbf{I}_n$, assuming independent unit-variance priors. This carries no domain-specific information, but the direct precision formulation still produces a valid precision matrix. Inverting a shrunk covariance, by contrast, can amplify estimation error. Algorithm~\ref{alg:identity} summarizes the procedure; the eigenvalue and cosmological variants (Algorithms~\ref{alg:eigenvalue} and~\ref{alg:cosmo}) follow the same template with different choices of $\boldsymbol{\Pi}_0$.
+
+\begin{algorithm}[t]
+\caption{Direct Precision Shrinkage (Identity Target)}
+\label{alg:identity}
+\begin{algorithmic}[1]
+\REQUIRE Deviation matrix $\mathbf{DX} \in \mathbb{R}^{n \times N_e}$
+\STATE Compute sample covariance: $\mathbf{S} = \frac{1}{N_e-1} \mathbf{DX} \, \mathbf{DX}^T$
+\STATE Compute sample precision: $\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1}$
+\STATE Set target: $\boldsymbol{\Pi}_0 = \mathbf{I}_n$
+\STATE Compute $\alpha^*, \beta^*$ via Eqs.~\eqref{eq:alpha_star}--\eqref{eq:beta_star}
+\STATE Clamp: $\alpha^* \leftarrow \max(0, \min(1, \alpha^*))$, $\beta^* \leftarrow \max(0, \min(1 - \alpha^*, \beta^*))$
+\RETURN $\boldsymbol{\Pi}_{\text{LS}} = \alpha^* \hat{\boldsymbol{\Pi}}_S + \beta^* \boldsymbol{\Pi}_0$
+\end{algorithmic}
+\end{algorithm}
+
+For the identity target, the terms in the Bodnar formula simplify: $\|\boldsymbol{\Pi}_0\|_F^2 = n$, $\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0) = \text{tr}(\hat{\boldsymbol{\Pi}}_S)$, and $\beta^* = (1 - n/N_e - \alpha^*) \cdot \text{tr}(\hat{\boldsymbol{\Pi}}_S) / n$. When the true precision has large diagonal entries relative to $n$ (as happens in Lorenz~96), the factor $\text{tr}(\hat{\boldsymbol{\Pi}}_S)/n$ becomes very large, driving $\beta^*$ to extreme values that require clamping.
+
+\subsection{Eigenvalue Target}
+\label{sec:eigenvalue_target}
+
+A diagonal matrix of the sorted eigenvalues of $\hat{\boldsymbol{\Pi}}_S$: $\boldsymbol{\Pi}_0^{(1)} = \text{diag}(e_1, \ldots, e_n)$ with $e_1 \leq \cdots \leq e_n$. This retains the spectral information of the sample precision while zeroing out off-diagonal correlations, and requires no external domain knowledge. It corresponds to the first precision target ($\boldsymbol{\Pi}_0^{(1)}$) in \citep{looijmans2024comparison}. Algorithm~\ref{alg:eigenvalue} gives the full procedure, which extends Algorithm~\ref{alg:identity} with an explicit eigendecomposition of $\hat{\boldsymbol{\Pi}}_S$.
+
+\begin{algorithm}[t]
+\caption{Direct Precision Shrinkage (Eigenvalue Target)}
+\label{alg:eigenvalue}
+\begin{algorithmic}[1]
+\REQUIRE Deviation matrix $\mathbf{DX} \in \mathbb{R}^{n \times N_e}$
+\STATE Compute $\mathbf{S}$, $\hat{\boldsymbol{\Pi}}_S$ as in Algorithm~\ref{alg:identity} (Steps 1--2)
+\STATE Compute eigenvalues $e_1 \leq \cdots \leq e_n$ of $\hat{\boldsymbol{\Pi}}_S$
+\STATE Set target: $\boldsymbol{\Pi}_0^{(1)} = \text{diag}(e_1, \ldots, e_n)$
+\STATE Compute $\alpha^*, \beta^*$ via Eqs.~\eqref{eq:alpha_star}--\eqref{eq:beta_star}, clamp to $[0,1]$
+\RETURN $\boldsymbol{\Pi}_{\text{LS}} = \alpha^* \hat{\boldsymbol{\Pi}}_S + \beta^* \boldsymbol{\Pi}_0^{(1)}$
+\end{algorithmic}
+\end{algorithm}
+
+Because the eigenvalue target is derived from the same sample as the precision matrix it is shrinking toward, the Cauchy-Schwarz term $\|\hat{\boldsymbol{\Pi}}_S\|_F^2 \|\boldsymbol{\Pi}_0^{(1)}\|_F^2 - (\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0^{(1)}))^2$ tends to be small, which drives $\alpha^*$ down and $\beta^*$ toward zero. In our experiments, $\beta^*$ is effectively zero ($\sim 10^{-4}$) for the eigenvalue target, so the estimator reduces to $\alpha^* \hat{\boldsymbol{\Pi}}_S$, a simple rescaling of the sample precision without meaningful shrinkage toward the target.
+
+\subsection{Cosmological Target}
+\label{sec:cosmo_target}
+
+The analytical target from \citep{looijmans2024comparison}, derived from the Gaussian power spectrum covariance~\eqref{eq:cosmo_cov}. Each diagonal entry of the target covariance is $T^{(2)}_{ii} = (2/N_{\ell_i}) C_{\ell_i}^2$, encoding cosmic variance at multipole $\ell_i$~\citep{hamilton2006measuring}, and the target precision is its inverse: $\boldsymbol{\Pi}_0^{(2)} = (\mathbf{T}^{(2)})^{-1}$. When the assumed power spectrum model is close to the truth, this provides a stronger shrinkage direction than the generic alternatives. Algorithm~\ref{alg:cosmo} details the construction of $\boldsymbol{\Pi}_0^{(2)}$ from the precomputed $C_\ell$ and $N_\ell$ values; the remaining steps follow Algorithm~\ref{alg:identity}.
+
+\begin{algorithm}[t]
+\caption{Direct Precision Shrinkage (Cosmological Target)}
+\label{alg:cosmo}
+\begin{algorithmic}[1]
+\REQUIRE Deviation matrix $\mathbf{DX}$, power spectrum $C_\ell$, mode counts $N_\ell$
+\STATE Compute $\mathbf{S}$, $\hat{\boldsymbol{\Pi}}_S$ as in Algorithm~\ref{alg:identity} (Steps 1--2)
+\FOR{each data element $i$ mapped to multipole $\ell_i$}
+    \STATE Compute diagonal covariance target: $T^{(2)}_{ii} = \frac{2}{N_{\ell_i}} C_{\ell_i}^2$
+\ENDFOR
+\STATE Set target precision: $\boldsymbol{\Pi}_0^{(2)} = (\mathbf{T}^{(2)})^{-1}$
+\STATE Compute $\alpha^*, \beta^*$ via Eqs.~\eqref{eq:alpha_star}--\eqref{eq:beta_star}, clamp to $[0,1]$
+\RETURN $\boldsymbol{\Pi}_{\text{LS}} = \alpha^* \hat{\boldsymbol{\Pi}}_S + \beta^* \boldsymbol{\Pi}_0^{(2)}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Scaled Identity Target (Novel Adaptation)}
+\label{sec:scaled_target}
+
+The cosmological target requires power spectrum data $C_\ell$ and mode counts $N_\ell$ that are unavailable outside cosmology. We propose a domain-agnostic alternative that uses empirical per-variable variances from the sample covariance:
+\begin{equation}
+\label{eq:scaled_target}
+\boldsymbol{\Pi}_0 = \text{diag}\!\left(\frac{1}{2\sigma_1^2}, \ldots, \frac{1}{2\sigma_n^2}\right),
+\end{equation}
+where $\sigma_i^2$ are the diagonal entries of $\mathbf{S}$. The factor of 2 mirrors the $2/N_\ell$ scaling of the cosmological target~\eqref{eq:cosmo_target}: in the cosmological case, the target precision element for multipole $\ell$ is $N_\ell / (2 C_\ell^2)$, which can be written as $1 / (2 \cdot C_\ell^2 / N_\ell) = 1 / (2 \cdot \sigma_\ell^2)$ where $\sigma_\ell^2 = C_\ell^2 / N_\ell$ is the cosmic variance. Our scaled target replaces the theoretical cosmic variance with the empirical variance from the ensemble.
+
+This variant serves two purposes. First, it provides a middle ground between the plain identity (which ignores variable-specific scales) and the cosmological target (which requires domain knowledge). Second, by comparing it against the other targets, we can quantify how much of the direct precision shrinkage performance depends on domain-specific target knowledge versus the general framework itself. Algorithmically, the scaled target reuses the Algorithm~\ref{alg:identity} template, replacing the identity in Step 3 with $\boldsymbol{\Pi}_0 = \text{diag}(1/(2\sigma_i^2))$ read off the diagonal of $\mathbf{S}$.
+
+\section{Worked Example}
+\label{sec:worked_example}
+
+To make the shrinkage coefficient computation concrete, consider a small example with $n = 3$ and $N_e = 5$. Suppose the sample covariance is
+\begin{equation*}
+\mathbf{S} = \begin{pmatrix} 2.1 & 0.3 & 0.1 \\ 0.3 & 1.8 & 0.2 \\ 0.1 & 0.2 & 2.5 \end{pmatrix},
+\end{equation*}
+so the sample precision is
+\begin{equation*}
+\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1} = \begin{pmatrix} 0.490 & -0.077 & -0.013 \\ -0.077 & 0.575 & -0.042 \\ -0.013 & -0.042 & 0.408 \end{pmatrix}.
+\end{equation*}
+
+For the identity target $\boldsymbol{\Pi}_0 = \mathbf{I}_3$, we compute:
+\begin{align*}
+\|\hat{\boldsymbol{\Pi}}_S\|_{\text{tr}} &= 0.490 + 0.575 + 0.408 = 1.473, \\
+\|\hat{\boldsymbol{\Pi}}_S\|_F^2 &= 0.490^2 + 0.575^2 + 0.408^2 + 2(0.077^2 + 0.013^2 + 0.042^2) = 0.751, \\
+\|\boldsymbol{\Pi}_0\|_F^2 &= 3, \\
+\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0) &= \text{tr}(\hat{\boldsymbol{\Pi}}_S) = 1.473.
+\end{align*}
+
+The Cauchy-Schwarz denominator is $\|\hat{\boldsymbol{\Pi}}_S\|_F^2 \|\boldsymbol{\Pi}_0\|_F^2 - (\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0))^2 = 0.751 \times 3 - 1.473^2 = 2.253 - 2.170 = 0.083$. Then:
+\begin{align*}
+\alpha^* &= 1 - \frac{3}{5} - \frac{(1/5) \times 1.473^2 \times 3}{0.083} = 0.4 - \frac{1.302}{0.083} = 0.4 - 15.7 = -15.3.
+\end{align*}
+
+After clamping to $[0, 1]$: $\alpha^* = 0$. The correction term is much larger than $1 - n/N_e = 0.4$, driving $\alpha^*$ negative. This happens because the identity target is not well-aligned with the sample precision (the Cauchy-Schwarz denominator is small, so the correction is large).
+
+\begin{align*}
+\beta^* &= (1 - 3/5 - 0) \times \frac{1.473}{3} = 0.4 \times 0.491 = 0.196.
+\end{align*}
+
+After clamping: $\beta^* = 0.196$. The final estimator is $\boldsymbol{\Pi}_{\text{LS}} = 0 \cdot \hat{\boldsymbol{\Pi}}_S + 0.196 \cdot \mathbf{I}_3 = 0.196 \, \mathbf{I}_3$. All weight goes to the target, and the sample precision is discarded entirely. This is the correct behavior when the target does not match the sample: the formula detects the mismatch and assigns zero weight to the sample precision rather than producing a compromised blend.
+
+In practice, when $n = 40$ and $N_e = 50$ (as in our Lorenz~96 experiments), the correction term in $\alpha^*$ is even more extreme because the Cauchy-Schwarz denominator becomes very small relative to $\|\hat{\boldsymbol{\Pi}}_S\|_{\text{tr}}^2 \|\boldsymbol{\Pi}_0\|_F^2$, and the unclamped $\beta^*$ values reach $10^8$ to $10^9$.
+
+\section{Computational Complexity}
+\label{sec:complexity}
+
+All four direct precision shrinkage variants share a common computational core: forming the sample covariance $\mathbf{S}$ costs $\mathcal{O}(n^2 N_e)$, and inverting it to obtain $\hat{\boldsymbol{\Pi}}_S$ costs $\mathcal{O}(n^3)$. Computing $\alpha^*$ and $\beta^*$ requires the Frobenius norm $\|\hat{\boldsymbol{\Pi}}_S\|_F^2$, the trace norm $\|\hat{\boldsymbol{\Pi}}_S\|_{\text{tr}}$, and the product $\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0)$. For a dense target, each of these costs $\mathcal{O}(n^2)$; for a diagonal target (identity, scaled identity, cosmological), the cost is $\mathcal{O}(n)$ since $\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0) = \sum_i (\hat{\boldsymbol{\Pi}}_S)_{ii} (\boldsymbol{\Pi}_0)_{ii}$. The final linear combination~\eqref{eq:direct_precision_method} costs $\mathcal{O}(n^2)$. Since the $\mathcal{O}(n^3)$ inversion dominates, all four variants have the same asymptotic cost per assimilation cycle.
+
+They differ in target construction:
+\begin{itemize}
+\item \textbf{Identity}: No computation needed ($\boldsymbol{\Pi}_0 = \mathbf{I}$).
+\item \textbf{Scaled identity}: Reads $n$ diagonal entries of $\mathbf{S}$ and computes $n$ reciprocals. Cost: $\mathcal{O}(n)$.
+\item \textbf{Cosmological}: Computes $n$ diagonal entries from precomputed $C_\ell$ and $N_\ell$ values. Cost: $\mathcal{O}(n)$.
+\item \textbf{Eigenvalue}: Requires a symmetric eigendecomposition of the $n \times n$ matrix $\hat{\boldsymbol{\Pi}}_S$. Cost: $\mathcal{O}(n^3)$, which doubles the effective per-cycle cost.
+\end{itemize}
+
+Table~\ref{tab:complexity} summarizes the per-cycle cost of each method tested in this work, including the baselines.
+
+\begin{table}[t]
+\centering
+\caption{Computational complexity per assimilation cycle. $n$: state dimension, $N_e$: ensemble size, $m$: observation dimension, $r$: Cholesky bandwidth, $B$: number of NERCOME bootstrap draws.}
+\label{tab:complexity}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Method & Cost per cycle \\
+\midrule
+EnKF (standard)              & $\mathcal{O}(n^2 N_e + m^2 N_e)$ \\
+EnKF-Cholesky                & $\mathcal{O}(n \cdot r \cdot N_e)$ \\
+Identity Shrinkage           & $\mathcal{O}(n^2 N_e + n^3)$ \\
+Scaled Shrinkage             & $\mathcal{O}(n^2 N_e + n^3)$ \\
+Cosmological Shrinkage       & $\mathcal{O}(n^2 N_e + n^3)$ \\
+Eigenvalue Shrinkage         & $\mathcal{O}(n^2 N_e + 2n^3)$ \\
+NERCOME                      & $\mathcal{O}(B \cdot (n^2 N_e + n^3))$ \\
+Ledoit-Wolf                  & $\mathcal{O}(n^2 N_e)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The modified Cholesky approach avoids the $\mathcal{O}(n^3)$ inversion entirely by exploiting banded structure, making it the cheapest option on spatially extended systems where $r \ll n$. Ledoit-Wolf shrinks the covariance directly and does not require inversion ($\mathcal{O}(n^2 N_e)$), though the subsequent EnKF solve still involves an $\mathcal{O}(m^2 N_e)$ linear system. NERCOME is the most expensive: its $B$ bootstrap resamples (typically $B = 200$) each require a covariance computation and eigendecomposition, resulting in a cost roughly $B$ times that of the other shrinkage methods.
+
+In our experiments, the practical timing differences are substantial. On the AR(1) cosmological model ($n = 18$, $N_e = 30$), NERCOME takes approximately 27~seconds per 100 assimilation cycles versus approximately 0.2~seconds for the other shrinkage methods. On Lorenz~96 ($n = 40$, $N_e = 80$), the gap widens to approximately 215~seconds versus approximately 26~seconds.
+
+\section{Implementation in TEDA}
+\label{sec:implementation}
+
+All estimators are implemented in TEDA (Toolbox for Ensemble Data Assimilation)~\citep{nino2022teda}, a Python-based educational framework that implements ensemble methods alongside toy dynamical models such as Lorenz~96. TEDA uses an object-oriented design where dynamical models, ensemble management, observation handling, and analysis methods are separate modular classes. Figure~\ref{fig:class_diagram} shows the relevant class hierarchy.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/class_diagram.pdf}
+\caption{Class diagram of the TEDA framework, highlighting the new shrinkage estimator classes (shaded). All analysis methods inherit from the abstract \texttt{Analysis} base class and are registered via the \texttt{AnalysisFactory}, enabling interchangeability.}
+\label{fig:class_diagram}
+\end{figure}
+
+\subsection{Architecture}
+\label{sec:architecture}
+
+The main classes in TEDA are:
+
+\begin{itemize}
+\item \textbf{Model}: Abstract base for dynamical systems (e.g., Lorenz~96, AR(1)), defining the \texttt{propagate()} interface that advances the state by one time step.
+\item \textbf{Background}: Manages the ensemble of state vectors, computes ensemble statistics (mean, perturbation matrix, sample covariance), and applies inflation.
+\item \textbf{Observation}: Generates synthetic observations by applying the observation operator $\mathbf{H}$ to the true state and adding noise, and stores $\mathbf{H}$ and $\mathbf{R}$.
+\item \textbf{Analysis}: Abstract base for assimilation methods. Subclasses override \texttt{perform\_assimilation()} to implement specific analysis schemes. The six shrinkage estimators introduced in this work are all subclasses of \texttt{Analysis}.
+\item \textbf{Simulation}: Orchestrates the forecast-analysis cycle, calling \texttt{Model.propagate()} and \texttt{Analysis.perform\_assimilation()} in sequence, and storing results for post-processing.
+\end{itemize}
+
+New analysis methods are registered via a factory pattern. The \texttt{@register\_analysis} decorator allows users to select methods by name at runtime:
+
+\begin{verbatim}
+from pyteda.analysis import AnalysisFactory
+method = AnalysisFactory.create("EnKF-Shrinkage-Identity",
+                                 params=config)
+\end{verbatim}
+
+A typical comparative experiment requires only changing the method name:
+
+\begin{verbatim}
+methods = ["EnKF", "EnKF-Cholesky",
+           "EnKF-Shrinkage-Identity",
+           "EnKF-Shrinkage-Scaled",
+           "EnKF-Shrinkage-Eigenvalues",
+           "EnKF-Shrinkage-Cosmo",
+           "EnKF-NERCOME",
+           "EnKF-Ledoit-Wolf"]
+for name in methods:
+    sim = Simulation(model, background,
+                     AnalysisFactory.create(name),
+                     observation)
+    sim.run()
+\end{verbatim}
+
+\subsection{Estimator Classes}
+\label{sec:estimator_classes}
+
+Each of the four direct precision shrinkage variants is implemented as a separate class, differing only in the \texttt{get\_target()} method:
+
+\begin{itemize}
+\item \texttt{AnalysisEnKFDirectPrecisionShrinkageIdentity}: Returns $\mathbf{I}_n$.
+\item \texttt{AnalysisEnKFDirectPrecisionShrinkageIdentityScaled}: Computes $\text{diag}(1/(2\sigma_1^2), \ldots, 1/(2\sigma_n^2))$ from the diagonal of $\mathbf{S}$.
+\item \texttt{AnalysisEnKFDirectPrecisionShrinkageEigenvalues}: Eigendecomposes $\hat{\boldsymbol{\Pi}}_S$ and returns the sorted eigenvalue diagonal.
+\item \texttt{AnalysisEnKFDirectPrecisionShrinkageCosmo}: Reads BOSS power spectrum parameters and constructs the cosmological target~\eqref{eq:cosmo_target}.
+\end{itemize}
+
+All four share a common \texttt{compute\_shrinkage\_coefficients()} method that implements Eqs.~\eqref{eq:alpha_star}--\eqref{eq:beta_star} with clamping. The implementation follows the Bodnar formula exactly, operating on the raw sample inverse $\mathbf{S}^{-1}$ without the Hartlap correction. This matches the derivation in \citep{bodnar2016direct}, which accounts for the estimation bias through the $(1 - n/N_e)$ term.
+
+NERCOME is implemented as \texttt{AnalysisEnKFNercomeShrinkage}, which performs 200 bootstrap resamples per assimilation cycle. Ledoit-Wolf is implemented as \texttt{AnalysisEnKFLedoitWolfShrinkage}, wrapping the \texttt{sklearn.covariance.LedoitWolf} estimator and inverting the result.
+
+All code is publicly available.\footnote{TEDA source code: \url{https://github.com/enino84/TEDA.git}}
+
+\section{Summary of Methods}
+\label{sec:method_summary}
+
+Table~\ref{tab:method_summary} provides a systematic comparison of all eight methods tested in this thesis, including their estimation space (covariance vs.\ precision), target requirements, minimum ensemble size, and key properties.
+
+\begin{table}[t]
+\centering
+\caption{Comparison of all methods tested in this thesis. ``Space'' indicates whether the method operates on the covariance matrix ($\mathbf{P}$) or the precision matrix ($\boldsymbol{\Pi}$). ``Target'' indicates whether domain-specific prior knowledge is required. ``Min $N_e$'' is the minimum ensemble size for the method to be applicable.}
+\label{tab:method_summary}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Method & Space & Target & Min $N_e$ & Key property \\
+\midrule
+EnKF (standard) & $\mathbf{P}$ & None & 2 & Baseline, no regularization \\
+EnKF-Cholesky & $\boldsymbol{\Pi}$ & None & $r + 2$ & Banded, implicit localization \\
+Identity Shrinkage & $\boldsymbol{\Pi}$ & $\mathbf{I}_n$ & $n + 2$ & Simplest direct precision \\
+Scaled Shrinkage & $\boldsymbol{\Pi}$ & Empirical & $n + 2$ & Domain-agnostic (novel) \\
+Eigenvalue Shrinkage & $\boldsymbol{\Pi}$ & Data-driven & $n + 2$ & Spectral information \\
+Cosmo.\ Shrinkage & $\boldsymbol{\Pi}$ & Domain & $n + 2$ & Best for diagonal $\boldsymbol{\Pi}$ \\
+NERCOME & $\mathbf{P}$ & None & 3 & Target-free, bootstrap \\
+Ledoit-Wolf & $\mathbf{P}$ & $\mu\mathbf{I}$ & 2 & Low variance, standard ref. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The methods differ in the prior assumptions they bring to the estimation problem. The standard EnKF uses the raw sample covariance with no regularization, which works well at large ensemble sizes but degrades at small ones. The cosmological shrinkage target occupies the opposite end: it encodes detailed domain knowledge about the precision structure and achieves the best standalone estimation quality when that knowledge is correct. The remaining methods fall between these two points, each trading some generality for some robustness.
+
+A practical user choosing among these methods faces two key questions: (1) Is the ensemble large enough for direct precision methods ($N_e > n + 2$)? If not, the covariance-space methods (EnKF, Ledoit-Wolf, NERCOME) or EnKF-Cholesky are the only options. (2) Does domain knowledge about the precision structure exist? If so, incorporating it through a domain-specific target can improve estimation quality. If not, Ledoit-Wolf provides the safest default for sequential filtering, and the scaled identity target provides a middle ground for standalone precision estimation.

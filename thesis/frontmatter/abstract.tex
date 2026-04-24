@@ -1,0 +1,7 @@
+\begin{thesis-abstract}
+
+Ensemble Kalman filters require the inverse of the background error covariance matrix, but when the ensemble size is small relative to the state dimension, the sample covariance is ill-conditioned and cannot be reliably inverted. We embed the direct precision shrinkage framework of Bodnar et al.\ into the dual formulation of the Ensemble Kalman Filter, recomputing shrinkage coefficients at each assimilation cycle. Six estimators are tested on Lorenz~96 ($n=40$, dense precision) and BOSS DR12 cosmological mock data ($d=18$, near-diagonal precision), alongside two baselines.
+
+Two main findings emerge. First, direct precision shrinkage performance depends critically on target-truth alignment: diagonal targets fail on Lorenz~96 but succeed on cosmological data. Second, the best standalone precision estimator is not the best sequential filter --- Ledoit-Wolf produces the worst standalone estimates yet the lowest EnKF RMSE, because its low variance prevents error cascades across assimilation cycles. For sequential data assimilation, variance reduction matters at least as much as bias reduction. All implementations are publicly available in the TEDA framework.
+
+\end{thesis-abstract}

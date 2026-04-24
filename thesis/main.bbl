@@ -1,0 +1,174 @@
+\begin{thebibliography}{25}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Anderson(2001)]{anderson2001ensemble}
+Jeffrey~L. Anderson.
+\newblock An ensemble adjustment {K}alman filter for data assimilation.
+\newblock \emph{Monthly Weather Review}, 129\penalty0 (12):\penalty0
+  2884--2903, 2001.
+
+\bibitem[Anderson and Anderson(1999)]{anderson1999monte}
+Jeffrey~L. Anderson and Stephen~L. Anderson.
+\newblock A {M}onte {C}arlo implementation of the nonlinear filtering problem
+  to produce ensemble assimilations and forecasts.
+\newblock \emph{Monthly Weather Review}, 127\penalty0 (12):\penalty0
+  2741--2758, 1999.
+
+\bibitem[Bodnar et~al.(2016)Bodnar, Gupta, and Parolya]{bodnar2016direct}
+Taras Bodnar, Arjun~K. Gupta, and Nestor Parolya.
+\newblock Direct shrinkage estimation of large dimensional precision matrix.
+\newblock \emph{Journal of Multivariate Analysis}, 146:\penalty0 223--236,
+  2016.
+
+\bibitem[Burgers et~al.(1998)Burgers, van Leeuwen, and
+  Evensen]{burgers1998analysis}
+Gerrit Burgers, Peter~Jan van Leeuwen, and Geir Evensen.
+\newblock Analysis scheme in the ensemble {K}alman filter.
+\newblock \emph{Monthly Weather Review}, 126\penalty0 (6):\penalty0 1719--1724,
+  1998.
+
+\bibitem[Chen et~al.(2010)Chen, Wiesel, Eldar, and Hero]{chen2010shrinkage}
+Yilun Chen, Ami Wiesel, Yonina~C. Eldar, and Alfred~O. Hero.
+\newblock Shrinkage algorithms for {MMSE} covariance estimation.
+\newblock \emph{IEEE Transactions on Signal Processing}, 58\penalty0
+  (10):\penalty0 5016--5029, 2010.
+
+\bibitem[Evensen(2003)]{evensen2003ensemble}
+Geir Evensen.
+\newblock The ensemble {K}alman filter: theoretical formulation and practical
+  implementation.
+\newblock \emph{Ocean dynamics}, 53\penalty0 (4):\penalty0 343--367, 2003.
+
+\bibitem[Friedman et~al.(2008)Friedman, Hastie, and
+  Tibshirani]{friedman2008sparse}
+Jerome Friedman, Trevor Hastie, and Robert Tibshirani.
+\newblock Sparse inverse covariance estimation with the graphical lasso.
+\newblock \emph{Biostatistics}, 9\penalty0 (3):\penalty0 432--441, 2008.
+
+\bibitem[Gaspari and Cohn(1999)]{gaspari1999construction}
+Gregory Gaspari and Stephen~E. Cohn.
+\newblock Construction of correlation functions in two and three dimensions.
+\newblock \emph{Quarterly Journal of the Royal Meteorological Society},
+  125\penalty0 (554):\penalty0 723--757, 1999.
+
+\bibitem[Haff(1991)]{haff1991variational}
+L.~R. Haff.
+\newblock The variational form of certain {B}ayes estimators.
+\newblock \emph{The Annals of Statistics}, 19\penalty0 (3):\penalty0
+  1163--1190, 1991.
+
+\bibitem[Hamilton et~al.(2006)Hamilton, Rimes, and
+  Scoccimarro]{hamilton2006measuring}
+Andrew J.~S. Hamilton, Christopher~D. Rimes, and Rom{\'a}n Scoccimarro.
+\newblock On measuring the covariance matrix of the non-linear power spectrum
+  from simulations.
+\newblock \emph{Monthly Notices of the Royal Astronomical Society},
+  371\penalty0 (3):\penalty0 1188--1204, 2006.
+
+\bibitem[Hartlap et~al.(2007)Hartlap, Simon, and Schneider]{hartlap2007your}
+J.~Hartlap, P.~Simon, and P.~Schneider.
+\newblock Why your model parameter confidences may be too optimistic --
+  unbiased estimation of the inverse covariance matrix.
+\newblock \emph{Astronomy \& Astrophysics}, 464\penalty0 (1):\penalty0
+  399--404, 2007.
+
+\bibitem[Houtekamer and Mitchell(1998)]{houtekamer1998data}
+Peter~L. Houtekamer and Herschel~L. Mitchell.
+\newblock Data assimilation using an ensemble {K}alman filter technique.
+\newblock \emph{Monthly Weather Review}, 126\penalty0 (3):\penalty0 796--811,
+  1998.
+
+\bibitem[Hunt et~al.(2007)Hunt, Kostelich, and Szunyogh]{hunt2007efficient}
+Brian~R Hunt, Eric~J Kostelich, and Istvan Szunyogh.
+\newblock Efficient data assimilation for spatiotemporal chaos: A local
+  ensemble transform {K}alman filter.
+\newblock \emph{Physica D: Nonlinear Phenomena}, 230\penalty0 (1-2):\penalty0
+  112--126, 2007.
+
+\bibitem[Joachimi(2017)]{joachimi2017non}
+Benjamin Joachimi.
+\newblock Non-linear shrinkage estimation of large-scale structure covariance.
+\newblock \emph{Monthly Notices of the Royal Astronomical Society},
+  466\penalty0 (1):\penalty0 L83--L87, 2017.
+
+\bibitem[Lam(2016)]{lam2016nonparametric}
+Clifford Lam.
+\newblock Nonparametric eigenvalue-regularized precision or covariance matrix
+  estimator.
+\newblock \emph{The Annals of Statistics}, 44\penalty0 (3):\penalty0 928--953,
+  2016.
+
+\bibitem[Ledoit and Wolf(2004)]{ledoit2004well}
+Olivier Ledoit and Michael Wolf.
+\newblock A well-conditioned estimator for large-dimensional covariance
+  matrices.
+\newblock \emph{Journal of multivariate analysis}, 88\penalty0 (2):\penalty0
+  365--411, 2004.
+
+\bibitem[Ledoit and Wolf(2012)]{ledoit2012nonlinear}
+Olivier Ledoit and Michael Wolf.
+\newblock Nonlinear shrinkage estimation of large-dimensional covariance
+  matrices.
+\newblock \emph{The Annals of Statistics}, 40\penalty0 (2):\penalty0
+  1024--1060, 2012.
+
+\bibitem[Ledoit and Wolf(2020)]{ledoit2020analytical}
+Olivier Ledoit and Michael Wolf.
+\newblock Analytical nonlinear shrinkage of large-dimensional covariance
+  matrices.
+\newblock \emph{The Annals of Statistics}, 48\penalty0 (5):\penalty0
+  3043--3065, 2020.
+
+\bibitem[Looijmans et~al.(2024)Looijmans, Wang, and
+  Beutler]{looijmans2024comparison}
+Marnix~J. Looijmans, Mike~Shengbo Wang, and Florian Beutler.
+\newblock A comparison of shrinkage estimators of the cosmological precision
+  matrix.
+\newblock \emph{arXiv preprint arXiv:2402.13783}, 2024.
+
+\bibitem[Lorenc(1986)]{lorenc1986analysis}
+Andrew~C Lorenc.
+\newblock Analysis methods for numerical weather prediction.
+\newblock \emph{Quarterly Journal of the Royal Meteorological Society},
+  112\penalty0 (474):\penalty0 1177--1194, 1986.
+
+\bibitem[Lorenz(1996)]{lorenz1996predictability}
+Edward~N. Lorenz.
+\newblock Predictability: A problem partly solved.
+\newblock \emph{Proc. Seminar on Predictability}, 1\penalty0 (1):\penalty0
+  1--18, 1996.
+
+\bibitem[Nino-Ruiz and Valbuena(2022)]{nino2022teda}
+Elias~D. Nino-Ruiz and Sebastian~Racedo Valbuena.
+\newblock {TEDA}: A computational toolbox for teaching ensemble based data
+  assimilation.
+\newblock In \emph{Computational Science -- ICCS 2022}, volume 13353 of
+  \emph{Lecture Notes in Computer Science}, pages 787--801. Springer, Cham,
+  2022.
+\newblock \doi{10.1007/978-3-031-08760-8_60}.
+
+\bibitem[Nino-Ruiz et~al.(2018)Nino-Ruiz, Sandu, and Deng]{nino2018ensemble}
+Elias~D. Nino-Ruiz, Adrian Sandu, and Xinwei Deng.
+\newblock An ensemble {K}alman filter implementation based on modified
+  {C}holesky decomposition for inverse covariance matrix estimation.
+\newblock \emph{SIAM Journal on Scientific Computing}, 40\penalty0
+  (2):\penalty0 A867--A886, 2018.
+
+\bibitem[Ott et~al.(2004)Ott, Hunt, Szunyogh, Zimin, Kostelich, Corazza,
+  Kalnay, Patil, and Yorke]{ott2004local}
+Edward Ott, Brian~R Hunt, Istvan Szunyogh, Aleksey~V Zimin, Eric~J Kostelich,
+  Matteo Corazza, Eugenia Kalnay, DJ~Patil, and James~A Yorke.
+\newblock A local ensemble {K}alman filter for atmospheric data assimilation.
+\newblock \emph{Tellus A}, 56\penalty0 (5):\penalty0 415--428, 2004.
+
+\bibitem[Pope and Szapudi(2008)]{pope2008shrinkage}
+Adrian~C. Pope and Istv{\'a}n Szapudi.
+\newblock Shrinkage estimation of the power spectrum covariance matrix.
+\newblock \emph{Monthly Notices of the Royal Astronomical Society},
+  389\penalty0 (2):\penalty0 766--774, 2008.
+
+\end{thebibliography}

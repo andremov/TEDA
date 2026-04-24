@@ -1,0 +1,502 @@
+\chapter{Preliminaries}
+\label{ch:preliminaries}
+
+\section{Data Assimilation}
+\label{sec:da}
+
+Given a mathematical model $\mathcal{M}$ that describes the evolution of a physical system, the state at time $t_{k+1}$ can be forecast from the state at time $t_k$:
+\begin{equation}
+\label{eq:model}
+\mathbf{x}_{k+1} = \mathcal{M}(\mathbf{x}_k) + \boldsymbol{\delta},
+\end{equation}
+where $\mathbf{x}_k \in \mathbb{R}^{n \times 1}$ is the state vector at time $t_k$, $\mathcal{M}: \mathbb{R}^n \to \mathbb{R}^n$ is the (generally nonlinear) model operator, and $\boldsymbol{\delta}$ represents model error with $\langle \boldsymbol{\delta} \rangle = 0$. The model realization serves as the \emph{background} or \emph{prior} estimate of the system state.
+
+Observations of the system are related to the state through an observation operator:
+\begin{equation}
+\label{eq:observation}
+\mathbf{y}_k = \mathcal{H}(\mathbf{x}_k) + \boldsymbol{\epsilon}_o, \quad \boldsymbol{\epsilon}_o \sim \mathcal{N}(\mathbf{0}, \mathbf{R}),
+\end{equation}
+where $\mathbf{y}_k \in \mathbb{R}^{m \times 1}$ are the observations at time $t_k$, $\mathcal{H}: \mathbb{R}^n \to \mathbb{R}^m$ maps states to observation space, and $\mathbf{R} \in \mathbb{R}^{m \times m}$ is the observation error covariance. In general, not all components of the state are observed ($m \leq n$), and the observation operator may be nonlinear.
+
+Data assimilation combines the model forecast with observations to produce a corrected state estimate (the \emph{analysis}). The correction weights the two sources of information according to their respective uncertainties: the background error covariance $\mathbf{B} \in \mathbb{R}^{n \times n}$ and the observation error covariance $\mathbf{R}$.
+
+Figure~\ref{fig:bayesian_inference} illustrates this process for a scalar state variable. The prior (orange) represents the model forecast with its uncertainty; the likelihood (blue) represents the information from the observation. The posterior (green) is narrower than either, reflecting the combined information from both sources. The posterior mean is shifted toward the more precise source of information.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/bayesian_inference.pdf}
+\caption{Bayesian inference: the posterior (green) combines the prior from the model forecast (orange) with the likelihood from the observation (blue). The posterior is narrower than either source, reflecting the information gain from assimilation.}
+\label{fig:bayesian_inference}
+\end{figure}
+
+Under the assumption that both the prior and likelihood are Gaussian, the posterior distribution is also Gaussian, and the analysis state can be obtained by maximizing the posterior~\citep{lorenc1986analysis}:
+\begin{equation}
+\label{eq:bayes}
+\mathcal{P}(\mathbf{x} | \mathbf{y}) \propto \mathcal{P}(\mathbf{x}) \cdot \mathcal{P}(\mathbf{y} | \mathbf{x}),
+\end{equation}
+where $\mathcal{P}(\mathbf{x}) \propto \exp\!\left(-\frac{1}{2}\|\mathbf{x} - \mathbf{x}^b\|_{\mathbf{B}^{-1}}^2\right)$ is the prior and $\mathcal{P}(\mathbf{y}|\mathbf{x}) \propto \exp\!\left(-\frac{1}{2}\|\mathbf{y} - \mathcal{H}(\mathbf{x})\|_{\mathbf{R}^{-1}}^2\right)$ is the likelihood. The analysis minimizes the cost function:
+\begin{equation}
+\label{eq:cost}
+\mathcal{J}(\mathbf{x}) = \frac{1}{2}\|\mathbf{x} - \mathbf{x}^b\|_{\mathbf{B}^{-1}}^2 + \frac{1}{2}\|\mathbf{y} - \mathcal{H}(\mathbf{x})\|_{\mathbf{R}^{-1}}^2.
+\end{equation}
+
+When $\mathcal{H}$ is linearized as $\mathcal{H}(\mathbf{x}) \approx \mathbf{H}\mathbf{x}$, the minimizer has the closed-form solution:
+\begin{equation}
+\label{eq:analysis}
+\mathbf{x}^a = \mathbf{x}^b + \mathbf{K}[\mathbf{y} - \mathbf{H}\mathbf{x}^b],
+\end{equation}
+where $\mathbf{K} = \mathbf{B}\mathbf{H}^T[\mathbf{H}\mathbf{B}\mathbf{H}^T + \mathbf{R}]^{-1}$ is the Kalman gain, weighting the innovation $\mathbf{y} - \mathbf{H}\mathbf{x}^b$ by the relative uncertainties of the model and observations.
+
+Figure~\ref{fig:da_cycle} shows this forecast-analysis cycle schematically. At each time step, the forecast $\mathbf{x}^b$ is corrected using the observation $\mathbf{y}$ to produce the analysis $\mathbf{x}^a$, which is then propagated forward by the model $\mathcal{M}$ to produce the next forecast.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/da_cycle.pdf}
+\caption{The sequential data assimilation cycle. At each step, the forecast (gray) is corrected by observations (blue) to produce the analysis (green), which is propagated by the model (red arrow) to the next forecast.}
+\label{fig:da_cycle}
+\end{figure}
+
+This forecast-analysis cycle is repeated sequentially: after each analysis, the corrected state is propagated forward by the model to produce the next background, and the process repeats when new observations become available. This sequential approach, known as \emph{sequential data assimilation}, processes observations one time step at a time. An alternative is \emph{variational data assimilation}, which fits the model trajectory to all observations simultaneously.
+
+\subsection{The Kalman Filter}
+\label{sec:kalman_filter}
+
+Before introducing the ensemble approximation, it is useful to review the classical Kalman filter~\citep{lorenc1986analysis}. For a linear system with Gaussian errors, the Kalman filter provides the exact Bayesian solution. The state evolves as $\mathbf{x}_{k+1} = \mathbf{M}_k \mathbf{x}_k + \boldsymbol{\eta}_k$ with $\boldsymbol{\eta}_k \sim \mathcal{N}(\mathbf{0}, \mathbf{Q}_k)$, and observations are $\mathbf{y}_k = \mathbf{H}_k \mathbf{x}_k + \boldsymbol{\epsilon}_k$ with $\boldsymbol{\epsilon}_k \sim \mathcal{N}(\mathbf{0}, \mathbf{R}_k)$.
+
+The filter alternates between two steps:
+
+The forecast step propagates the state and covariance:
+\begin{align}
+\mathbf{x}_{k+1}^b &= \mathbf{M}_k \mathbf{x}_k^a, \label{eq:kf_forecast_state} \\
+\mathbf{B}_{k+1} &= \mathbf{M}_k \mathbf{A}_k \mathbf{M}_k^T + \mathbf{Q}_k. \label{eq:kf_forecast_cov}
+\end{align}
+
+The analysis step updates using the observation:
+\begin{align}
+\mathbf{K}_k &= \mathbf{B}_k \mathbf{H}_k^T (\mathbf{H}_k \mathbf{B}_k \mathbf{H}_k^T + \mathbf{R}_k)^{-1}, \label{eq:kf_gain} \\
+\mathbf{x}_k^a &= \mathbf{x}_k^b + \mathbf{K}_k (\mathbf{y}_k - \mathbf{H}_k \mathbf{x}_k^b), \label{eq:kf_update} \\
+\mathbf{A}_k &= (\mathbf{I} - \mathbf{K}_k \mathbf{H}_k) \mathbf{B}_k. \label{eq:kf_analysis_cov}
+\end{align}
+
+The Kalman gain $\mathbf{K}_k$ optimally weights the innovation $\mathbf{y}_k - \mathbf{H}_k \mathbf{x}_k^b$ according to the relative uncertainties of the forecast and observation. When $\mathbf{B}_k$ is large relative to $\mathbf{R}_k$, the gain is large and the analysis trusts the observation; when $\mathbf{B}_k$ is small, the gain is small and the analysis trusts the forecast.
+
+The critical bottleneck is Eq.~\eqref{eq:kf_forecast_cov}: propagating the $n \times n$ covariance matrix through the model requires $\mathcal{O}(n^2)$ storage and $\mathcal{O}(n^3)$ operations (the matrix product $\mathbf{M}_k \mathbf{A}_k \mathbf{M}_k^T$). For $n \sim 10^6$, this is completely infeasible. The Ensemble Kalman Filter avoids this by replacing the explicit covariance propagation with an implicit one: propagating the ensemble members through the model and estimating the covariance from their spread.
+
+\subsection{Sequential vs.\ Variational Data Assimilation}
+\label{sec:seq_vs_var}
+
+In sequential data assimilation, the analysis~\eqref{eq:analysis} is computed each time observations become available, and the corrected state is propagated forward. The process can be viewed as a Hidden Markov Model: the state $\mathbf{x}_k$ evolves according to the model dynamics, and observations $\mathbf{y}_k$ are noisy projections of the state. The posterior at each step depends only on the current forecast and the current observations (plus the accumulated information from all past observations, encoded in the background).
+
+Variational methods take a different approach. Given observations at multiple times $\{\mathbf{y}_k\}_{k=0}^M$, 4D-Var finds the initial condition $\mathbf{x}_0$ that minimizes the misfit between the model trajectory and all observations simultaneously:
+\begin{equation}
+\label{eq:4dvar}
+\mathbf{x}_0^a = \arg\min_{\mathbf{x}_0} \left[\frac{1}{2}\|\mathbf{x}_0 - \mathbf{x}_0^b\|_{\mathbf{B}_0^{-1}}^2 + \sum_{k=0}^M \frac{1}{2}\|\mathbf{y}_k - \mathcal{H}_k(\mathcal{M}_{0 \to k}(\mathbf{x}_0))\|_{\mathbf{R}_k^{-1}}^2\right],
+\end{equation}
+where $\mathcal{M}_{0 \to k}$ denotes the model integration from time $0$ to time $k$. This requires the adjoint model (the transpose of the linearized model), which is computationally expensive to derive and validate. The 3D-Var simplification drops the time dimension and optimizes at a single time step, equivalent to the analysis~\eqref{eq:analysis} with a static background covariance.
+
+The Ensemble Kalman Filter, which we describe next, is a sequential method that avoids the need for adjoint models by approximating the background covariance from an ensemble of model runs. This makes it easier to implement and adapt to new models, at the cost of requiring many ensemble members to adequately represent the error statistics.
+
+Table~\ref{tab:da_comparison} summarizes the key differences between the three approaches.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparison of data assimilation approaches. ``Model requirement'' indicates what information about the dynamical model is needed beyond the forward integration.}
+\label{tab:da_comparison}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Property & Kalman Filter & 4D-Var & EnKF \\
+\midrule
+Linearity assumption & Linear only & Nonlinear & Nonlinear \\
+Model requirement & $\mathbf{M}_k$ explicitly & Adjoint model & Forward only \\
+Covariance handling & Explicit ($n \times n$) & Via Hessian & Ensemble \\
+Storage cost & $\mathcal{O}(n^2)$ & $\mathcal{O}(n)$ & $\mathcal{O}(n \cdot N_e)$ \\
+Per-step cost & $\mathcal{O}(n^3)$ & $\mathcal{O}(n)$ per iter. & $\mathcal{O}(n^2 N_e)$ \\
+Parallelizable & No & Limited & Yes \\
+Gaussian assumption & Exact & Approximate & Approximate \\
+Flow-dependent $\mathbf{B}$ & Yes & Limited & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The EnKF's main advantage over 4D-Var is that it provides a flow-dependent background covariance estimate (from the ensemble spread) without requiring the adjoint model. Its main disadvantage is the limited ensemble size, which makes the covariance estimate noisy. This noise in the covariance estimate is the central problem addressed by this thesis.
+
+\section{The Ensemble Kalman Filter}
+\label{sec:enkf}
+
+Computing the background error covariance $\mathbf{B}$ explicitly is infeasible for operational models: with state dimensions on the order of $10^6$--$10^8$, storing and manipulating $\mathbf{B} \in \mathbb{R}^{n \times n}$ requires $\mathcal{O}(n^2)$ storage and $\mathcal{O}(n^3)$ operations for inversion~\citep{evensen2003ensemble}. The Ensemble Kalman Filter (EnKF) avoids this by approximating $\mathbf{B}$ from an ensemble of $N_e$ model realizations.
+
+The EnKF represents the state using an ensemble of $N_e$ state vectors $\{\mathbf{x}_i^b\}_{i=1}^{N_e}$, each $\mathbf{x}_i^b \in \mathbb{R}^{n \times 1}$, obtained by propagating $N_e$ slightly different initial conditions through the model. The ensemble mean
+\begin{equation}
+\label{eq:ens_mean}
+\bar{\mathbf{x}}^b = \frac{1}{N_e} \sum_{i=1}^{N_e} \mathbf{x}_i^b \in \mathbb{R}^{n \times 1}
+\end{equation}
+serves as the background state estimate. The ensemble perturbation matrix
+\begin{equation}
+\label{eq:deviation}
+\Delta\mathbf{X}^b = \mathbf{X}^b - \bar{\mathbf{x}}^b \mathbf{1}^T \in \mathbb{R}^{n \times N_e},
+\end{equation}
+where $\mathbf{X}^b = [\mathbf{x}_1^b, \ldots, \mathbf{x}_{N_e}^b]$, captures the spread of the ensemble around the mean. The sample covariance is
+\begin{equation}
+\label{eq:sample_cov}
+\mathbf{P}^b = \frac{1}{N_e - 1} \Delta\mathbf{X}^b (\Delta\mathbf{X}^b)^T \in \mathbb{R}^{n \times n}.
+\end{equation}
+
+This estimate has rank at most $N_e - 1$, so when $N_e < n$ it is singular and cannot represent the full covariance structure. Even when $N_e > n$, the sample covariance is a noisy estimate of the true covariance, with eigenvalues that are systematically spread relative to the truth.
+
+The stochastic EnKF~\citep{burgers1998analysis, houtekamer1998data} computes analysis updates by solving the linear system
+\begin{equation}
+\label{eq:stochastic_enkf}
+[\mathbf{H}\mathbf{P}^b\mathbf{H}^T + \mathbf{R}] \, \Delta\mathbf{X}^a = \mathbf{D}^s \in \mathbb{R}^{m \times N_e},
+\end{equation}
+where $\mathbf{H} \in \mathbb{R}^{m \times n}$ is the (linearized) observation operator and $\mathbf{D}^s$ is the innovation matrix of perturbed observation departures. Each ensemble member $i$ is updated as $\mathbf{x}_i^a = \mathbf{x}_i^b + \Delta\mathbf{x}_i^a$, where $\Delta\mathbf{x}_i^a$ is the $i$-th column of $\Delta\mathbf{X}^a$.
+
+The Kalman gain in ensemble form reads
+\begin{equation}
+\label{eq:kalman_gain}
+\mathbf{K} = \mathbf{P}^b \mathbf{H}^T [\mathbf{H}\mathbf{P}^b\mathbf{H}^T + \mathbf{R}]^{-1},
+\end{equation}
+and the analysis covariance is
+\begin{equation}
+\label{eq:analysis_cov}
+\mathbf{A} = [\mathbf{B}^{-1} + \mathbf{H}^T \mathbf{R}^{-1} \mathbf{H}]^{-1} \in \mathbb{R}^{n \times n}.
+\end{equation}
+
+The \emph{dual EnKF}~\citep{nino2018ensemble} reformulates the analysis in terms of the precision matrix:
+\begin{equation}
+\label{eq:dual_enkf}
+[(\mathbf{P}^b)^{-1} + \mathbf{H}^T\mathbf{R}^{-1}\mathbf{H}] \, \Delta\mathbf{X}^a = \mathbf{H}^T\mathbf{R}^{-1}\mathbf{D}^s \in \mathbb{R}^{n \times N_e}.
+\end{equation}
+This formulation requires the precision matrix $(\mathbf{P}^b)^{-1}$, the central object of this work. When $N_e < n$, the sample covariance~\eqref{eq:sample_cov} has rank at most $N_e - 1$ and cannot be inverted. Even when $N_e > n$, the sample precision can be poorly conditioned, amplifying noise in the analysis.
+
+A third variant projects the analysis onto the ensemble subspace~\citep{nino2022teda}:
+\begin{equation}
+\label{eq:ensemble_space}
+\mathbf{X}^a = \mathbf{X}^b + \Delta\mathbf{X}^b \mathbf{W}^*,
+\end{equation}
+where $\mathbf{W}^* \in \mathbb{R}^{N_e \times N_e}$ is obtained from a reduced system, bringing the problem from $n$ dimensions down to $N_e$.
+
+\subsection{The Local Ensemble Transform Kalman Filter}
+\label{sec:letkf}
+
+The LETKF~\citep{hunt2007efficient} combines the ensemble subspace formulation with domain localization. For each state variable $i$, the analysis is computed using only the ``local'' observations within a radius of influence $r$. Let $\mathbf{Q}_i = \mathbf{H}_i \Delta\mathbf{X}^b \in \mathbb{R}^{m_i \times N_e}$ be the ensemble perturbations mapped to the local observation space, where $\mathbf{H}_i$ selects the $m_i$ observations within the local box around variable $i$. The local analysis mean is:
+\begin{equation}
+\label{eq:letkf_mean}
+\bar{\mathbf{x}}_i^a = \bar{\mathbf{x}}_i^b + \Delta\mathbf{X}_i^b \left[(N_e - 1)\mathbf{I} + \mathbf{Q}_i^T \mathbf{R}_i^{-1} \mathbf{Q}_i\right]^{-1} \mathbf{Q}_i^T \mathbf{R}_i^{-1} [\mathbf{y}_i - \mathbf{H}_i \bar{\mathbf{x}}^b],
+\end{equation}
+and the local analysis ensemble is:
+\begin{equation}
+\label{eq:letkf_ensemble}
+\mathbf{X}_i^a = \bar{\mathbf{x}}_i^a \mathbf{1}^T + \Delta\mathbf{X}_i^b \left[(N_e - 1)\mathbf{I} + \mathbf{Q}_i^T \mathbf{R}_i^{-1} \mathbf{Q}_i\right]^{-1/2}.
+\end{equation}
+
+The key computational advantage is that the matrix to be inverted is $N_e \times N_e$ (not $n \times n$), making the cost per local box $\mathcal{O}(N_e^3)$. With $n$ local boxes, the total cost is $\mathcal{O}(n \cdot N_e^3)$, which is much cheaper than the global formulation when $N_e \ll n$. The local boxes can be processed independently, making the LETKF naturally parallelizable.
+
+\subsection{Filter Drawbacks}
+\label{sec:filter_drawbacks}
+
+In practice, the EnKF suffers from two well-known problems related to the limited ensemble size~\citep{houtekamer1998data, anderson2001ensemble}:
+
+The first problem is spurious correlations. The sample covariance~\eqref{eq:sample_cov} introduces spurious long-range correlations between physically unrelated state variables. With $N_e \ll n$, two distant grid points may appear correlated simply due to sampling noise. These spurious correlations contaminate the Kalman gain, causing observations to influence state variables they should not affect. \emph{Localization} techniques address this by zeroing out or tapering correlations beyond a specified distance.
+
+The second problem is covariance underestimation. The finite ensemble systematically underestimates the true error variance, leading to overconfidence in the background estimate. Over many assimilation cycles, this causes the ensemble to collapse: the spread shrinks, the filter increasingly ignores observations, and the analysis diverges from the truth. \emph{Inflation} techniques counteract this by artificially increasing the ensemble spread.
+
+\subsection{Localization}
+\label{sec:localization}
+
+Localization reduces the impact of spurious correlations by exploiting the spatial structure of the system. Given a localization function that assigns a weight based on distance, the localized covariance is obtained via the Schur (element-wise) product~\citep{gaspari1999construction}:
+\begin{equation}
+\label{eq:localization}
+\widetilde{\mathbf{P}}^b = \widehat{\boldsymbol{\Lambda}} \circ \mathbf{P}^b \in \mathbb{R}^{n \times n},
+\end{equation}
+where $\widehat{\boldsymbol{\Lambda}}$ is a correlation matrix with entries that decay with distance:
+\begin{equation}
+\label{eq:loc_matrix}
+\left\{\widehat{\boldsymbol{\Lambda}}\right\}_{i,j} = \exp\!\left(-\frac{1}{2} \cdot \frac{d(i,j)^2}{r^2}\right), \quad \text{for } 1 \leq i, j \leq n,
+\end{equation}
+and $r \in \mathbb{R}^+$ is the radius of influence. Entries far from the diagonal (corresponding to distant state variables) are tapered toward zero, enforcing a sparse structure on the estimated covariance. The radius $r$ controls the trade-off: small $r$ aggressively removes spurious correlations but may also discard genuine long-range structure, while large $r$ preserves more information at the cost of retaining more noise.
+
+A widely used alternative to the Gaussian taper~\eqref{eq:loc_matrix} is the Gaspari-Cohn function~\citep{gaspari1999construction}, a compactly supported fifth-order piecewise rational function that approximates a Gaussian but is exactly zero beyond a cutoff distance $c$:
+\begin{equation}
+\label{eq:gaspari_cohn}
+\rho_{\text{GC}}(z) = \begin{cases}
+-\frac{1}{4}z^5 + \frac{1}{2}z^4 + \frac{5}{8}z^3 - \frac{5}{3}z^2 + 1, & 0 \leq z \leq 1, \\
+\frac{1}{12}z^5 - \frac{1}{2}z^4 + \frac{5}{8}z^3 + \frac{5}{3}z^2 - 5z + 4 - \frac{2}{3}z^{-1}, & 1 < z \leq 2, \\
+0, & z > 2,
+\end{cases}
+\end{equation}
+where $z = d(i,j)/c$. The compact support means the localized covariance is exactly sparse (unlike the Gaussian taper, which is only approximately sparse), which can be exploited for computational savings in the linear solve~\eqref{eq:stochastic_enkf}.
+
+An alternative approach is \emph{domain localization}, in which the analysis is performed independently within local boxes around each grid point~\citep{ott2004local}. The Local Ensemble Kalman Filter (LEnKF) and the Local Ensemble Transform Kalman Filter (LETKF)~\citep{hunt2007efficient} apply the EnKF equations within each local box using only nearby observations, then assemble the global analysis from the local results. Domain localization has the advantage of naturally parallelizing the analysis step, since each local box can be processed independently.
+
+Figure~\ref{fig:localization_matrices} shows the Gaspari-Cohn localization matrix for three different radii on the Lorenz~96 grid ($n = 40$, cyclic boundary conditions). At $r = 2$, the matrix is very sparse, retaining significant weight only for the nearest neighbors. At $r = 10$, most of the domain is included, providing less aggressive filtering.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/localization_matrices.pdf}
+\caption{Gaspari-Cohn localization matrix $\hat{\boldsymbol{\Lambda}}$ at different radii of influence on the Lorenz~96 grid ($n = 40$, cyclic). At $r = 2$, the matrix is nearly diagonal; at $r = 10$, most entries are non-zero. The cyclic boundary conditions are visible as the non-zero corners.}
+\label{fig:localization_matrices}
+\end{figure}
+
+\subsection{Inflation}
+\label{sec:inflation}
+
+Multiplicative inflation scales the ensemble perturbations by a factor $\rho > 1$ before the analysis step:
+\begin{equation}
+\label{eq:inflation}
+\mathbf{x}_i^{b,\text{infl}} = \bar{\mathbf{x}}^b + \rho \, (\mathbf{x}_i^b - \bar{\mathbf{x}}^b), \quad i = 1, \ldots, N_e.
+\end{equation}
+This inflates the background covariance by a factor of $\rho^2$:
+\begin{equation}
+\label{eq:inflated_cov}
+\mathbf{P}^{b,\text{infl}} = \rho^2 \, \mathbf{P}^b,
+\end{equation}
+counteracting the underestimation due to limited ensemble size. The inflation factor can be set globally (a single $\rho$ for all state variables) or locally (varying $\rho$ across the domain). Typical values range from $\rho = 1.01$ to $\rho = 1.10$, depending on the ensemble size and model dynamics.
+
+Additive inflation takes a different approach, adding random noise drawn from a climatological covariance $\mathbf{Q}_{\text{clim}}$:
+\begin{equation}
+\label{eq:additive_inflation}
+\mathbf{x}_i^{b,\text{infl}} = \mathbf{x}_i^b + \boldsymbol{\eta}_i, \quad \boldsymbol{\eta}_i \sim \mathcal{N}(\mathbf{0}, \mathbf{Q}_{\text{clim}}),
+\end{equation}
+which preserves the ensemble rank and adds variance independently to each member. Multiplicative inflation is simpler to implement and does not require knowledge of the climatological covariance, but it amplifies all features of the ensemble spread equally, including spurious correlations. Additive inflation can be more targeted but requires a reasonable estimate of $\mathbf{Q}_{\text{clim}}$.
+
+The choice of inflation strategy interacts with the covariance estimation method. For the direct precision shrinkage methods studied in this thesis, we use multiplicative inflation because it does not alter the rank or eigenvectors of the sample covariance; only the eigenvalues are scaled uniformly. This preserves the relationship between the sample precision and the shrinkage target, which the Bodnar formulas rely on. With additive inflation, the statistical properties of the sample covariance would change in ways that the Bodnar derivation does not account for.
+
+In our experiments, we use $\rho = 1.05$ for Lorenz~96 and $\rho = 1.02$ for the AR(1) cosmological model. The smaller value for the cosmological model reflects its near-linear dynamics, which produce less covariance underestimation than the chaotic Lorenz~96 system.
+
+\section{The Wishart Distribution and Sample Precision}
+\label{sec:wishart}
+
+The statistical properties of the sample covariance~\eqref{eq:sample_cov} are central to understanding why shrinkage is needed and why the Bodnar et al.\ formulas take the form they do. When the ensemble members $\mathbf{x}_1^b, \ldots, \mathbf{x}_{N_e}^b$ are drawn from a multivariate Gaussian with true covariance $\boldsymbol{\Sigma}$, the matrix $(N_e - 1)\mathbf{S} = \sum_{i=1}^{N_e}(\mathbf{x}_i^b - \bar{\mathbf{x}}^b)(\mathbf{x}_i^b - \bar{\mathbf{x}}^b)^T$ follows a Wishart distribution:
+\begin{equation}
+\label{eq:wishart}
+(N_e - 1)\mathbf{S} \sim \mathcal{W}_n(N_e - 1, \boldsymbol{\Sigma}),
+\end{equation}
+where $\mathcal{W}_n(p, \boldsymbol{\Sigma})$ denotes the $n$-dimensional Wishart distribution with $p$ degrees of freedom and scale matrix $\boldsymbol{\Sigma}$. For this distribution to be non-degenerate (i.e., for $\mathbf{S}$ to be invertible with probability one), we need $p = N_e - 1 \geq n$, or equivalently $N_e > n$.
+
+Two properties of the Wishart distribution are particularly relevant:
+
+The first property is eigenvalue spreading. The eigenvalues of the sample covariance are systematically spread relative to the true eigenvalues. If $\boldsymbol{\Sigma}$ has eigenvalues $\sigma_1 \geq \cdots \geq \sigma_n$, the eigenvalues of $\mathbf{S}$ are on average more dispersed: the largest sample eigenvalues overestimate the truth, and the smallest underestimate it. This bias increases as $n/N_e$ approaches 1. In the random matrix theory literature, the Marchenko-Pastur law describes the limiting distribution of eigenvalues when $n$ and $N_e$ grow proportionally.
+
+Figure~\ref{fig:eigenvalue_spectrum} illustrates the eigenvalue spreading effect on Lorenz~96. At $N_e = 45$ (barely above the invertibility threshold), the sample eigenvalues are severely spread: the largest are overestimated by a factor of 2--3, and the smallest are underestimated by a similar factor. At $N_e = 100$, the sample eigenvalues are much closer to the reference, but systematic bias remains. This spreading directly affects the sample precision $\mathbf{S}^{-1}$: overestimated small eigenvalues of $\mathbf{S}$ become underestimated large eigenvalues of $\mathbf{S}^{-1}$, and vice versa.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/eigenvalue_spectrum.pdf}
+\caption{Eigenvalue spectrum of the sample covariance $\mathbf{S}$ (red circles) compared to a reference from $N_e = 500$ (black line) on Lorenz~96 ($n = 40$). At small $N_e$, the eigenvalues are systematically spread: the largest are overestimated and the smallest underestimated.}
+\label{fig:eigenvalue_spectrum}
+\end{figure}
+
+The second property is the bias of the inverse. When $N_e - 1 > n + 1$, the expected value of the inverse Wishart is
+\begin{equation}
+\label{eq:inverse_wishart_mean}
+\mathbb{E}[\mathbf{S}^{-1}] = \frac{N_e - 1}{N_e - n - 2} \boldsymbol{\Sigma}^{-1},
+\end{equation}
+so $\mathbf{S}^{-1}$ is a positively biased estimator of $\boldsymbol{\Sigma}^{-1}$. The \citep{hartlap2007your} correction multiplies $\mathbf{S}^{-1}$ by $\gamma = (N_e - n - 2)/(N_e - 1)$ to remove this bias. However, the Bodnar et al.\ shrinkage formulas are derived for the \emph{uncorrected} inverse $\mathbf{S}^{-1}$, and the $(1 - n/N_e)$ term in Eq.~\eqref{eq:alpha_star} already accounts for this bias. Applying the Hartlap correction before the Bodnar formula would double-correct, altering the estimator in a way not supported by the derivation.
+
+\section{Covariance Matrix Estimation}
+\label{sec:cov_estimation}
+
+The quality of the EnKF analysis depends critically on the quality of the background covariance estimate. Shrinkage estimation improves the sample covariance by blending it with a structured target:
+\begin{equation}
+\label{eq:shrinkage_cov}
+\hat{\mathbf{P}} = (1 - \lambda) \mathbf{S} + \lambda \mathbf{T},
+\end{equation}
+where $\mathbf{S}$ is the sample covariance, $\mathbf{T}$ is a structured target matrix, and $\lambda \in [0,1]$ controls the intensity of shrinkage. At $\lambda = 0$ we recover the sample covariance; at $\lambda = 1$ we use only the target. The optimal intensity minimizes the expected Frobenius loss:
+\begin{equation}
+\label{eq:optimal_lambda}
+\lambda^* = \arg\min_{\lambda \in [0,1]} \mathbb{E}\left[\|\hat{\mathbf{P}} - \boldsymbol{\Sigma}\|_F^2\right],
+\end{equation}
+where $\boldsymbol{\Sigma}$ is the true covariance.
+
+\subsection{Ledoit-Wolf Estimator}
+\label{sec:lw}
+
+\citep{ledoit2004well} derived a closed-form optimal intensity for the target $\mathbf{T} = \mu \mathbf{I}$, where $\mu = \text{tr}(\mathbf{S})/n$ is the average variance:
+\begin{equation}
+\label{eq:lw_lambda}
+\lambda^*_{\text{LW}} = \frac{\sum_{i=1}^{N_e} \|\mathbf{z}_i \mathbf{z}_i^T - \mathbf{S}\|_F^2 / N_e^2}{\|\mathbf{S} - \mu\mathbf{I}\|_F^2},
+\end{equation}
+where $\mathbf{z}_i$ are standardized observations. The numerator measures the variability of sample covariance estimates across observations (the higher the variability, the more shrinkage is needed), while the denominator measures how far the sample covariance is from the target (the closer it already is, the less shrinkage helps). This estimator is asymptotically optimal, achieving the lowest possible Frobenius loss in the class of linear combinations of $\mathbf{S}$ and $\mu\mathbf{I}$ as $N_e \to \infty$, and has become a standard reference in high-dimensional covariance estimation.
+
+\subsection{Oracle Estimator}
+\label{sec:oracle}
+
+When the true covariance $\boldsymbol{\Sigma}$ is known (as in simulation studies), the oracle intensity
+\begin{equation}
+\label{eq:oracle}
+\lambda^*_{\text{oracle}} = \frac{\text{tr}[(\mathbf{S} - \boldsymbol{\Sigma})(\mathbf{T} - \boldsymbol{\Sigma})]}{\|\mathbf{T} - \mathbf{S}\|_F^2}
+\end{equation}
+gives a best-case benchmark. It is not available in practice but is useful for judging how close a data-driven estimator gets to the theoretical optimum.
+
+\subsection{NERCOME Estimator}
+\label{sec:nercome}
+
+NERCOME (Nonparametric Eigenvalue-Regularized COvariance Matrix Estimator)~\citep{lam2016nonparametric} sidesteps the choice of target entirely. The algorithm proceeds as follows:
+\begin{enumerate}
+\item Split the $N_e$ samples randomly into two disjoint subsets of sizes $N_1$ and $N_2 = N_e - N_1$.
+\item Compute the sample covariance $\mathbf{S}_1$ from the first subset and eigendecompose it: $\mathbf{S}_1 = \mathbf{U} \boldsymbol{\Lambda} \mathbf{U}^T$.
+\item Compute the sample covariance $\mathbf{S}_2$ from the second subset, rotate it into the eigenbasis of $\mathbf{S}_1$: $\tilde{\mathbf{S}}_2 = \mathbf{U}^T \mathbf{S}_2 \mathbf{U}$, and keep only the diagonal.
+\item Average over many random splits to reduce the variance of the estimate.
+\end{enumerate}
+The split ratio $N_1 / N_e$ that minimizes cross-validated loss is selected. By using one subset to determine the eigenbasis and the other to estimate eigenvalues, NERCOME avoids the systematic bias that affects the eigenvalues of a single sample covariance, producing a better-conditioned estimate without structural assumptions.
+
+Estimating eigenvectors and eigenvalues from the same data introduces a positive bias in the eigenvalues (the eigenvectors are chosen to maximize the sample variance along each direction, so the corresponding sample variances are necessarily overestimates). By splitting the data, NERCOME decouples the eigenvector estimation from the eigenvalue estimation, removing this bias at the cost of increased variance from using smaller subsets.
+
+In practice, the algorithm performs $B$ random splits (typically $B = 100$--$200$) and averages the results:
+\begin{equation}
+\label{eq:nercome_avg}
+\hat{\boldsymbol{\Sigma}}_{\text{NERCOME}} = \frac{1}{B} \sum_{b=1}^{B} \mathbf{U}_b \, \text{diag}(\tilde{\mathbf{S}}_{2,b}) \, \mathbf{U}_b^T,
+\end{equation}
+where $\mathbf{U}_b$ is the eigenvector matrix from the first subset in split $b$, and $\text{diag}(\tilde{\mathbf{S}}_{2,b})$ is the diagonal of the rotated second-subset covariance. The averaging reduces the variance introduced by the random splitting.
+
+NERCOME was developed by \citet{lam2016nonparametric} as a general statistical method and later applied to cosmological large-scale structure covariance estimation by \citet{joachimi2017non}, where the number of mock catalogs ($N_e$) is often only 2--3 times the data dimension ($n$). In this regime, the eigenvalue bias of the standard sample covariance is substantial, and NERCOME's debiasing provides a clear improvement. We include it in our comparison as a representative of target-free covariance estimators.
+
+\section{Why Shrink? The Bias-Variance Tradeoff}
+\label{sec:bias_variance}
+
+Before describing precision shrinkage, we examine why shrinkage works at all. The sample covariance $\mathbf{S}$ is an unbiased estimator of $\boldsymbol{\Sigma}$: $\mathbb{E}[\mathbf{S}] = \boldsymbol{\Sigma}$. However, unbiasedness does not imply low error. The mean squared error (MSE) of an estimator $\hat{\boldsymbol{\Sigma}}$ can be decomposed as:
+\begin{equation}
+\label{eq:mse_decomposition}
+\mathbb{E}[\|\hat{\boldsymbol{\Sigma}} - \boldsymbol{\Sigma}\|_F^2] = \|\text{Bias}(\hat{\boldsymbol{\Sigma}})\|_F^2 + \text{Var}(\hat{\boldsymbol{\Sigma}}),
+\end{equation}
+where $\text{Bias}(\hat{\boldsymbol{\Sigma}}) = \mathbb{E}[\hat{\boldsymbol{\Sigma}}] - \boldsymbol{\Sigma}$ and $\text{Var}(\hat{\boldsymbol{\Sigma}}) = \mathbb{E}[\|\hat{\boldsymbol{\Sigma}} - \mathbb{E}[\hat{\boldsymbol{\Sigma}}]\|_F^2]$.
+
+For the sample covariance, the bias is zero but the variance is $\mathcal{O}(n^2/N_e)$. When $n$ is comparable to $N_e$, this variance dominates the MSE. The shrinkage estimator $\hat{\mathbf{P}} = (1 - \lambda)\mathbf{S} + \lambda\mathbf{T}$ introduces bias $\lambda(\mathbf{T} - \boldsymbol{\Sigma})$ but reduces variance by a factor of $(1 - \lambda)^2$. The optimal $\lambda$ trades off these two effects:
+\begin{itemize}
+\item When $n/N_e$ is small (many samples relative to dimensions), the variance is already low and shrinkage provides little benefit. $\lambda^* \to 0$.
+\item When $n/N_e$ is close to 1 (few samples relative to dimensions), the variance is large and shrinkage provides substantial benefit. $\lambda^*$ can approach 1 if the target is a good match.
+\item When the target $\mathbf{T}$ is close to $\boldsymbol{\Sigma}$, the bias from shrinkage is small regardless of $\lambda$, so the optimal $\lambda$ is larger. When $\mathbf{T}$ is far from $\boldsymbol{\Sigma}$, the bias penalty limits how much shrinkage is beneficial.
+\end{itemize}
+
+This tradeoff applies equally to covariance shrinkage and precision shrinkage. The \citep{bodnar2016direct} framework minimizes the MSE of the precision estimator, with the same bias-variance structure but different mathematical details because the inverse Wishart distribution replaces the Wishart.
+
+\section{Inverse Covariance Matrix Estimation}
+\label{sec:precision_estimation}
+
+Rather than shrinking the covariance and then inverting, \citep{bodnar2016direct} proposed shrinking the precision matrix directly. The estimator combines the sample precision $\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1}$ with a structured target $\boldsymbol{\Pi}_0$:
+\begin{equation}
+\label{eq:direct_precision}
+\boldsymbol{\Pi}_{\text{LS}} = \alpha^* \hat{\boldsymbol{\Pi}}_S + \beta^* \boldsymbol{\Pi}_0,
+\end{equation}
+where $\alpha^*$ and $\beta^*$ are derived analytically by minimizing the expected quadratic loss $\mathbb{E}[\|\boldsymbol{\Pi}_{\text{LS}} - \boldsymbol{\Sigma}^{-1}\|_F^2]$ under the assumption that $\mathbf{S}$ follows a Wishart distribution:
+\begin{align}
+\label{eq:alpha_star}
+\alpha^* &= 1 - \frac{n}{N_e} - \frac{N_e^{-1} \|\hat{\boldsymbol{\Pi}}_S\|_{\text{tr}}^2 \, \|\boldsymbol{\Pi}_0\|_F^2}{\|\hat{\boldsymbol{\Pi}}_S\|_F^2 \, \|\boldsymbol{\Pi}_0\|_F^2 - \bigl(\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0)\bigr)^2}, \\
+\label{eq:beta_star}
+\beta^* &= \left(1 - \frac{n}{N_e} - \alpha^*\right) \frac{\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0)}{\|\boldsymbol{\Pi}_0\|_F^2},
+\end{align}
+where $\|\cdot\|_{\text{tr}}$ denotes the trace norm (sum of eigenvalues) and $\|\cdot\|_F$ the Frobenius norm. The term $(1 - n/N_e)$ accounts for the known positive bias of the Wishart inverse: the expected value of $\mathbf{S}^{-1}$ is not $\boldsymbol{\Sigma}^{-1}$ but rather $\frac{N_e - 1}{N_e - n - 2}\boldsymbol{\Sigma}^{-1}$, so the correction factor ensures that the coefficients are calibrated for the raw inverse rather than the Hartlap-corrected one~\citep{hartlap2007your}.
+
+The denominator of the correction term in $\alpha^*$ involves the quantity $\|\hat{\boldsymbol{\Pi}}_S\|_F^2 \|\boldsymbol{\Pi}_0\|_F^2 - (\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0))^2$, which by the Cauchy-Schwarz inequality is non-negative and equals zero only when $\hat{\boldsymbol{\Pi}}_S$ is proportional to $\boldsymbol{\Pi}_0$. When the target is a good match for the sample precision, this quantity is small, and the correction drives $\alpha^*$ down (more weight to the target). When the target is a poor match, the correction is small relative to the denominator, and $\alpha^*$ stays near $1 - n/N_e$.
+
+\subsection{Cosmological Precision Matrix Structure}
+\label{sec:cosmo_cov}
+
+In galaxy surveys, the data vector consists of power spectrum measurements $\hat{C}_\ell$ at different multipole moments $\ell$ and, for tomographic analyses, different redshift bins. For a Gaussian random field observed over a sky fraction $f_{\text{sky}}$, the covariance of power spectrum estimates is~\citep{pope2008shrinkage}:
+\begin{equation}
+\label{eq:cosmo_cov}
+\text{Cov}(\hat{C}_{\ell_i}, \hat{C}_{\ell_j}) = \frac{2}{(2\ell_i + 1) f_{\text{sky}}} \left(C_{\ell_i} + \frac{1}{n_g}\right)^2 \delta_{\ell_i \ell_j},
+\end{equation}
+where $C_{\ell}$ is the true power spectrum, $n_g$ the galaxy number density, and $(2\ell+1)f_{\text{sky}}$ counts the independent modes $N_\ell$ at multipole $\ell$. The $1/n_g$ term is shot noise. The diagonal structure follows from mode independence under the Gaussian assumption: power spectrum estimates at different multipoles are uncorrelated.
+
+The precision matrix is then also diagonal:
+\begin{equation}
+\label{eq:cosmo_precision}
+\mathbf{P}_{ij}^{-1} = \frac{(2\ell_i + 1)}{2} f_{\text{sky}} \left(C_{\ell_i} + \frac{1}{n_g}\right)^{-2} \delta_{\ell_i \ell_j} \, \delta_{z_i z_j}.
+\end{equation}
+
+This diagonal structure motivates a cosmological shrinkage target. Following \citep{pope2008shrinkage}, as adopted by \citep{looijmans2024comparison}, the target covariance is
+\begin{equation}
+\label{eq:cosmo_target}
+T^{(2)}_{ii} = \frac{2}{N_{\ell_i}} C_{\ell_i}^2,
+\end{equation}
+where $N_{\ell_i} = (2\ell_i + 1) f_{\text{sky}}$. This captures the leading-order cosmic variance contribution and, when the assumed power spectrum model is close to the truth, provides a much more informative shrinkage direction than a generic identity target.
+
+\subsection{Related Shrinkage Approaches}
+\label{sec:related}
+
+The direct precision shrinkage framework sits within a broader landscape of regularized covariance and precision estimators. Understanding how it relates to these alternatives clarifies the design choices made in this thesis and situates the scaled-identity target proposed in Chapter~\ref{ch:proposed_method} within the existing literature.
+
+\paragraph{Linear covariance shrinkage.}
+\citet{ledoit2004well} (§\ref{sec:lw}) launched the modern shrinkage literature by providing a closed-form, data-driven intensity for the identity-scaled target $\mathbf{T} = \mu \mathbf{I}$. The estimator is asymptotically optimal within the class of convex combinations of $\mathbf{S}$ and $\mu\mathbf{I}$ and has become the baseline against which other shrinkage estimators are measured. \citet{chen2010shrinkage} refined the target-dependent intensity via an oracle-approximating (OAS) formulation that is particularly effective for Gaussian samples in the small-$N_e$ regime, and in extensive Monte-Carlo comparisons it frequently outperforms the Ledoit–Wolf estimator when the underlying assumptions hold. Both estimators produce well-conditioned covariance matrices; obtaining a precision matrix still requires an explicit inversion step and the associated error amplification that motivates the direct precision formulation.
+
+\paragraph{Nonlinear covariance shrinkage.}
+\citet{ledoit2012nonlinear} extended their framework to apply a distinct shrinkage weight to each eigenvalue of $\mathbf{S}$, yielding rotation-equivariant estimators that converge to the minimum-Frobenius-loss estimator among all estimators sharing the eigenbasis of $\mathbf{S}$. \citet{ledoit2020analytical} later produced an analytical version of this estimator that avoids the numerical optimization required by the original. While these methods dominate linear shrinkage in large $n$ regimes and are especially useful when the true covariance has a complex eigenvalue structure, they are still covariance-side estimators: inverting them to obtain a precision matrix remains susceptible to error amplification along the smallest sample eigenvalues.
+
+\paragraph{Eigenvalue-based covariance estimators.}
+\citet{haff1991variational} derived improved Bayes estimators of the covariance matrix through eigenvalue shrinkage, predating the Ledoit–Wolf framework but motivated by the same bias-variance logic. Rather than blending $\mathbf{S}$ with a target matrix, these estimators regularize the sample eigenvalues directly, typically shrinking the largest and inflating the smallest toward a central value. The NERCOME estimator (§\ref{sec:nercome}, \citealt{lam2016nonparametric}) continues this tradition, replacing explicit targets with a sample-splitting scheme that debiases the eigenvalue estimates nonparametrically.
+
+\paragraph{Sparse precision estimation.}
+A fundamentally different approach to high-dimensional precision estimation is to impose sparsity directly on $\boldsymbol{\Sigma}^{-1}$. The graphical lasso \citep{friedman2008sparse} maximizes the Gaussian log-likelihood with an $\ell_1$ penalty on the off-diagonal entries of the precision matrix, yielding an estimator that is well-conditioned even when $N_e < n$ and that reveals the conditional-independence structure of the underlying Gaussian graphical model. In contrast to shrinkage, which produces dense estimators biased toward a target, the graphical lasso produces sparse estimators whose non-zero pattern is itself an inferential output. This makes it attractive when one expects the true precision to be sparse (as in some genomics applications) but less natural when the precision is known to be dense, as in Lorenz~96 or when the covariance is generated by a spatially smooth physical process.
+
+\paragraph{Localization in data assimilation.}
+In the data assimilation community, the standard remedy for rank-deficient ensemble covariance estimates is localization: element-wise multiplication of $\mathbf{S}$ by a compactly supported correlation function that zeroes out long-range correlations. \citet{gaspari1999construction} gave the widely used piecewise-polynomial correlation functions that define these tapers, and \citet{houtekamer1998data} demonstrated their use in ensemble Kalman filtering. The EnKF-Cholesky baseline considered in this thesis is a band-limited variant of this idea: it retains only the leading diagonals of the Cholesky factor of $\mathbf{S}^{-1}$, which is equivalent to assuming a conditional-independence structure with a fixed maximum range. Localization and shrinkage are complementary: localization exploits spatial structure when it is known, while shrinkage exploits similarity to a target matrix when no such spatial structure is available.
+
+\paragraph{Cosmological precision estimation.}
+\citet{pope2008shrinkage} introduced shrinkage estimation to cosmology, motivated by the high cost of producing mock catalogues for power spectrum covariance estimation. Their paper showed that even a simple diagonal target reduces the mean squared error relative to the raw sample covariance when few mocks are available, and established the target structure that \citet{looijmans2024comparison} later carried over to direct precision shrinkage. \citet{joachimi2017non} applied NERCOME to cosmological covariance estimation, where $N_e / n$ is often only 2--3, and found substantial gains over the uncorrected sample covariance. More recently, \citet{looijmans2024comparison} compared covariance shrinkage (with empirical and analytical targets) against precision shrinkage (with eigenvalue-based and cosmological targets, following \citealt{bodnar2016direct}) and NERCOME on BOSS DR12 mocks. Their finding that incorporating cosmological prior information helps, especially at larger $N_e / n$, is the direct motivation for the benchmarks in Chapter~\ref{ch:benchmark} of this thesis.
+
+\paragraph{Summary.}
+The estimators surveyed here differ in three axes: the object regularized (covariance vs.\ precision), the regularization mechanism (blending with a target, eigenvalue reshaping, or sparsity), and the source of prior information (none, empirical, or domain-specific). The direct precision framework of \citet{bodnar2016direct} occupies a specific point in this space --- it regularizes the precision directly, blends linearly with a target, and permits either domain-agnostic or domain-specific targets --- and this is the point that the remainder of this thesis exploits and extends.
+
+\citep{haff1991variational} derived improved Bayes estimators for the covariance matrix via eigenvalue shrinkage, and \citep{chen2010shrinkage} proposed oracle-approximating algorithms that improve on Ledoit-Wolf in high dimensions. All of these methods trade bias for variance reduction; they differ in how the target encodes prior assumptions about the covariance structure.
+
+\subsection{Comparison of Covariance Estimators}
+\label{sec:cov_comparison}
+
+Table~\ref{tab:cov_estimator_comparison} summarizes the properties of the covariance estimation methods described above.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparison of covariance matrix estimators. ``Bias'' refers to the bias of the covariance estimate; ``Variance'' to the variance across different realizations.}
+\label{tab:cov_estimator_comparison}
+\begin{tabular}{@{}lcccl@{}}
+\toprule
+Estimator & Bias & Variance & Target & Key assumption \\
+\midrule
+Sample $\mathbf{S}$ & None & High & None & $N_e > n$ for invertibility \\
+Ledoit-Wolf & Low & Low & $\mu\mathbf{I}$ & Asymptotic optimality \\
+Oracle & Minimal & Low & Any & True $\boldsymbol{\Sigma}$ known \\
+NERCOME & Low & Medium & None & Gaussian, sufficient $N_e$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The sample covariance is the starting point: unbiased but high variance, singular when $N_e \leq n$. Ledoit-Wolf adds a small bias toward a scaled identity (which may not match the true covariance structure) but dramatically reduces variance, especially when $n/N_e$ is large. The oracle estimator represents the best achievable performance for any linear combination of $\mathbf{S}$ and a given target, but requires knowledge of the true covariance. NERCOME avoids the target choice entirely through cross-validated eigenvalue estimation but is computationally expensive.
+
+All estimators in this comparison trade some accuracy (bias) for stability (reduced variance). The question is where to apply this tradeoff: in covariance space (Ledoit-Wolf, NERCOME) or in precision space (Bodnar et al.). As we will see in Chapter~\ref{ch:proposed_method}, the answer depends on the structure of the true precision matrix and on whether the estimator is used once (standalone estimation) or repeatedly (sequential filtering).
+
+\section{Modified Cholesky Decomposition}
+\label{sec:cholesky}
+
+The modified Cholesky decomposition~\citep{nino2018ensemble} factors the precision matrix as
+\begin{equation}
+\label{eq:cholesky}
+(\mathbf{P}^b)^{-1} \approx \mathbf{L}^{-T} \mathbf{D}^{-1} \mathbf{L}^{-1},
+\end{equation}
+where $\mathbf{L}$ is unit lower triangular and $\mathbf{D}$ is diagonal. The key idea is that each row of $\mathbf{L}$ can be estimated independently by regressing a state variable on its spatial neighbors within a bandwidth $r$. Specifically, for each state variable $i$, we define the set of \emph{predecessors} $\Pi(i, r)$ as those variables whose indices fall within $r$ positions of $i$ (in some ordering of the state variables). The regression coefficients for variable $i$ depend only on the ensemble values of variable $i$ and its predecessors, yielding a banded lower-triangular matrix.
+
+The regression for variable $i$ uses the ensemble values of variables in $\Pi(i, r)$ as predictors and the ensemble values of variable $i$ as the response. Let $\mathbf{x}_i \in \mathbb{R}^{N_e}$ be the vector of ensemble values for variable $i$, and let $\mathbf{X}_{\Pi(i,r)} \in \mathbb{R}^{N_e \times |\Pi(i,r)|}$ be the matrix of ensemble values for the predecessors. The regression coefficients are:
+\begin{equation}
+\label{eq:cholesky_regression}
+\boldsymbol{\ell}_i = (\mathbf{X}_{\Pi(i,r)}^T \mathbf{X}_{\Pi(i,r)})^{-1} \mathbf{X}_{\Pi(i,r)}^T \mathbf{x}_i,
+\end{equation}
+and the residual variance is:
+\begin{equation}
+\label{eq:cholesky_residual}
+d_i = \frac{1}{N_e - |\Pi(i,r)| - 1} \|\mathbf{x}_i - \mathbf{X}_{\Pi(i,r)} \boldsymbol{\ell}_i\|_2^2.
+\end{equation}
+
+The coefficients $\boldsymbol{\ell}_i$ fill the $i$-th row of $\mathbf{L}$, and $d_i$ is the $i$-th diagonal entry of $\mathbf{D}$. Because each regression involves at most $r$ predictors, the cost per variable is $\mathcal{O}(r^2 N_e)$, and the total cost is $\mathcal{O}(n \cdot r^2 \cdot N_e)$, which is independent of the full state dimension $n$ aside from the linear factor.
+
+This produces a sparse, banded precision matrix by construction, avoiding the need to invert $\mathbf{P}^b$ entirely. The bandwidth $r$ controls the sparsity: small $r$ enforces locality (reducing noise but potentially discarding real correlations), while large $r$ retains more structure at the cost of higher variance. For the Lorenz~96 model with nearest-neighbor coupling, a bandwidth of $r = 2$--$5$ captures the dominant covariance structure while filtering out noise from distant grid points.
+
+\section{EnKF via Modified Cholesky Decomposition}
+\label{sec:enkf_cholesky}
+
+Substituting~\eqref{eq:cholesky} into the dual EnKF formulation~\eqref{eq:dual_enkf} gives an analysis that uses the banded precision estimate directly:
+\begin{equation}
+\label{eq:enkf_cholesky_system}
+[\mathbf{L}^{-T} \mathbf{D}^{-1} \mathbf{L}^{-1} + \mathbf{H}^T\mathbf{R}^{-1}\mathbf{H}] \, \Delta\mathbf{X}^a = \mathbf{H}^T\mathbf{R}^{-1}\mathbf{D}^s.
+\end{equation}
+
+The computational advantage is twofold. First, the regression step for each variable involves only $r$ predictors, so building the Cholesky factors costs $\mathcal{O}(n \cdot r \cdot N_e)$ instead of the $\mathcal{O}(n^2 N_e + n^3)$ required for full inversion. Second, the banded structure provides implicit localization: long-range correlations are zeroed out by construction, without requiring a separate localization matrix. \citep{nino2018ensemble} showed that even modest bandwidths ($r = 2$--$5$) substantially improve the EnKF on spatially extended systems like the Lorenz~96 model, achieving comparable performance to explicit localization methods at lower computational cost.

@@ -1,0 +1,32 @@
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Summary of notation.}}{3}{table.caption.6}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Comparison of data assimilation approaches. ``Model requirement'' indicates what information about the dynamical model is needed beyond the forward integration.}}{8}{table.caption.9}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Comparison of covariance matrix estimators. ``Bias'' refers to the bias of the covariance estimate; ``Variance'' to the variance across different realizations.}}{19}{table.caption.19}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Computational complexity per assimilation cycle. $n$: state dimension, $N_e$: ensemble size, $m$: observation dimension, $r$: Cholesky bandwidth, $B$: number of NERCOME bootstrap draws.}}{28}{table.caption.21}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Comparison of all methods tested in this thesis. ``Space'' indicates whether the method operates on the covariance matrix ($\mathbf {P}$) or the precision matrix ($\boldsymbol {\Pi }$). ``Target'' indicates whether domain-specific prior knowledge is required. ``Min $N_e$'' is the minimum ensemble size for the method to be applicable.}}{31}{table.caption.23}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Time-averaged relative RMSE ($\times 10^{-2}$) for different methods and ensemble sizes on Lorenz~96. Best result per column in \textbf {bold}. $^\dagger $Scaled Shrinkage is a novel domain-agnostic adaptation proposed in this work.}}{39}{table.caption.30}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$). Lower is better. Best result per column in \textbf {bold}.}}{44}{table.caption.42}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Time-averaged relative RMSE ($\times 10^{-2}$) for the AR(1) cosmological model. Best result per column in \textbf {bold}. $^\dagger $Scaled Shrinkage is a novel adaptation proposed in this work.}}{47}{table.caption.48}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Cross-domain summary. Best standalone estimator and best EnKF filter for each domain. The disconnect between estimation quality and filtering performance is the central finding.}}{52}{table.caption.53}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Full diagnostic data for the identity target on Lorenz~96 ($n = 40$).}}{71}{table.caption.60}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Full diagnostic data for the scaled identity target on Lorenz~96 ($n = 40$).}}{72}{table.caption.61}%
+\contentsline {table}{\numberline {A.3}{\ignorespaces Full diagnostic data for the eigenvalue target on Lorenz~96 ($n = 40$).}}{73}{table.caption.62}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {B.1}{\ignorespaces Relative Frobenius loss of precision matrix estimates on BOSS DR12 mock data ($d = 18$), full precision. Mean $\pm $ std over 100 random subsets.}}{75}{table.caption.63}%
+\contentsline {table}{\numberline {B.2}{\ignorespaces Percentage improvement in Frobenius loss over the Hartlap-corrected sample precision. Positive values indicate improvement; negative values indicate the method is worse than the sample.}}{76}{table.caption.64}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {E.1}{\ignorespaces Computational cost per 100 assimilation cycles on the AR(1) cosmological model ($d = 18$, $N_e = 30$). Mean $\pm $ std over 5 runs.}}{81}{table.caption.65}%
+\contentsline {table}{\numberline {E.2}{\ignorespaces Computational cost per 100 assimilation cycles on Lorenz~96 ($n = 40$, $N_e = 80$). Mean $\pm $ std over 5 runs.}}{82}{table.caption.66}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {H.1}{\ignorespaces Welch's $t$-test $p$-values comparing Ledoit-Wolf against each method on Lorenz~96 at $N_e = 80$. Values below 0.05 (bold) indicate statistically significant differences.}}{89}{table.caption.67}%
+\contentsline {table}{\numberline {H.2}{\ignorespaces Welch's $t$-test $p$-values comparing Ledoit-Wolf against each method on the AR(1) cosmological model at $N_e = 30$.}}{90}{table.caption.68}%
