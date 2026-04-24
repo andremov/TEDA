@@ -1,0 +1,20 @@
+{
+  "name": "thesis-defense-slides",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev:en": "slidev slides.en.md --open",
+    "dev:es": "slidev slides.es.md --open",
+    "build:en": "slidev build slides.en.md --base /defense-en/ --out dist/en",
+    "build:es": "slidev build slides.es.md --base /defense-es/ --out dist/es",
+    "export:en": "slidev export slides.en.md --output defense.en.pdf",
+    "export:es": "slidev export slides.es.md --output defense.es.pdf"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.49.0",
+    "@slidev/theme-apple-basic": "^0.25.0"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.59.1"
+  }
+}

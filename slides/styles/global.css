@@ -1,0 +1,74 @@
+/* Hide the Goto dialog that Slidev may leave visible. */
+#slidev-goto-dialog,
+[id*='goto-dialog'] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Intro / cover slide overrides. */
+.intro-slide {
+  text-align: center !important;
+}
+.intro-slide h1 {
+  font-size: 2.8rem !important;
+  line-height: 1.15 !important;
+  max-width: 48rem;
+  margin: 0 auto 1.5rem !important;
+  font-weight: 700;
+}
+.intro-slide > div {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 42rem;
+}
+
+/* Vertical centering for default layout slides:
+   Title pinned at top, remaining content centered vertically. */
+.slidev-layout.default {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  position: relative !important;
+  padding-top: 5rem !important;
+  height: 100% !important;
+}
+
+.slidev-layout.default > h1:first-child {
+  position: absolute !important;
+  top: 2rem !important;
+  left: 3rem !important;
+  right: 3rem !important;
+  margin: 0 !important;
+}
+
+/* Restore ordered / unordered list markers (apple-basic strips them). */
+.slidev-layout ol {
+  list-style: decimal outside !important;
+  padding-left: 1.5em !important;
+}
+.slidev-layout ul {
+  list-style: disc outside !important;
+  padding-left: 1.5em !important;
+}
+.slidev-layout ol li,
+.slidev-layout ul li {
+  display: list-item !important;
+  margin-bottom: 0.35em;
+}
+
+/* Make all <img> inside slides fit without cropping. */
+.slidev-layout img {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+}
+
+/* Apple-basic's image-right layout renders the figure as a <div> with
+   background-image and background-size: cover — which crops wider images.
+   Override to 'contain' so the whole figure fits. */
+.grid.grid-cols-2 > div[style*='background-image'] {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
