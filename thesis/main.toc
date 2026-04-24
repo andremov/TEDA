@@ -4,124 +4,139 @@
 \contentsline {chapter}{List of Algorithms}{xxi}{chapter*.4}%
 \contentsline {chapter}{List of Abbreviations}{xxiii}{chapter*.5}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Notation}{2}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Scope and Contributions}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.1}Notation}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Scope and Contributions}{4}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Thesis Organization}{4}{section.1.3}%
-\contentsline {chapter}{\numberline {2}Preliminaries}{5}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Data Assimilation}{5}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}The Kalman Filter}{7}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Sequential vs.\ Variational Data Assimilation}{7}{subsection.2.1.2}%
-\contentsline {section}{\numberline {2.2}The Ensemble Kalman Filter}{8}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}The Local Ensemble Transform Kalman Filter}{9}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Filter Drawbacks}{10}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Localization}{10}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Inflation}{12}{subsection.2.2.4}%
-\contentsline {section}{\numberline {2.3}The Wishart Distribution and Sample Precision}{12}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Covariance Matrix Estimation}{13}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Ledoit-Wolf Estimator}{14}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Oracle Estimator}{14}{subsection.2.4.2}%
-\contentsline {subsection}{\numberline {2.4.3}NERCOME Estimator}{14}{subsection.2.4.3}%
-\contentsline {section}{\numberline {2.5}Why Shrink? The Bias-Variance Tradeoff}{15}{section.2.5}%
-\contentsline {section}{\numberline {2.6}Inverse Covariance Matrix Estimation}{16}{section.2.6}%
-\contentsline {subsection}{\numberline {2.6.1}Cosmological Precision Matrix Structure}{16}{subsection.2.6.1}%
-\contentsline {subsection}{\numberline {2.6.2}Related Shrinkage Approaches}{17}{subsection.2.6.2}%
-\contentsline {paragraph}{Linear covariance shrinkage.}{17}{paragraph*.12}%
-\contentsline {paragraph}{Nonlinear covariance shrinkage.}{17}{paragraph*.13}%
-\contentsline {paragraph}{Eigenvalue-based covariance estimators.}{18}{paragraph*.14}%
-\contentsline {paragraph}{Sparse precision estimation.}{18}{paragraph*.15}%
-\contentsline {paragraph}{Localization in data assimilation.}{18}{paragraph*.16}%
-\contentsline {paragraph}{Cosmological precision estimation.}{18}{paragraph*.17}%
-\contentsline {paragraph}{Summary.}{19}{paragraph*.18}%
-\contentsline {subsection}{\numberline {2.6.3}Comparison of Covariance Estimators}{19}{subsection.2.6.3}%
-\contentsline {section}{\numberline {2.7}Modified Cholesky Decomposition}{20}{section.2.7}%
-\contentsline {section}{\numberline {2.8}EnKF via Modified Cholesky Decomposition}{20}{section.2.8}%
-\contentsline {chapter}{\numberline {3}Proposed Method}{23}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Direct Precision Shrinkage for the EnKF}{23}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Why Shrink the Precision Directly?}{23}{subsection.3.1.1}%
-\contentsline {section}{\numberline {3.2}Shrinkage Targets}{24}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Identity Target}{25}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Eigenvalue Target}{25}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Cosmological Target}{26}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Scaled Identity Target (Novel Adaptation)}{26}{subsection.3.2.4}%
-\contentsline {section}{\numberline {3.3}Worked Example}{27}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Computational Complexity}{28}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Implementation in TEDA}{29}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Architecture}{30}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Estimator Classes}{30}{subsection.3.5.2}%
-\contentsline {section}{\numberline {3.6}Summary of Methods}{31}{section.3.6}%
-\contentsline {chapter}{\numberline {4}Benchmark}{33}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Experimental Setup}{33}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Lorenz~96}{33}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}AR(1) Cosmological Model}{34}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}BOSS DR12 Mock Catalog Data}{35}{subsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.1.4}Standalone Precision Estimation}{35}{subsection.4.1.4}%
-\contentsline {subsection}{\numberline {4.1.5}Error Metrics}{36}{subsection.4.1.5}%
-\contentsline {section}{\numberline {4.2}Lorenz~96 Results}{36}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Shrinkage Coefficient Analysis}{39}{subsection.4.2.1}%
-\contentsline {subsubsection}{Behavior of $\alpha ^*$.}{40}{subsubsection*.34}%
-\contentsline {subsubsection}{Behavior of $\beta ^*$ (unclamped).}{40}{subsubsection*.36}%
-\contentsline {subsubsection}{Condition number of the estimator.}{41}{subsubsection*.38}%
-\contentsline {subsection}{\numberline {4.2.2}Ensemble Size Sensitivity}{41}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Precision Matrix Quality}{42}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Cosmological Results}{42}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Standalone Precision Estimation}{42}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}EnKF Filtering}{44}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}The Scaled Identity Target}{47}{subsection.4.3.3}%
-\contentsline {section}{\numberline {4.4}Effect of Inflation on Shrinkage Performance}{48}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Precision Matrix Quality}{49}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Computational Cost}{50}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Cross-Domain Summary}{51}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Estimation Quality vs.\ Filtering Performance}{51}{section.4.8}%
-\contentsline {chapter}{\numberline {5}Discussion}{57}{chapter.5}%
-\contentsline {section}{\numberline {5.1}The Role of Target-Truth Alignment}{57}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Why Ledoit-Wolf Wins in Sequential Filtering}{58}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Variance as a Compounding Risk}{58}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Implications for Estimator Design}{60}{subsection.5.2.2}%
-\contentsline {section}{\numberline {5.3}Domain Dependence of Shrinkage Performance}{60}{section.5.3}%
-\contentsline {section}{\numberline {5.4}The Modified Cholesky Alternative}{61}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Comparison with Looijmans et al.}{61}{section.5.5}%
-\contentsline {section}{\numberline {5.6}Sensitivity to Experimental Parameters}{62}{section.5.6}%
-\contentsline {paragraph}{Inflation factor.}{62}{paragraph*.56}%
-\contentsline {paragraph}{Observation coverage.}{62}{paragraph*.57}%
-\contentsline {paragraph}{Observation error.}{62}{paragraph*.58}%
-\contentsline {paragraph}{Assimilation window.}{62}{paragraph*.59}%
-\contentsline {section}{\numberline {5.7}Practical Recommendations}{63}{section.5.7}%
-\contentsline {section}{\numberline {5.8}Relationship to Other Regularization Approaches}{64}{section.5.8}%
-\contentsline {chapter}{\numberline {6}Conclusions and Future Work}{67}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of Contributions}{67}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Limitations}{68}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Future Work}{68}{section.6.3}%
-\contentsline {chapter}{\numberline {A}Supplementary Diagnostic Data}{71}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Identity Target}{71}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Scaled Identity Target}{72}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Eigenvalue Target}{72}{section.A.3}%
-\contentsline {chapter}{\numberline {B}Standalone Estimation Results}{75}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Frobenius Loss by Subsample Size}{75}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Analysis of Variance Components}{75}{section.B.2}%
-\contentsline {section}{\numberline {B.3}Improvement Over the Sample Precision}{76}{section.B.3}%
-\contentsline {chapter}{\numberline {C}Lorenz~96 Model Details}{77}{appendix.C}%
-\contentsline {section}{\numberline {C.1}Physical Interpretation}{77}{section.C.1}%
-\contentsline {section}{\numberline {C.2}Dynamical Regimes}{77}{section.C.2}%
-\contentsline {section}{\numberline {C.3}Numerical Integration}{78}{section.C.3}%
-\contentsline {section}{\numberline {C.4}Observation Configuration}{78}{section.C.4}%
-\contentsline {chapter}{\numberline {D}AR(1) Cosmological Model Details}{79}{appendix.D}%
-\contentsline {section}{\numberline {D.1}Model Construction}{79}{section.D.1}%
-\contentsline {section}{\numberline {D.2}Stationary Distribution}{79}{section.D.2}%
-\contentsline {section}{\numberline {D.3}Observation Configuration}{80}{section.D.3}%
-\contentsline {chapter}{\numberline {E}Computational Timing Details}{81}{appendix.E}%
-\contentsline {section}{\numberline {E.1}Cosmological Domain}{81}{section.E.1}%
-\contentsline {section}{\numberline {E.2}Lorenz~96 Domain}{82}{section.E.2}%
-\contentsline {chapter}{\numberline {F}Derivation of the Bodnar Shrinkage Coefficients}{83}{appendix.F}%
-\contentsline {section}{\numberline {F.1}Setup}{83}{section.F.1}%
-\contentsline {section}{\numberline {F.2}Expansion}{83}{section.F.2}%
-\contentsline {section}{\numberline {F.3}Wishart Moments}{83}{section.F.3}%
-\contentsline {section}{\numberline {F.4}First-Order Conditions}{83}{section.F.4}%
-\contentsline {chapter}{\numberline {G}TEDA Code Listings}{85}{appendix.G}%
-\contentsline {section}{\numberline {G.1}Shrinkage Coefficient Computation}{85}{section.G.1}%
-\contentsline {section}{\numberline {G.2}Identity Target Estimator}{86}{section.G.2}%
-\contentsline {section}{\numberline {G.3}Scaled Identity Target Estimator}{86}{section.G.3}%
-\contentsline {section}{\numberline {G.4}Eigenvalue Target Estimator}{87}{section.G.4}%
-\contentsline {section}{\numberline {G.5}Cosmological Target Estimator}{87}{section.G.5}%
-\contentsline {chapter}{\numberline {H}Statistical Significance Tests}{89}{appendix.H}%
-\contentsline {section}{\numberline {H.1}Lorenz~96 Results}{89}{section.H.1}%
-\contentsline {section}{\numberline {H.2}Cosmological Results}{89}{section.H.2}%
+\contentsline {chapter}{\numberline {2}Preliminaries}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Data Assimilation}{7}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}The Kalman Filter}{9}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Sequential vs.\ Variational Data Assimilation}{9}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}The Ensemble Kalman Filter}{10}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}The Local Ensemble Transform Kalman Filter}{11}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Filter Drawbacks}{12}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Localization}{12}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Inflation}{14}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}The Wishart Distribution and Sample Precision}{14}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Covariance Matrix Estimation}{15}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Ledoit-Wolf Estimator}{16}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Oracle Estimator}{16}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}NERCOME Estimator}{16}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}Why Shrink? The Bias-Variance Tradeoff}{17}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Inverse Covariance Matrix Estimation}{18}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Cosmological Precision Matrix Structure}{18}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Related Shrinkage Approaches}{19}{subsection.2.6.2}%
+\contentsline {paragraph}{Linear covariance shrinkage.}{19}{paragraph*.12}%
+\contentsline {paragraph}{Nonlinear covariance shrinkage.}{19}{paragraph*.13}%
+\contentsline {paragraph}{Eigenvalue-based covariance estimators.}{20}{paragraph*.14}%
+\contentsline {paragraph}{Sparse precision estimation.}{20}{paragraph*.15}%
+\contentsline {paragraph}{Localization in data assimilation.}{20}{paragraph*.16}%
+\contentsline {paragraph}{Cosmological precision estimation.}{20}{paragraph*.17}%
+\contentsline {paragraph}{Summary.}{21}{paragraph*.18}%
+\contentsline {subsection}{\numberline {2.6.3}Comparison of Covariance Estimators}{21}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {2.6.4}Critical Comparison of Existing Approaches}{22}{subsection.2.6.4}%
+\contentsline {paragraph}{Shrinkage in covariance space is not equivalent to shrinkage in precision space.}{22}{paragraph*.20}%
+\contentsline {paragraph}{Target-free methods pay for their generality.}{22}{paragraph*.21}%
+\contentsline {paragraph}{Diagonal targets assume the problem away.}{22}{paragraph*.22}%
+\contentsline {paragraph}{Standalone optimality is not sequential optimality.}{23}{paragraph*.23}%
+\contentsline {section}{\numberline {2.7}Modified Cholesky Decomposition}{23}{section.2.7}%
+\contentsline {section}{\numberline {2.8}EnKF via Modified Cholesky Decomposition}{24}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Proposed Method}{25}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Direct Precision Shrinkage for the EnKF}{25}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Why Shrink the Precision Directly?}{25}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Shrinkage Targets}{26}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Identity Target}{27}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Eigenvalue Target}{27}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Cosmological Target}{28}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Scaled Identity Target (Novel Adaptation)}{28}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}Worked Example}{29}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Computational Complexity}{30}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Implementation in TEDA}{31}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Architecture}{32}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Estimator Classes}{32}{subsection.3.5.2}%
+\contentsline {section}{\numberline {3.6}Summary of Methods}{33}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Benchmark}{35}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Experimental Setup}{35}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Lorenz~96}{35}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}AR(1) Cosmological Model}{36}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}BOSS DR12 Mock Catalog Data}{37}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Choice of Ensemble Size}{37}{subsection.4.1.4}%
+\contentsline {paragraph}{Theoretical lower bound.}{37}{paragraph*.29}%
+\contentsline {paragraph}{Upper bound where shrinkage is uninteresting.}{38}{paragraph*.30}%
+\contentsline {paragraph}{Regime map.}{38}{paragraph*.31}%
+\contentsline {paragraph}{Empirical validation.}{38}{paragraph*.32}%
+\contentsline {paragraph}{Summary.}{38}{paragraph*.33}%
+\contentsline {subsection}{\numberline {4.1.5}Standalone Precision Estimation}{38}{subsection.4.1.5}%
+\contentsline {subsection}{\numberline {4.1.6}Error Metrics}{39}{subsection.4.1.6}%
+\contentsline {section}{\numberline {4.2}Lorenz~96 Results}{39}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Shrinkage Coefficient Analysis}{43}{subsection.4.2.1}%
+\contentsline {subsubsection}{Behavior of $\alpha ^*$.}{43}{subsubsection*.44}%
+\contentsline {subsubsection}{Behavior of $\beta ^*$ (unclamped).}{43}{subsubsection*.46}%
+\contentsline {subsubsection}{Condition number of the estimator.}{44}{subsubsection*.48}%
+\contentsline {subsection}{\numberline {4.2.2}Ensemble Size Sensitivity}{45}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Precision Matrix Quality}{45}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Cosmological Results}{45}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Standalone Precision Estimation}{45}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}EnKF Filtering}{47}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}The Scaled Identity Target}{50}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}Effect of Inflation on Shrinkage Performance}{51}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Precision Matrix Quality}{52}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Computational Cost}{53}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Asymptotic vs.\ Measured Wall-Clock}{54}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Scaling to Larger State Dimensions}{55}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}Implementation Considerations}{56}{subsection.4.6.3}%
+\contentsline {subsection}{\numberline {4.6.4}Practical Recommendation}{57}{subsection.4.6.4}%
+\contentsline {section}{\numberline {4.7}Cross-Domain Summary}{58}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Estimation Quality vs.\ Filtering Performance}{58}{section.4.8}%
+\contentsline {chapter}{\numberline {5}Discussion}{63}{chapter.5}%
+\contentsline {section}{\numberline {5.1}The Role of Target-Truth Alignment}{63}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Why Ledoit-Wolf Wins in Sequential Filtering}{64}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Variance as a Compounding Risk}{64}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Implications for Estimator Design}{66}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Domain Dependence of Shrinkage Performance}{66}{section.5.3}%
+\contentsline {section}{\numberline {5.4}The Modified Cholesky Alternative}{67}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Comparison with Looijmans et al.}{67}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Sensitivity to Experimental Parameters}{68}{section.5.6}%
+\contentsline {paragraph}{Inflation factor.}{68}{paragraph*.68}%
+\contentsline {paragraph}{Observation coverage.}{68}{paragraph*.69}%
+\contentsline {paragraph}{Observation error.}{68}{paragraph*.70}%
+\contentsline {paragraph}{Assimilation window.}{68}{paragraph*.71}%
+\contentsline {section}{\numberline {5.7}Practical Recommendations}{69}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Relationship to Other Regularization Approaches}{70}{section.5.8}%
+\contentsline {chapter}{\numberline {6}Conclusions and Future Work}{73}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of Contributions}{73}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Limitations}{74}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Future Work}{74}{section.6.3}%
+\contentsline {chapter}{\numberline {A}Supplementary Diagnostic Data}{77}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Identity Target}{77}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Scaled Identity Target}{78}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Eigenvalue Target}{78}{section.A.3}%
+\contentsline {chapter}{\numberline {B}Standalone Estimation Results}{81}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Frobenius Loss by Subsample Size}{81}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Analysis of Variance Components}{81}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Improvement Over the Sample Precision}{82}{section.B.3}%
+\contentsline {chapter}{\numberline {C}Lorenz~96 Model Details}{83}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Physical Interpretation}{83}{section.C.1}%
+\contentsline {section}{\numberline {C.2}Dynamical Regimes}{83}{section.C.2}%
+\contentsline {section}{\numberline {C.3}Numerical Integration}{84}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Observation Configuration}{84}{section.C.4}%
+\contentsline {chapter}{\numberline {D}AR(1) Cosmological Model Details}{85}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Model Construction}{85}{section.D.1}%
+\contentsline {section}{\numberline {D.2}Stationary Distribution}{85}{section.D.2}%
+\contentsline {section}{\numberline {D.3}Observation Configuration}{86}{section.D.3}%
+\contentsline {chapter}{\numberline {E}Computational Timing Details}{87}{appendix.E}%
+\contentsline {section}{\numberline {E.1}Cosmological Domain}{87}{section.E.1}%
+\contentsline {section}{\numberline {E.2}Lorenz~96 Domain}{88}{section.E.2}%
+\contentsline {chapter}{\numberline {F}Derivation of the Bodnar Shrinkage Coefficients}{89}{appendix.F}%
+\contentsline {section}{\numberline {F.1}Setup}{89}{section.F.1}%
+\contentsline {section}{\numberline {F.2}Expansion}{89}{section.F.2}%
+\contentsline {section}{\numberline {F.3}Wishart Moments}{89}{section.F.3}%
+\contentsline {section}{\numberline {F.4}First-Order Conditions}{89}{section.F.4}%
+\contentsline {chapter}{\numberline {G}TEDA Code Listings}{91}{appendix.G}%
+\contentsline {section}{\numberline {G.1}Shrinkage Coefficient Computation}{91}{section.G.1}%
+\contentsline {section}{\numberline {G.2}Identity Target Estimator}{92}{section.G.2}%
+\contentsline {section}{\numberline {G.3}Scaled Identity Target Estimator}{92}{section.G.3}%
+\contentsline {section}{\numberline {G.4}Eigenvalue Target Estimator}{93}{section.G.4}%
+\contentsline {section}{\numberline {G.5}Cosmological Target Estimator}{93}{section.G.5}%
+\contentsline {chapter}{\numberline {H}Statistical Significance Tests}{95}{appendix.H}%
+\contentsline {section}{\numberline {H.1}Lorenz~96 Results}{95}{section.H.1}%
+\contentsline {section}{\numberline {H.2}Cosmological Results}{95}{section.H.2}%

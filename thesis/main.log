@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.7.15)  24 APR 2026 13:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.7.15)  24 APR 2026 16:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -668,14 +668,20 @@ Underfull \vbox (badness 6559) has occurred while \output is active []
 [17] [18
 
 ] (main.lot
-Overfull \hbox (0.30627pt too wide) in paragraph at lines 12--12
+Overfull \hbox (0.30627pt too wide) in paragraph at lines 13--13
  [][] [][][]\T1/ppl/m/n/10.95 Time-averaged rel-a-tive RMSE ($\OMS/zplm/m/n/10.
 95 ^^B\OT1/ppl/m/n/10.95 10[]$\T1/ppl/m/n/10.95 ) for the AR(1) cos-mo-log-i-ca
 l model. Best 
  []
 
+
+Overfull \hbox (0.88728pt too wide) in paragraph at lines 14--14
+ [][] [][][]\T1/ppl/m/n/10.95 Method rec-om-men-da-tion by regime. ``Tar-get kn
+own'' means a struc-tural prior 
+ []
+
 [19]
-Overfull \hbox (14.3228pt too wide) in paragraph at lines 31--31
+Overfull \hbox (14.3228pt too wide) in paragraph at lines 33--33
  [][] [][][]\T1/ppl/m/n/10.95 Welch's $\OML/zplm/m/it/10.95 t$\T1/ppl/m/n/10.95
  -test $\OML/zplm/m/it/10.95 p$\T1/ppl/m/n/10.95 -values com-par-ing Ledoit-Wol
 f against each method on Lorenz 96 
@@ -704,25 +710,32 @@ Chapter 1.
 
 ]
 LaTeX Font Info:    Trying to load font information for U+fplmbb on input line 
-34.
+14.
  (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ufplmbb.fd
 File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
 )
-[2]
-Overfull \hbox (10.10683pt too wide) in paragraph at lines 66--67
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2]
+Underfull \vbox (badness 7344) has occurred while \output is active []
+
+ [3]
+Overfull \hbox (10.10683pt too wide) in paragraph at lines 68--69
 \T1/ppl/m/n/10.95 ture, Lorenz 96 (dense pre-ci-sion) and BOSS DR12 cos-mo-log-
 i-cal mock data (near-diagonal
  []
 
 
-Overfull \hbox (6.29614pt too wide) in paragraph at lines 66--67
+Overfull \hbox (6.29614pt too wide) in paragraph at lines 68--69
 \T1/ppl/m/n/10.95 pre-ci-sion), along-side two base-lines (stan-dard EnKF, EnKF
 -Cholesky). This dual-domain
  []
 
-[3]) (chapters/preliminaries.tex [4]
+[4]) (chapters/preliminaries.tex [5] [6
+
+]
 Chapter 2.
-<../paper/figures/bayesian_inference.pdf, id=999, 498.43904pt x 280.0751pt>
+<../paper/figures/bayesian_inference.pdf, id=1108, 498.43904pt x 280.0751pt>
 File: ../paper/figures/bayesian_inference.pdf Graphic file (type pdf)
 <use ../paper/figures/bayesian_inference.pdf>
 Package pdftex.def Info: ../paper/figures/bayesian_inference.pdf  used on input
@@ -731,26 +744,24 @@ Package pdftex.def Info: ../paper/figures/bayesian_inference.pdf  used on input
 
 Underfull \vbox (badness 1546) has occurred while \output is active []
 
- [5
-
-]
-<../paper/figures/da_cycle.pdf, id=1015, 715.47299pt x 269.37001pt>
+ [7]
+<../paper/figures/da_cycle.pdf, id=1123, 715.47299pt x 269.37001pt>
 File: ../paper/figures/da_cycle.pdf Graphic file (type pdf)
 <use ../paper/figures/da_cycle.pdf>
 Package pdftex.def Info: ../paper/figures/da_cycle.pdf  used on input line 54.
 (pdftex.def)             Requested size: 441.01773pt x 166.03764pt.
 
-[6 <../paper/figures/bayesian_inference.pdf> <../paper/figures/da_cycle.pdf>]
+[8 <../paper/figures/bayesian_inference.pdf> <../paper/figures/da_cycle.pdf>]
 Underfull \vbox (badness 1789) has occurred while \output is active []
 
- [7]
+ [9]
 Overfull \hbox (0.83118pt too wide) in paragraph at lines 121--122
 \T1/ppl/m/n/10.95 ground co-vari-ance es-ti-mate (from the en-sem-ble spread) w
 ith-out re-quir-ing the ad-joint model.
  []
 
-[8] [9] [10]
-<../paper/figures/localization_matrices.pdf, id=1203, 973.26164pt x 316.38173pt
+[10] [11] [12]
+<../paper/figures/localization_matrices.pdf, id=1312, 973.26164pt x 316.38173pt
 >
 File: ../paper/figures/localization_matrices.pdf Graphic file (type pdf)
 <use ../paper/figures/localization_matrices.pdf>
@@ -760,18 +771,18 @@ put line 235.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [11 <../paper/figures/localization_matrices.pdf>]
+ [13 <../paper/figures/localization_matrices.pdf>]
 Underfull \vbox (badness 1661) has occurred while \output is active []
 
- [12]
-<../paper/figures/eigenvalue_spectrum.pdf, id=1294, 1004.2517pt x 334.5135pt>
+ [14]
+<../paper/figures/eigenvalue_spectrum.pdf, id=1402, 1004.2517pt x 334.5135pt>
 File: ../paper/figures/eigenvalue_spectrum.pdf Graphic file (type pdf)
 <use ../paper/figures/eigenvalue_spectrum.pdf>
 Package pdftex.def Info: ../paper/figures/eigenvalue_spectrum.pdf  used on inpu
 t line 284.
 (pdftex.def)             Requested size: 441.01773pt x 146.90565pt.
 
-[13 <../paper/figures/eigenvalue_spectrum.pdf>] [14] [15]
+[15 <../paper/figures/eigenvalue_spectrum.pdf>] [16] [17]
 Overfull \hbox (4.41899pt too wide) in paragraph at lines 380--382
 \T1/ppl/m/n/10.95 where $\OML/zplm/m/it/10.95 []$ \T1/ppl/m/n/10.95 and $\OML/
 zplm/m/it/10.95 ^^L[]$ \T1/ppl/m/n/10.95 are de-rived an-a-lyt-i-cally by min-i
@@ -786,15 +797,20 @@ m/it/10.95 []$ \T1/ppl/m/n/10.95 in-volves the quan-tity $\OMS/zplm/m/n/10.95
 k[][]k[]k[][]k[] ^^@ \OT1/zplm/m/n/10.95 ([]([][][][]))[]$\T1/ppl/m/n/10.95 ,
  []
 
-[16] [17] [18]
+[18] [19] [20]
 Underfull \vbox (badness 1748) has occurred while \output is active []
 
- [19])
-(chapters/proposed_method.tex [20] [21] [22
+ [21]
+Overfull \hbox (2.003pt too wide) in paragraph at lines 480--481
+\T1/ppl/m/n/10.95 localization---tapering of long-range correlations---rather t
+han shrink-age ([][]Gas-pari and Cohn[][],
+ []
+
+[22] [23]) (chapters/proposed_method.tex [24]
+Chapter 3.
+[25
 
 ]
-Chapter 3.
-[23]
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
 (Font)              scaled to size 9.37807pt on input line 37.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
@@ -807,8 +823,8 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 7.29405pt on input line 37.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 5.21004pt on input line 37.
- [24]
-<../paper/figures/target_comparison.pdf, id=1524, 1108.74382pt x 308.99155pt>
+ [26]
+<../paper/figures/target_comparison.pdf, id=1694, 1108.74382pt x 308.99155pt>
 File: ../paper/figures/target_comparison.pdf Graphic file (type pdf)
 <use ../paper/figures/target_comparison.pdf>
 Package pdftex.def Info: ../paper/figures/target_comparison.pdf  used on input 
@@ -823,7 +839,7 @@ a sim-plify: $\OMS/zplm/m/n/10.95 k[][]k[] \OT1/zplm/m/n/10.95 = \OML/zplm/m/it
 /10.95 n$\T1/ppl/m/n/10.95 , $[]\OT1/zplm/m/n/10.95 ([][][][]) =
  []
 
-[25 <../paper/figures/target_comparison.pdf>] [26]
+[27 <../paper/figures/target_comparison.pdf>] [28]
 Overfull \hbox (1.5738pt too wide) in paragraph at lines 152--153
 []\T1/ppl/m/n/10.95 The Cauchy-Schwarz de-nom-i-na-tor is $\OMS/zplm/m/n/10.95 
 k[][]k[]k[][]k[] ^^@ \OT1/zplm/m/n/10.95 ([]([][][][]))[] = \OT1/ppl/m/n/10.95 
@@ -831,21 +847,21 @@ k[][]k[]k[][]k[] ^^@ \OT1/zplm/m/n/10.95 ([]([][][][]))[] = \OT1/ppl/m/n/10.95
 /ppl/m/n/10.95 1.473[] \OT1/zplm/m/n/10.95 =
  []
 
-[27]
+[29]
 Overfull \hbox (9.59645pt too wide) in paragraph at lines 202--203
 []\T1/ppl/m/n/10.95 The mod-i-fied Cholesky ap-proach avoids the $\OMS/zplm/m/n
 /10.95 O\OT1/zplm/m/n/10.95 (\OML/zplm/m/it/10.95 n[]\OT1/zplm/m/n/10.95 )$ \T1
 /ppl/m/n/10.95 in-ver-sion en-tirely by ex-ploit-ing banded
  []
 
-[28]
-<../paper/figures/class_diagram.pdf, id=1670, 789.18839pt x 498.663pt>
+[30]
+<../paper/figures/class_diagram.pdf, id=1841, 789.18839pt x 498.663pt>
 File: ../paper/figures/class_diagram.pdf Graphic file (type pdf)
 <use ../paper/figures/class_diagram.pdf>
 Package pdftex.def Info: ../paper/figures/class_diagram.pdf  used on input line
  213.
 (pdftex.def)             Requested size: 441.01773pt x 278.67108pt.
- [29 <../paper/figures/class_diagram.pdf>]
+ [31 <../paper/figures/class_diagram.pdf>]
 Overfull \hbox (48.23975pt too wide) in paragraph at lines 227--228
 []\T1/ppl/b/n/10.95 Analysis\T1/ppl/m/n/10.95 : Ab-stract base for as-sim-i-la-
 tion meth-ods. Sub-classes over-ride \T1/cmtt/m/n/10.95 perform_assimilation()
@@ -866,7 +882,7 @@ m/n/10.95 : Com-putes $[]\OT1/zplm/m/n/10.95 (\OT1/ppl/m/n/10.95 1\OT1/zplm/m/n
 t/10.95 ^^[[]\OT1/zplm/m/n/10.95 ))$
  []
 
-[30]
+[32]
 Overfull \hbox (0.47958pt too wide) in paragraph at lines 265--266
 []\T1/cmtt/m/n/10.95 AnalysisEnKFDirectPrecisionShrinkageCosmo\T1/ppl/m/n/10.95
  : Reads BOSS power spec-trum pa-ram-
@@ -879,203 +895,235 @@ lf is im-ple-mented as \T1/cmtt/m/n/10.95 AnalysisEnKFLedoitWolfShrinkage\T1/pp
 l/m/n/10.95 ,
  []
 
-[31]) (chapters/benchmark.tex [32]
+[33]) (chapters/benchmark.tex [34]
 Chapter 4.
-[33
+[35
 
 ]
-<../paper/figures/sample_cov_comparison.pdf, id=1805, 976.12268pt x 316.38173pt
+<../paper/figures/sample_cov_comparison.pdf, id=1976, 976.12268pt x 316.38173pt
 >
 File: ../paper/figures/sample_cov_comparison.pdf Graphic file (type pdf)
 <use ../paper/figures/sample_cov_comparison.pdf>
 Package pdftex.def Info: ../paper/figures/sample_cov_comparison.pdf  used on in
 put line 35.
 (pdftex.def)             Requested size: 441.01773pt x 142.94493pt.
- [34 <../paper/figures/sample_cov_comparison.pdf>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+ [36 <../paper/figures/sample_cov_comparison.pdf>] [37]
+Overfull \hbox (20.34813pt too wide) in paragraph at lines 92--93
+[] []\T1/ppl/b/n/10.95 Regime map.[] \T1/ppl/m/n/10.95 Fig-ure [][]5.1[][] (an-
+a-lyzed in Chap-ter [][]5[][]) places both ex-per-i-ments on a two-dimensional
+ []
 
- [35]
-<../paper/figures/rmse_time.pdf, id=1907, 426.00136pt x 279.50798pt>
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 10.42007pt on input line 105.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 7.91925pt on input line 105.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 10.42007pt on input line 105.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 7.91925pt on input line 105.
+
+Overfull \hbox (80.8745pt too wide) in paragraph at lines 105--120
+ [][] 
+ []
+
+[38]
+<../paper/figures/rmse_time.pdf, id=2102, 426.00136pt x 279.50798pt>
 File: ../paper/figures/rmse_time.pdf Graphic file (type pdf)
 <use ../paper/figures/rmse_time.pdf>
-Package pdftex.def Info: ../paper/figures/rmse_time.pdf  used on input line 108
+Package pdftex.def Info: ../paper/figures/rmse_time.pdf  used on input line 150
 .
 (pdftex.def)             Requested size: 396.91325pt x 260.42166pt.
-<../paper/figures/rmse_time_ne50.pdf, id=1910, 568.18774pt x 349.82443pt>
+<../paper/figures/rmse_time_ne50.pdf, id=2105, 568.18774pt x 349.82443pt>
 File: ../paper/figures/rmse_time_ne50.pdf Graphic file (type pdf)
 <use ../paper/figures/rmse_time_ne50.pdf>
 Package pdftex.def Info: ../paper/figures/rmse_time_ne50.pdf  used on input lin
-e 117.
+e 159.
 (pdftex.def)             Requested size: 396.91325pt x 244.38434pt.
-<../paper/figures/rmse_time_ne60.pdf, id=1911, 568.16765pt x 349.82443pt>
+<../paper/figures/rmse_time_ne60.pdf, id=2106, 568.16765pt x 349.82443pt>
 File: ../paper/figures/rmse_time_ne60.pdf Graphic file (type pdf)
 <use ../paper/figures/rmse_time_ne60.pdf>
 Package pdftex.def Info: ../paper/figures/rmse_time_ne60.pdf  used on input lin
-e 124.
+e 166.
 (pdftex.def)             Requested size: 396.91325pt x 244.38434pt.
+ [39]
+Underfull \vbox (badness 2253) has occurred while \output is active []
 
-[36 <../paper/figures/rmse_time.pdf>]
-Underfull \vbox (badness 2035) has occurred while \output is active []
-
- [37 <../paper/figures/rmse_time_ne50.pdf>]
-<../paper/figures/lorenz_rmse_boxplot_ne50.pdf, id=2047, 709.92026pt x 350.4620
+ [40 <../paper/figures/rmse_time.pdf>]
+<../paper/figures/lorenz_rmse_boxplot_ne50.pdf, id=2181, 709.92026pt x 350.4620
 4pt>
 File: ../paper/figures/lorenz_rmse_boxplot_ne50.pdf Graphic file (type pdf)
 <use ../paper/figures/lorenz_rmse_boxplot_ne50.pdf>
 Package pdftex.def Info: ../paper/figures/lorenz_rmse_boxplot_ne50.pdf  used on
- input line 141.
+ input line 183.
 (pdftex.def)             Requested size: 396.91325pt x 195.94188pt.
-<../paper/figures/lorenz_rmse_boxplot_ne100.pdf, id=2048, 709.98048pt x 350.462
+<../paper/figures/lorenz_rmse_boxplot_ne100.pdf, id=2182, 709.98048pt x 350.462
 04pt>
 File: ../paper/figures/lorenz_rmse_boxplot_ne100.pdf Graphic file (type pdf)
 <use ../paper/figures/lorenz_rmse_boxplot_ne100.pdf>
 Package pdftex.def Info: ../paper/figures/lorenz_rmse_boxplot_ne100.pdf  used o
-n input line 148.
+n input line 190.
 (pdftex.def)             Requested size: 396.91325pt x 195.92584pt.
-<../paper/figures/rmse_time_ne80.pdf, id=2051, 568.16765pt x 349.82443pt>
+<../paper/figures/rmse_time_ne80.pdf, id=2185, 568.16765pt x 349.82443pt>
 File: ../paper/figures/rmse_time_ne80.pdf Graphic file (type pdf)
 <use ../paper/figures/rmse_time_ne80.pdf>
 Package pdftex.def Info: ../paper/figures/rmse_time_ne80.pdf  used on input lin
-e 178.
+e 220.
 (pdftex.def)             Requested size: 396.91325pt x 244.38434pt.
-<../paper/figures/lorenz_rmse_boxplot.pdf, id=2053, 709.98048pt x 350.46204pt>
+
+Underfull \vbox (badness 1178) has occurred while \output is active []
+
+ [41 <../paper/figures/rmse_time_ne50.pdf>]
+<../paper/figures/lorenz_rmse_boxplot.pdf, id=2255, 709.98048pt x 350.46204pt>
 File: ../paper/figures/lorenz_rmse_boxplot.pdf Graphic file (type pdf)
 <use ../paper/figures/lorenz_rmse_boxplot.pdf>
 Package pdftex.def Info: ../paper/figures/lorenz_rmse_boxplot.pdf  used on inpu
-t line 187.
+t line 229.
 (pdftex.def)             Requested size: 396.91325pt x 195.92584pt.
- [38 <../paper/figures/rmse_time_ne60.pdf>]
-<../paper/figures/lorenz_per_method_panels.pdf, id=2122, 1076.47984pt x 659.728
+<../paper/figures/lorenz_per_method_panels.pdf, id=2257, 1076.47984pt x 659.728
 47pt>
 File: ../paper/figures/lorenz_per_method_panels.pdf Graphic file (type pdf)
 <use ../paper/figures/lorenz_per_method_panels.pdf>
 Package pdftex.def Info: ../paper/figures/lorenz_per_method_panels.pdf  used on
- input line 196.
+ input line 238.
 (pdftex.def)             Requested size: 441.01773pt x 270.27902pt.
 
-Underfull \vbox (badness 8132) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [39 <../paper/figures/lorenz_rmse_boxplot_ne50.pdf>]
-<../paper/figures/alpha_vs_ne.pdf, id=2199, 494.05379pt x 313.9415pt>
+ [42 <../paper/figures/rmse_time_ne60.pdf>]
+<../paper/figures/alpha_vs_ne.pdf, id=2327, 494.05379pt x 313.9415pt>
 File: ../paper/figures/alpha_vs_ne.pdf Graphic file (type pdf)
 <use ../paper/figures/alpha_vs_ne.pdf>
 Package pdftex.def Info: ../paper/figures/alpha_vs_ne.pdf  used on input line 2
-14.
+56.
 (pdftex.def)             Requested size: 396.91325pt x 252.22177pt.
-
-Overfull \hbox (5.76514pt too wide) in paragraph at lines 228--229
+ [43 <../paper/figures/lorenz_rmse_boxplot_ne50.pdf>]
+Overfull \hbox (5.76514pt too wide) in paragraph at lines 270--271
 \T1/ppl/m/n/10.95 value tar-get is de-rived from $[][]$ it-self, the Cauchy-Sch
 warz de-nom-i-na-tor $\OMS/zplm/m/n/10.95 k[][]k[]k[][]k[] ^^@
  []
 
-[40 <../paper/figures/lorenz_rmse_boxplot_ne100.pdf>]
-<../paper/figures/beta_vs_ne.pdf, id=2274, 492.9472pt x 313.9415pt>
+<../paper/figures/beta_vs_ne.pdf, id=2405, 492.9472pt x 313.9415pt>
 File: ../paper/figures/beta_vs_ne.pdf Graphic file (type pdf)
 <use ../paper/figures/beta_vs_ne.pdf>
-Package pdftex.def Info: ../paper/figures/beta_vs_ne.pdf  used on input line 23
-3.
+Package pdftex.def Info: ../paper/figures/beta_vs_ne.pdf  used on input line 27
+5.
 (pdftex.def)             Requested size: 396.91325pt x 252.78224pt.
-<../paper/figures/condition_vs_ne.pdf, id=2276, 495.28915pt x 312.72899pt>
+<../paper/figures/condition_vs_ne.pdf, id=2407, 495.28915pt x 312.72899pt>
 File: ../paper/figures/condition_vs_ne.pdf Graphic file (type pdf)
 <use ../paper/figures/condition_vs_ne.pdf>
 Package pdftex.def Info: ../paper/figures/condition_vs_ne.pdf  used on input li
-ne 246.
+ne 288.
 (pdftex.def)             Requested size: 396.91325pt x 250.61298pt.
-<../paper/figures/rmse_vs_ne.pdf, id=2279, 426.16904pt x 277.94728pt>
+[44 <../paper/figures/lorenz_rmse_boxplot_ne100.pdf>]
+<../paper/figures/rmse_vs_ne.pdf, id=2482, 426.16904pt x 277.94728pt>
 File: ../paper/figures/rmse_vs_ne.pdf Graphic file (type pdf)
 <use ../paper/figures/rmse_vs_ne.pdf>
-Package pdftex.def Info: ../paper/figures/rmse_vs_ne.pdf  used on input line 26
-0.
+Package pdftex.def Info: ../paper/figures/rmse_vs_ne.pdf  used on input line 30
+2.
 (pdftex.def)             Requested size: 396.91325pt x 258.86998pt.
- [41 <../paper/figures/rmse_time_ne80.pdf>]
-<../paper/figures/precision_heatmap.pdf, id=2352, 931.6864pt x 446.25761pt>
+<../paper/figures/precision_heatmap.pdf, id=2485, 931.6864pt x 446.25761pt>
 File: ../paper/figures/precision_heatmap.pdf Graphic file (type pdf)
 <use ../paper/figures/precision_heatmap.pdf>
 Package pdftex.def Info: ../paper/figures/precision_heatmap.pdf  used on input 
-line 274.
+line 316.
 (pdftex.def)             Requested size: 396.91325pt x 190.1166pt.
- [42 <../paper/figures/lorenz_rmse_boxplot.pdf>] [43 <../paper/figures/lorenz_p
-er_method_panels.pdf>]
-<../paper/figures/cosmo_matrix_loss.pdf, id=2492, 570.8395pt x 351.87209pt>
+ [45 <../paper/figures/rmse_time_ne80.pdf>] [46 <../paper/figures/lorenz_rmse_b
+oxplot.pdf>]
+<../paper/figures/cosmo_matrix_loss.pdf, id=2630, 570.8395pt x 351.87209pt>
 File: ../paper/figures/cosmo_matrix_loss.pdf Graphic file (type pdf)
 <use ../paper/figures/cosmo_matrix_loss.pdf>
 Package pdftex.def Info: ../paper/figures/cosmo_matrix_loss.pdf  used on input 
-line 318.
+line 360.
 (pdftex.def)             Requested size: 396.91325pt x 244.67119pt.
- [44 <../paper/figures/alpha_vs_ne.pdf>]
-<../paper/figures/cosmo_rmse_time_ne24.pdf, id=2568, 568.16765pt x 349.82443pt>
+ [47 <../paper/figures/lorenz_per_method_panels.pdf>]
+<../paper/figures/cosmo_rmse_time_ne24.pdf, id=2699, 568.16765pt x 349.82443pt>
 
 File: ../paper/figures/cosmo_rmse_time_ne24.pdf Graphic file (type pdf)
 <use ../paper/figures/cosmo_rmse_time_ne24.pdf>
 Package pdftex.def Info: ../paper/figures/cosmo_rmse_time_ne24.pdf  used on inp
-ut line 332.
+ut line 374.
 (pdftex.def)             Requested size: 396.91325pt x 244.38434pt.
-<../paper/figures/cosmo_rmse_time_ne30.pdf, id=2569, 568.14761pt x 349.82443pt>
+<../paper/figures/cosmo_rmse_time_ne30.pdf, id=2700, 568.14761pt x 349.82443pt>
 
 File: ../paper/figures/cosmo_rmse_time_ne30.pdf Graphic file (type pdf)
 <use ../paper/figures/cosmo_rmse_time_ne30.pdf>
 Package pdftex.def Info: ../paper/figures/cosmo_rmse_time_ne30.pdf  used on inp
-ut line 339.
+ut line 381.
 (pdftex.def)             Requested size: 396.91325pt x 244.39502pt.
-<../paper/figures/cosmo_rmse_time_ne40.pdf, id=2570, 568.16765pt x 349.82443pt>
+<../paper/figures/cosmo_rmse_time_ne40.pdf, id=2701, 568.16765pt x 349.82443pt>
 
 File: ../paper/figures/cosmo_rmse_time_ne40.pdf Graphic file (type pdf)
 <use ../paper/figures/cosmo_rmse_time_ne40.pdf>
 Package pdftex.def Info: ../paper/figures/cosmo_rmse_time_ne40.pdf  used on inp
-ut line 346.
+ut line 388.
 (pdftex.def)             Requested size: 396.91325pt x 244.38434pt.
-<../paper/figures/cosmo_rmse_time_ne50.pdf, id=2571, 568.16765pt x 349.82443pt>
+<../paper/figures/cosmo_rmse_time_ne50.pdf, id=2702, 568.16765pt x 349.82443pt>
 
 File: ../paper/figures/cosmo_rmse_time_ne50.pdf Graphic file (type pdf)
 <use ../paper/figures/cosmo_rmse_time_ne50.pdf>
 Package pdftex.def Info: ../paper/figures/cosmo_rmse_time_ne50.pdf  used on inp
-ut line 353.
+ut line 395.
 (pdftex.def)             Requested size: 396.91325pt x 244.38434pt.
-[45 <../paper/figures/beta_vs_ne.pdf>]
-<../paper/figures/cosmo_rmse_boxplot.pdf, id=2645, 709.98048pt x 350.64742pt>
+ [48 <../paper/figures/alpha_vs_ne.pdf>]
+<../paper/figures/cosmo_rmse_boxplot.pdf, id=2779, 709.98048pt x 350.64742pt>
 File: ../paper/figures/cosmo_rmse_boxplot.pdf Graphic file (type pdf)
 <use ../paper/figures/cosmo_rmse_boxplot.pdf>
 Package pdftex.def Info: ../paper/figures/cosmo_rmse_boxplot.pdf  used on input
- line 390.
+ line 432.
 (pdftex.def)             Requested size: 396.91325pt x 196.02948pt.
-<../paper/figures/cosmo_enkf_rmse.pdf, id=2650, 571.01833pt x 350.28152pt>
+<../paper/figures/cosmo_enkf_rmse.pdf, id=2784, 571.01833pt x 350.28152pt>
 File: ../paper/figures/cosmo_enkf_rmse.pdf Graphic file (type pdf)
 <use ../paper/figures/cosmo_enkf_rmse.pdf>
 Package pdftex.def Info: ../paper/figures/cosmo_enkf_rmse.pdf  used on input li
-ne 399.
+ne 441.
 (pdftex.def)             Requested size: 396.91325pt x 243.48503pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [46 <../paper/figures/condition_vs_ne.pdf>] [47 <../paper/figures/rmse_vs_ne.p
+ [49 <../paper/figures/beta_vs_ne.pdf>] [50 <../paper/figures/condition_vs_ne.p
 df>]
-[48 <../paper/figures/precision_heatmap.pdf>]
-Overfull \hbox (2.53445pt too wide) in paragraph at lines 435--436
+[51 <../paper/figures/rmse_vs_ne.pdf>]
+Overfull \hbox (2.53445pt too wide) in paragraph at lines 477--478
 []\T1/ppl/m/n/10.95 The sam-ple pre-ci-sion $\OT1/zplm/b/n/10.95 S[]$ \T1/ppl/m
 /n/10.95 (top left) shows the ex-pected banded struc-ture from Lorenz 96's
  []
 
-[49 <../paper/figures/cosmo_matrix_loss.pdf>]
-<../paper/figures/timing_comparison.pdf, id=2960, 857.77716pt x 368.76659pt>
+[52 <../paper/figures/precision_heatmap.pdf>] [53 <../paper/figures/cosmo_matri
+x_loss.pdf>]
+<../paper/figures/timing_comparison.pdf, id=3166, 857.77716pt x 368.76659pt>
 File: ../paper/figures/timing_comparison.pdf Graphic file (type pdf)
 <use ../paper/figures/timing_comparison.pdf>
 Package pdftex.def Info: ../paper/figures/timing_comparison.pdf  used on input 
-line 448.
+line 492.
 (pdftex.def)             Requested size: 441.01773pt x 189.59898pt.
- [50 <../paper/figures/cosmo_rmse_time_ne24.pdf>]
-<../paper/figures/cosmo_enkf_bar.pdf, id=3028, 498.36063pt x 278.88177pt>
+ [54 <../paper/figures/cosmo_rmse_time_ne24.pdf>]
+<../paper/figures/timing_scaling.pdf, id=3234, 534.07343pt x 349.06398pt>
+File: ../paper/figures/timing_scaling.pdf Graphic file (type pdf)
+<use ../paper/figures/timing_scaling.pdf>
+Package pdftex.def Info: ../paper/figures/timing_scaling.pdf  used on input lin
+e 513.
+(pdftex.def)             Requested size: 396.91325pt x 259.42181pt.
+ [55 <../paper/figures/cosmo_rmse_time_ne30.pdf>]
+Overfull \hbox (33.96074pt too wide) in paragraph at lines 533--534
+[]\T1/ppl/b/n/10.95 BLAS/LAPACK back-end. \T1/ppl/m/n/10.95 All ma-trix in-ver-
+sions in our code go through \T1/cmtt/m/n/10.95 numpy.linalg.solve\T1/ppl/m/n/1
+0.95 ,
+ []
+
+[56 <../paper/figures/cosmo_rmse_time_ne40.pdf>] [57 <../paper/figures/cosmo_rm
+se_time_ne50.pdf>]
+<../paper/figures/cosmo_enkf_bar.pdf, id=3441, 498.36063pt x 278.88177pt>
 File: ../paper/figures/cosmo_enkf_bar.pdf Graphic file (type pdf)
 <use ../paper/figures/cosmo_enkf_bar.pdf>
 Package pdftex.def Info: ../paper/figures/cosmo_enkf_bar.pdf  used on input lin
-e 466.
+e 581.
 (pdftex.def)             Requested size: 396.91325pt x 222.11845pt.
- [51 <../paper/figures/cosmo_rmse_time_ne30.pdf>] [52 <../paper/figures/cosmo_r
-mse_time_ne40.pdf>]) (chapters/discussion.tex [53 <../paper/figures/cosmo_rmse_
-time_ne50.pdf>] [54 <../paper/figures/cosmo_rmse_boxplot.pdf>]
-[55 <../paper/figures/cosmo_enkf_rmse.pdf> <../paper/figures/timing_comparison.
-pdf>] [56 <../paper/figures/cosmo_enkf_bar.pdf>]
+ [58 <../paper/figures/cosmo_rmse_boxplot.pdf>] [59 <../paper/figures/cosmo_enk
+f_rmse.pdf>]) (chapters/discussion.tex [60 <../paper/figures/timing_comparison.
+pdf>] [61 <../paper/figures/timing_scaling.pdf>] [62 <../paper/figures/cosmo_en
+kf_bar.pdf>]
 Chapter 5.
-<../paper/figures/shrinkage_regime_map.pdf, id=3503, 567.6958pt x 422.17285pt>
+<../paper/figures/shrinkage_regime_map.pdf, id=3805, 567.6958pt x 422.17285pt>
 File: ../paper/figures/shrinkage_regime_map.pdf Graphic file (type pdf)
 <use ../paper/figures/shrinkage_regime_map.pdf>
 Package pdftex.def Info: ../paper/figures/shrinkage_regime_map.pdf  used on inp
@@ -1084,16 +1132,16 @@ ut line 21.
 
 Underfull \vbox (badness 1389) has occurred while \output is active []
 
- [57
+ [63
 
 ]
-[58 <../paper/figures/shrinkage_regime_map.pdf>]
+[64 <../paper/figures/shrinkage_regime_map.pdf>]
 Overfull \hbox (6.97934pt too wide) in paragraph at lines 50--51
 []\T1/ppl/m/n/10.95 Figure [][]5.2[][] il-lus-trates this by plot-ting each met
 hod's stan-dalone es-ti-ma-tion vari-ance against
  []
 
-<../paper/figures/variance_vs_bias.pdf, id=3578, 509.83075pt x 350.2642pt>
+<../paper/figures/variance_vs_bias.pdf, id=3880, 509.83075pt x 350.2642pt>
 File: ../paper/figures/variance_vs_bias.pdf Graphic file (type pdf)
 <use ../paper/figures/variance_vs_bias.pdf>
 Package pdftex.def Info: ../paper/figures/variance_vs_bias.pdf  used on input l
@@ -1109,25 +1157,25 @@ $\OT1/ppl/m/n/10.95 10[]$\T1/ppl/m/n/10.95 --$\OT1/ppl/m/n/10.95 10[]$\T1/ppl/m
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [59 <../paper/figures/variance_vs_bias.pdf>]
+ [65 <../paper/figures/variance_vs_bias.pdf>]
 Overfull \hbox (7.49396pt too wide) in paragraph at lines 75--76
 []\T1/ppl/m/n/10.95 This do-main de-pen-dence is well-established in the co-var
 i-ance es-ti-ma-tion lit-er-a-ture. [][]Ledoit
  []
 
-[60]
+[66]
 Overfull \hbox (10.30878pt too wide) in paragraph at lines 106--107
 []\T1/ppl/m/n/10.95 Both stud-ies find that di-rect pre-ci-sion shrink-age out-
 per-forms Ledoit-Wolf on near-diagonal
  []
 
-[61] [62]
+[67] [68]
 Overfull \hbox (4.9044pt too wide) in paragraph at lines 131--132
 []\T1/ppl/m/n/10.95 Ledoit-Wolf is the de-fault choice for se-quen-tial fil-ter
 -ing with-out domain-specific knowl-
  []
 
-[63]
+[69]
 Overfull \hbox (10.13815pt too wide) in paragraph at lines 155--156
 \T1/ppl/m/n/10.95 The shrink-age es-ti-ma-tors stud-ied in this the-sis are one
  ap-proach to reg-u-lar-iz-ing ill-conditioned
@@ -1139,7 +1187,7 @@ Overfull \hbox (2.53404pt too wide) in paragraph at lines 161--162
 -lyt-i-cal cor-rec-tions for the eigen-
  []
 
-) (chapters/conclusions.tex [64] [65] [66
+) (chapters/conclusions.tex [70] [71] [72
 
 ]
 Chapter 6.
@@ -1155,13 +1203,13 @@ Overfull \hbox (6.5359pt too wide) in paragraph at lines 16--17
 -for-ma-tion. The im-prove-ment comes
  []
 
-[67] [68]
+[73] [74]
 Underfull \vbox (badness 5711) has occurred while \output is active []
 
- [69])
-(chapters/appendix.tex [70]
+ [75])
+(chapters/appendix.tex [76]
 Appendix A.
-[71
+[77
 
 ]
 Overfull \hbox (17.7209pt too wide) in paragraph at lines 103--104
@@ -1176,46 +1224,46 @@ Overfull \hbox (37.01231pt too wide) in paragraph at lines 103--104
 g), mak-ing the de-nom-i-na-tor $\OMS/zplm/m/n/10.95 k[][]k[]k[][]k[] ^^@
  []
 
-[72]
+[78]
 Overfull \hbox (2.5446pt too wide) in paragraph at lines 105--106
 []\T1/ppl/m/n/10.95 Despite the near-zero shrink-age, the eigen-value tar-get p
 ro-duces the high-est RMSE among
  []
 
-[73] [74
+[79] [80
 
 ]
 Appendix B.
-[75] [76]
+[81] [82]
 Appendix C.
-[77
+[83
 
-] [78]
+] [84]
 Appendix D.
-[79
+[85
 
-] [80]
+] [86]
 Appendix E.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [81
+ [87
 
 ]
-[82]
+[88]
 Appendix F.
 
 Overfull \hbox (5.57552pt too wide) in paragraph at lines 304--304
 |\T1/ppl/b/n/24.88 Derivation of the Bod-nar Shrink-age Co-
  []
 
-[83
+[89
 
-] [84]
+] [90]
 Appendix G.
-[85
+[91
 
-] [86] [87] [88]
+] [92] [93] [94]
 Appendix H.
 
 Overfull \hbox (0.64581pt too wide) in paragraph at lines 521--522
@@ -1224,27 +1272,27 @@ t ($\OML/zplm/m/it/10.95 p < \OT1/ppl/m/n/10.95 0.001$\T1/ppl/m/n/10.95 ) again
 st all shrink-age meth-
  []
 
-) [89
+) [95
 
-] [90] (main.bbl [91
+] [96] (main.bbl [97
 
 
-]) [92] (main.aux)
+] [98] [99]) [100] (main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 72E2BE85C2368ED02C8734F0D5E8A4F5;20678.
+(rerunfilecheck)             Checksum: 3892D2C0AF01F29691687876DEE99E7F;22034.
  ) 
 Here is how much of TeX's memory you used:
- 15269 strings out of 474486
- 249011 string characters out of 5743755
- 1963542 words of memory out of 5000000
- 36821 multiletter control sequences out of 15000+600000
- 623425 words of font info for 177 fonts, out of 8000000 for 9000
+ 15449 strings out of 474486
+ 253018 string characters out of 5743755
+ 1964542 words of memory out of 5000000
+ 36939 multiletter control sequences out of 15000+600000
+ 634676 words of font info for 207 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 89i,15n,93p,1156b,622s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 89i,15n,93p,2523b,644s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\andre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt
 0900.pk> <C:\Users\andre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
 0\ectt1095.pk><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/
@@ -1258,13 +1306,14 @@ ata/Local/Programs/MiKTeX/fonts/type1/public/mathpazo/fplmb.pfb><C:/Users/andre
 /andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/mathpazo/fplmbi.pfb><C:
 /Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/mathpazo/fplmr.pf
 b><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/mathpazo/fpl
-mri.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/
-uplb8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palati
-no/uplr8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/pal
-atino/uplri8a.pfb>
-Output written on main.pdf (118 pages, 1549326 bytes).
+mri.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/symbols/msam10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1
+/urw/palatino/uplb8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/urw/palatino/uplr8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts
+/type1/urw/palatino/uplri8a.pfb>
+Output written on main.pdf (126 pages, 1656915 bytes).
 PDF statistics:
- 4119 PDF objects out of 4296 (max. 8388607)
- 427 named destinations out of 1000 (max. 500000)
- 1060 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 4444 PDF objects out of 5155 (max. 8388607)
+ 478 named destinations out of 1000 (max. 500000)
+ 1113 words of extra memory for PDF output out of 10000 (max. 10000000)
 

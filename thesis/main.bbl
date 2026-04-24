@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{50}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -10,6 +10,13 @@ Jeffrey~L. Anderson.
 \newblock An ensemble adjustment {K}alman filter for data assimilation.
 \newblock \emph{Monthly Weather Review}, 129\penalty0 (12):\penalty0
   2884--2903, 2001.
+
+\bibitem[Anderson(2009)]{anderson2009spatially}
+Jeffrey~L. Anderson.
+\newblock Spatially and temporally varying adaptive covariance inflation for
+  ensemble filters.
+\newblock \emph{Tellus A: Dynamic Meteorology and Oceanography}, 61\penalty0
+  (1):\penalty0 72--83, 2009.
 
 \bibitem[Anderson and Anderson(1999)]{anderson1999monte}
 Jeffrey~L. Anderson and Stephen~L. Anderson.
@@ -24,6 +31,11 @@ Taras Bodnar, Arjun~K. Gupta, and Nestor Parolya.
 \newblock \emph{Journal of Multivariate Analysis}, 146:\penalty0 223--236,
   2016.
 
+\bibitem[Bun et~al.(2017)Bun, Bouchaud, and Potters]{bun2017cleaning}
+Jo{\"e}l Bun, Jean-Philippe Bouchaud, and Marc Potters.
+\newblock Cleaning large correlation matrices: Tools from random matrix theory.
+\newblock \emph{Physics Reports}, 666:\penalty0 1--109, 2017.
+
 \bibitem[Burgers et~al.(1998)Burgers, van Leeuwen, and
   Evensen]{burgers1998analysis}
 Gerrit Burgers, Peter~Jan van Leeuwen, and Geir Evensen.
@@ -31,11 +43,30 @@ Gerrit Burgers, Peter~Jan van Leeuwen, and Geir Evensen.
 \newblock \emph{Monthly Weather Review}, 126\penalty0 (6):\penalty0 1719--1724,
   1998.
 
+\bibitem[Cai et~al.(2011)Cai, Liu, and Luo]{cai2011constrained}
+Tony Cai, Weidong Liu, and Xi~Luo.
+\newblock A constrained $\ell_1$ minimization approach to sparse precision
+  matrix estimation.
+\newblock \emph{Journal of the American Statistical Association}, 106\penalty0
+  (494):\penalty0 594--607, 2011.
+
 \bibitem[Chen et~al.(2010)Chen, Wiesel, Eldar, and Hero]{chen2010shrinkage}
 Yilun Chen, Ami Wiesel, Yonina~C. Eldar, and Alfred~O. Hero.
 \newblock Shrinkage algorithms for {MMSE} covariance estimation.
 \newblock \emph{IEEE Transactions on Signal Processing}, 58\penalty0
   (10):\penalty0 5016--5029, 2010.
+
+\bibitem[Dodelson and Schneider(2013)]{dodelson2013effect}
+Scott Dodelson and Michael~D. Schneider.
+\newblock The effect of covariance estimator error on cosmological parameter
+  constraints.
+\newblock \emph{Physical Review D}, 88\penalty0 (6):\penalty0 063537, 2013.
+
+\bibitem[Efron and Morris(1975)]{efron1975data}
+Bradley Efron and Carl Morris.
+\newblock Data analysis using {S}tein's estimator and its generalizations.
+\newblock \emph{Journal of the American Statistical Association}, 70\penalty0
+  (350):\penalty0 311--319, 1975.
 
 \bibitem[Evensen(2003)]{evensen2003ensemble}
 Geir Evensen.
@@ -49,6 +80,18 @@ Jerome Friedman, Trevor Hastie, and Robert Tibshirani.
 \newblock Sparse inverse covariance estimation with the graphical lasso.
 \newblock \emph{Biostatistics}, 9\penalty0 (3):\penalty0 432--441, 2008.
 
+\bibitem[Friedman(1989)]{friedman1989regularized}
+Jerome~H. Friedman.
+\newblock Regularized discriminant analysis.
+\newblock \emph{Journal of the American Statistical Association}, 84\penalty0
+  (405):\penalty0 165--175, 1989.
+
+\bibitem[Furrer et~al.(2006)Furrer, Genton, and Nychka]{furrer2006covariance}
+Reinhard Furrer, Marc~G. Genton, and Douglas Nychka.
+\newblock Covariance tapering for interpolation of large spatial datasets.
+\newblock \emph{Journal of Computational and Graphical Statistics}, 15\penalty0
+  (3):\penalty0 502--523, 2006.
+
 \bibitem[Gaspari and Cohn(1999)]{gaspari1999construction}
 Gregory Gaspari and Stephen~E. Cohn.
 \newblock Construction of correlation functions in two and three dimensions.
@@ -60,6 +103,13 @@ L.~R. Haff.
 \newblock The variational form of certain {B}ayes estimators.
 \newblock \emph{The Annals of Statistics}, 19\penalty0 (3):\penalty0
   1163--1190, 1991.
+
+\bibitem[Hamill et~al.(2001)Hamill, Whitaker, and Snyder]{hamill2001distance}
+Thomas~M. Hamill, Jeffrey~S. Whitaker, and Chris Snyder.
+\newblock Distance-dependent filtering of background error covariance estimates
+  in an ensemble {K}alman filter.
+\newblock \emph{Monthly Weather Review}, 129\penalty0 (11):\penalty0
+  2776--2790, 2001.
 
 \bibitem[Hamilton et~al.(2006)Hamilton, Rimes, and
   Scoccimarro]{hamilton2006measuring}
@@ -76,11 +126,23 @@ J.~Hartlap, P.~Simon, and P.~Schneider.
 \newblock \emph{Astronomy \& Astrophysics}, 464\penalty0 (1):\penalty0
   399--404, 2007.
 
+\bibitem[Hoerl and Kennard(1970)]{hoerl1970ridge}
+Arthur~E. Hoerl and Robert~W. Kennard.
+\newblock Ridge regression: Biased estimation for nonorthogonal problems.
+\newblock \emph{Technometrics}, 12\penalty0 (1):\penalty0 55--67, 1970.
+
 \bibitem[Houtekamer and Mitchell(1998)]{houtekamer1998data}
 Peter~L. Houtekamer and Herschel~L. Mitchell.
 \newblock Data assimilation using an ensemble {K}alman filter technique.
 \newblock \emph{Monthly Weather Review}, 126\penalty0 (3):\penalty0 796--811,
   1998.
+
+\bibitem[Houtekamer and Zhang(2016)]{houtekamer2016review}
+Peter~L. Houtekamer and Fuqing Zhang.
+\newblock Review of the ensemble {K}alman filter for atmospheric data
+  assimilation.
+\newblock \emph{Monthly Weather Review}, 144\penalty0 (12):\penalty0
+  4489--4532, 2016.
 
 \bibitem[Hunt et~al.(2007)Hunt, Kostelich, and Szunyogh]{hunt2007efficient}
 Brian~R Hunt, Eric~J Kostelich, and Istvan Szunyogh.
@@ -88,6 +150,12 @@ Brian~R Hunt, Eric~J Kostelich, and Istvan Szunyogh.
   ensemble transform {K}alman filter.
 \newblock \emph{Physica D: Nonlinear Phenomena}, 230\penalty0 (1-2):\penalty0
   112--126, 2007.
+
+\bibitem[James and Stein(1961)]{james1961estimation}
+W.~James and Charles Stein.
+\newblock Estimation with quadratic loss.
+\newblock \emph{Proceedings of the Fourth Berkeley Symposium on Mathematical
+  Statistics and Probability}, 1:\penalty0 361--379, 1961.
 
 \bibitem[Joachimi(2017)]{joachimi2017non}
 Benjamin Joachimi.
@@ -142,6 +210,22 @@ Edward~N. Lorenz.
 \newblock \emph{Proc. Seminar on Predictability}, 1\penalty0 (1):\penalty0
   1--18, 1996.
 
+\bibitem[Meinshausen and B{\"u}hlmann(2006)]{meinshausen2006high}
+Nicolai Meinshausen and Peter B{\"u}hlmann.
+\newblock High-dimensional graphs and variable selection with the {L}asso.
+\newblock \emph{The Annals of Statistics}, 34\penalty0 (3):\penalty0
+  1436--1462, 2006.
+
+\bibitem[M{\'e}n{\'e}trier et~al.(2015)M{\'e}n{\'e}trier, Mont{\'e}rou, Berre,
+  and Desroziers]{menetrier2015linear}
+Benjamin M{\'e}n{\'e}trier, Thomas Mont{\'e}rou, Lo{\"i}k Berre, and G{\'e}rald
+  Desroziers.
+\newblock Linear filtering of sample covariances for ensemble-based data
+  assimilation. {P}art {I}: Optimality criteria and application to variance
+  filtering and covariance localization.
+\newblock \emph{Monthly Weather Review}, 143\penalty0 (5):\penalty0 1622--1643,
+  2015.
+
 \bibitem[Nino-Ruiz and Valbuena(2022)]{nino2022teda}
 Elias~D. Nino-Ruiz and Sebastian~Racedo Valbuena.
 \newblock {TEDA}: A computational toolbox for teaching ensemble based data
@@ -165,10 +249,90 @@ Edward Ott, Brian~R Hunt, Istvan Szunyogh, Aleksey~V Zimin, Eric~J Kostelich,
 \newblock A local ensemble {K}alman filter for atmospheric data assimilation.
 \newblock \emph{Tellus A}, 56\penalty0 (5):\penalty0 415--428, 2004.
 
+\bibitem[Paz and S{\'a}nchez(2015)]{paz2015improving}
+Dante~J. Paz and Ariel~G. S{\'a}nchez.
+\newblock Improving the precision matrix for precision cosmology.
+\newblock \emph{Monthly Notices of the Royal Astronomical Society},
+  454\penalty0 (4):\penalty0 4326--4334, 2015.
+
+\bibitem[Percival et~al.(2014)Percival, Ross, S{\'a}nchez, Samushia, Burden,
+  Crittenden, et~al.]{percival2014clustering}
+Will~J. Percival, Ashley~J. Ross, Ariel~G. S{\'a}nchez, Lado Samushia, Angela
+  Burden, Robert Crittenden, et~al.
+\newblock The clustering of galaxies in the {SDSS-III} {B}aryon {O}scillation
+  {S}pectroscopic {S}urvey: including covariance matrix errors.
+\newblock \emph{Monthly Notices of the Royal Astronomical Society},
+  439\penalty0 (3):\penalty0 2531--2541, 2014.
+
 \bibitem[Pope and Szapudi(2008)]{pope2008shrinkage}
 Adrian~C. Pope and Istv{\'a}n Szapudi.
 \newblock Shrinkage estimation of the power spectrum covariance matrix.
 \newblock \emph{Monthly Notices of the Royal Astronomical Society},
   389\penalty0 (2):\penalty0 766--774, 2008.
+
+\bibitem[Reich and Cotter(2015)]{reich2015probabilistic}
+Sebastian Reich and Colin Cotter.
+\newblock \emph{Probabilistic Forecasting and {B}ayesian Data Assimilation}.
+\newblock Cambridge University Press, 2015.
+
+\bibitem[Sch{\"a}fer and Strimmer(2005)]{schafer2005shrinkage}
+Juliane Sch{\"a}fer and Korbinian Strimmer.
+\newblock A shrinkage approach to large-scale covariance matrix estimation and
+  implications for functional genomics.
+\newblock \emph{Statistical Applications in Genetics and Molecular Biology},
+  4\penalty0 (1):\penalty0 Article 32, 2005.
+
+\bibitem[Sellentin and Heavens(2016)]{sellentin2016parameter}
+Elena Sellentin and Alan~F. Heavens.
+\newblock Parameter inference with estimated covariance matrices.
+\newblock \emph{Monthly Notices of the Royal Astronomical Society: Letters},
+  456\penalty0 (1):\penalty0 L132--L136, 2016.
+
+\bibitem[Stein(1956)]{stein1956inadmissibility}
+Charles Stein.
+\newblock Inadmissibility of the usual estimator for the mean of a multivariate
+  normal distribution.
+\newblock In \emph{Proceedings of the Third Berkeley Symposium on Mathematical
+  Statistics and Probability}, volume~1, pages 197--206, 1956.
+
+\bibitem[Taylor and Joachimi(2014)]{taylor2014estimating}
+Andy Taylor and Benjamin Joachimi.
+\newblock Estimating cosmological parameter covariance.
+\newblock \emph{Monthly Notices of the Royal Astronomical Society},
+  442\penalty0 (3):\penalty0 2728--2738, 2014.
+
+\bibitem[Touloumis(2015)]{touloumis2015nonparametric}
+Anestis Touloumis.
+\newblock Nonparametric {S}tein-type shrinkage covariance matrix estimators in
+  high-dimensional settings.
+\newblock \emph{Computational Statistics \& Data Analysis}, 83:\penalty0
+  251--261, 2015.
+
+\bibitem[Warton(2008)]{warton2008penalized}
+David~I. Warton.
+\newblock Penalized normal likelihood and ridge regularization of correlation
+  and covariance matrices.
+\newblock \emph{Journal of the American Statistical Association}, 103\penalty0
+  (481):\penalty0 340--349, 2008.
+
+\bibitem[Witten and Tibshirani(2009)]{witten2009covariance}
+Daniela~M. Witten and Robert Tibshirani.
+\newblock Covariance-regularized regression and classification for
+  high-dimensional problems.
+\newblock \emph{Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 71\penalty0 (3):\penalty0 615--636, 2009.
+
+\bibitem[Won et~al.(2013)Won, Lim, Kim, and Rajaratnam]{won2013condition}
+Joong-Ho Won, Johan Lim, Seung-Jean Kim, and Bala Rajaratnam.
+\newblock Condition-number-regularized covariance estimation.
+\newblock \emph{Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 75\penalty0 (3):\penalty0 427--450, 2013.
+
+\bibitem[Zhang et~al.(2004)Zhang, Snyder, and Sun]{zhang2004impacts}
+Fuqing Zhang, Chris Snyder, and Juanzhen Sun.
+\newblock Impacts of initial estimate and observation availability on
+  convective-scale data assimilation with an ensemble {K}alman filter.
+\newblock \emph{Monthly Weather Review}, 132\penalty0 (5):\penalty0 1238--1253,
+  2004.
 
 \end{thebibliography}
