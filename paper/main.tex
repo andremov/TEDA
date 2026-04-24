@@ -28,15 +28,16 @@ Andr\'es Movilla Obreg\'on\inst{1}}
 \maketitle
 
 \begin{abstract}
-We embed direct precision shrinkage estimators from cosmological statistics into the Ensemble Kalman Filter, recomputing shrinkage coefficients at each assimilation cycle. Six estimators are tested: three direct precision shrinkage variants from Looijmans et al.\ (identity, eigenvalue, and cosmological targets), a scaled identity variant we propose as a domain-agnostic alternative, the NERCOME estimator, and Ledoit-Wolf covariance shrinkage. Experiments on Lorenz~96 ($n=40$) and BOSS DR12 cosmological mock data ($d=18$) show that direct precision shrinkage performance depends on how well the target matches the true precision structure---the methods fail on Lorenz~96 (dense off-diagonal precision) but give the best standalone estimates on near-diagonal cosmological data. Good standalone estimation does not imply good filtering: Ledoit-Wolf produces the worst precision estimates on cosmological data yet the lowest EnKF RMSE, because its low variance pays off when errors compound over repeated assimilation cycles.
+The Ensemble Kalman Filter (EnKF) and cosmological parameter inference share a common statistical bottleneck: both require the inverse of a covariance matrix estimated from a small number of realizations. We embed the direct precision shrinkage framework of Bodnar et al.\ inside the dual formulation of the EnKF, recomputing the shrinkage coefficients at every assimilation cycle, and benchmark six estimators (four direct precision shrinkage targets, Ledoit--Wolf covariance shrinkage, and NERCOME) on two systems with opposite precision structure: Lorenz~96 with dense off-diagonal precision and BOSS DR12 power-spectrum mocks with near-diagonal precision. Two findings emerge. First, target-truth alignment is decisive: the direct precision methods achieve the lowest Frobenius loss on cosmological data but fail catastrophically on Lorenz~96, where unclamped $\beta^*$ values reach $10^8$--$10^9$ and clamping occurs in over 80\% of cycles. Second, standalone estimation accuracy does not imply good filtering: Ledoit--Wolf gives the worst standalone precision estimates on cosmological data yet achieves the lowest EnKF RMSE, because its low cycle-to-cycle variance compounds favourably over hundreds of assimilation steps. Variance reduction, not bias reduction, is the dominant criterion for sequential filtering. We also propose a domain-agnostic scaled-identity target that sits between the plain identity and the domain-specific cosmological target.
 
-\keywords{Data Assimilation \and Ensemble Kalman Filter \and Shrinkage Estimation \and Precision Matrix \and Covariance Matrix Estimation}
+\keywords{Data Assimilation \and Ensemble Kalman Filter \and Shrinkage Estimation \and Precision Matrix \and Cosmological Covariance}
 \end{abstract}
 
 \input{sections/introduction}
 \input{sections/preliminaries}
 \input{sections/proposed_method}
 \input{sections/benchmark}
+\input{sections/discussion}
 \input{sections/conclusions}
 
 \bibliographystyle{splncs04}

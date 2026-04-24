@@ -6,7 +6,7 @@
 
 We test on two systems with different precision matrix structures.
 
-\textbf{Lorenz~96.} The Lorenz~96 model~\cite{lorenz1996predictability} has $n = 40$ state variables with forcing $F = 8$, producing chaotic dynamics with dense off-diagonal precision structure due to spatial coupling. We use $m = 32$ randomly placed observations with Gaussian error $\sigma_o = 0.01$, multiplicative inflation $\rho = 1.05$, and 100 assimilation cycles at observation frequency $\Delta t_{\text{obs}} = 0.1$. Ensemble sizes are $N_e \in \{50, 60, 80, 100\}$, all above the $N_e > n + 2 = 42$ threshold required for direct precision methods. Each configuration is repeated 10 times with different random seeds.
+\textbf{Lorenz~96.} The Lorenz~96 model~\cite{lorenz1996predictability} has $n = 40$ state variables with forcing $F = 8$, producing chaotic dynamics with dense off-diagonal precision structure due to spatial coupling. We use $m = 32$ randomly placed observations with Gaussian error $\sigma_o = 0.01$, multiplicative inflation $\rho = 1.05$, and 100 assimilation cycles at observation frequency $\Delta t_{\text{obs}} = 0.1$. Ensemble sizes are $N_e \in \{50, 60, 80, 100\}$, all above the $N_e > n + 2 = 42$ threshold required for direct precision methods. Each configuration is repeated 30 times with different random seeds.
 
 \textbf{AR(1) cosmological model.} To test on data with near-diagonal precision structure, we build an AR(1) model calibrated to BOSS DR12 Patchy mock catalog statistics from Looijmans et al.~\cite{looijmans2024comparison}:
 \begin{equation}
@@ -52,13 +52,13 @@ Table~\ref{tab:performance} summarizes performance across ensemble sizes. Ledoit
 \toprule
 Method & $N_e = 50$ & $N_e = 60$ & $N_e = 80$ & $N_e = 100$ \\
 \midrule
-EnKF (standard)          & $0.35 \pm 0.18$ & $0.38 \pm 0.56$ & $0.08 \pm 0.02$ & $\mathbf{0.06 \pm 0.01}$ \\
-EnKF-Cholesky            & $0.14 \pm 0.01$ & $0.13 \pm 0.01$ & $0.13 \pm 0.01$ & $0.13 \pm 0.01$ \\
-Identity Shrinkage       & $0.79 \pm 0.62$ & $1.53 \pm 1.62$ & $0.63 \pm 0.31$ & $0.81 \pm 0.82$ \\
-Scaled Shrinkage$^\dagger$ & $0.43 \pm 0.20$ & $0.88 \pm 0.66$ & $0.51 \pm 0.24$ & $0.59 \pm 0.35$ \\
-Eigenvalue Shrinkage     & $1.56 \pm 0.59$ & $2.00 \pm 2.11$  & $1.68 \pm 0.93$ & $1.30 \pm 1.25$ \\
-NERCOME                  & $0.23 \pm 0.09$ & $0.29 \pm 0.18$  & $0.36 \pm 0.15$ & $0.42 \pm 0.19$ \\
-Ledoit-Wolf              & $\mathbf{0.08 \pm 0.01}$ & $\mathbf{0.08 \pm 0.01}$ & $\mathbf{0.07 \pm 0.00}$ & $0.07 \pm 0.01$ \\
+EnKF (standard)          & $3.06 \pm 11.45$ & $1.15 \pm 4.33$ & $0.08 \pm 0.02$ & $\mathbf{0.06 \pm 0.01}$ \\
+EnKF-Cholesky            & $0.13 \pm 0.01$ & $0.14 \pm 0.01$ & $0.13 \pm 0.01$ & $0.13 \pm 0.01$ \\
+Identity Shrinkage       & $0.84 \pm 0.57$ & $1.13 \pm 1.19$ & $0.85 \pm 0.46$ & $0.80 \pm 0.65$ \\
+Scaled Shrinkage$^\dagger$ & $0.51 \pm 0.28$ & $0.73 \pm 0.62$ & $0.61 \pm 0.33$ & $0.54 \pm 0.36$ \\
+Eigenvalue Shrinkage     & $1.72 \pm 0.83$ & $1.81 \pm 1.58$  & $1.43 \pm 1.01$ & $1.11 \pm 0.89$ \\
+NERCOME                  & $0.23 \pm 0.15$ & $0.28 \pm 0.15$  & $0.34 \pm 0.17$ & $0.42 \pm 0.18$ \\
+Ledoit-Wolf              & $\mathbf{0.09 \pm 0.01}$ & $\mathbf{0.08 \pm 0.01}$ & $\mathbf{0.07 \pm 0.01}$ & $0.06 \pm 0.01$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -70,7 +70,7 @@ Figure~\ref{fig:rmse_vs_ne} plots the time-averaged RMSE against $N_e$. The stan
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.9\textwidth]{figures/rmse_vs_ne.pdf}
-\caption{Time-averaged relative RMSE (over last 50 cycles) as a function of ensemble size $N_e$ on Lorenz~96. Error bars show $\pm 1$ standard deviation over 10 runs.}
+\caption{Time-averaged relative RMSE (over last 50 cycles) as a function of ensemble size $N_e$ on Lorenz~96. Error bars show $\pm 1$ standard deviation over 30 runs.}
 \label{fig:rmse_vs_ne}
 \end{figure}
 
@@ -132,36 +132,30 @@ Table~\ref{tab:cosmo_enkf} reports the time-averaged RMSE for the AR(1) cosmolog
 \toprule
 Method & $N_e = 24$ & $N_e = 30$ & $N_e = 40$ & $N_e = 50$ \\
 \midrule
-EnKF (standard)          & $2.93 \pm 0.44$ & $2.20 \pm 0.34$ & $2.16 \pm 0.25$ & $2.06 \pm 0.39$ \\
-EnKF-Cholesky            & $2.07 \pm 0.30$ & $1.76 \pm 0.20$ & $1.86 \pm 0.27$ & $1.86 \pm 0.37$ \\
-Identity Shrinkage       & $2.03 \pm 0.27$ & $1.74 \pm 0.23$ & $1.86 \pm 0.21$ & $1.84 \pm 0.34$ \\
-Scaled Shrinkage$^\dagger$ & $2.04 \pm 0.25$ & $1.73 \pm 0.20$ & $1.89 \pm 0.27$ & $1.85 \pm 0.33$ \\
-Eigenvalue Shrinkage     & $2.39 \pm 0.28$ & $2.00 \pm 0.26$ & $2.01 \pm 0.23$ & $1.92 \pm 0.35$ \\
-Cosmological Shrinkage   & $2.25 \pm 0.25$ & $2.00 \pm 0.28$ & $2.05 \pm 0.27$ & $1.97 \pm 0.36$ \\
-NERCOME                  & $1.93 \pm 0.23$ & $1.79 \pm 0.21$ & $1.88 \pm 0.28$ & $1.90 \pm 0.33$ \\
-Ledoit-Wolf              & $\mathbf{1.94 \pm 0.27}$ & $\mathbf{1.71 \pm 0.22}$ & $\mathbf{1.84 \pm 0.22}$ & $\mathbf{1.83 \pm 0.34}$ \\
+EnKF (standard)          & $2.75 \pm 0.46$ & $2.32 \pm 0.39$ & $2.17 \pm 0.20$ & $2.11 \pm 0.34$ \\
+EnKF-Cholesky            & $1.99 \pm 0.29$ & $1.81 \pm 0.26$ & $1.87 \pm 0.25$ & $1.88 \pm 0.31$ \\
+Identity Shrinkage       & $1.95 \pm 0.25$ & $1.80 \pm 0.26$ & $1.88 \pm 0.21$ & $1.86 \pm 0.30$ \\
+Scaled Shrinkage$^\dagger$ & $1.99 \pm 0.29$ & $1.81 \pm 0.26$ & $1.89 \pm 0.23$ & $1.87 \pm 0.31$ \\
+Eigenvalue Shrinkage     & $2.35 \pm 0.33$ & $2.05 \pm 0.30$ & $2.00 \pm 0.20$ & $1.97 \pm 0.32$ \\
+Cosmological Shrinkage   & $2.21 \pm 0.30$ & $2.06 \pm 0.31$ & $2.04 \pm 0.21$ & $2.02 \pm 0.33$ \\
+NERCOME                  & $1.88 \pm 0.20$ & $1.82 \pm 0.19$ & $1.91 \pm 0.29$ & $1.85 \pm 0.27$ \\
+Ledoit-Wolf              & $\mathbf{1.88 \pm 0.26}$ & $\mathbf{1.76 \pm 0.26}$ & $\mathbf{1.86 \pm 0.21}$ & $\mathbf{1.84 \pm 0.30}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Figure~\ref{fig:cosmo_enkf_rmse} plots RMSE against ensemble size. All methods converge as $N_e$ grows. Pairwise Welch's $t$-tests ($n = 10$ runs) show that on Lorenz~96, Ledoit-Wolf's advantage is statistically significant ($p < 0.05$) at most ensemble sizes. On the cosmological data, most shrinkage methods do not differ significantly from Ledoit-Wolf ($p > 0.05$) at $N_e \geq 40$.
+Figure~\ref{fig:cosmo_enkf_rmse} plots RMSE against ensemble size. All methods converge as $N_e$ grows. Pairwise Welch's $t$-tests ($n = 30$ runs) show that on Lorenz~96, Ledoit-Wolf's advantage is statistically significant ($p < 0.05$) at most ensemble sizes. On the cosmological data, most shrinkage methods do not differ significantly from Ledoit-Wolf ($p > 0.05$) at $N_e \geq 40$.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.9\textwidth]{figures/cosmo_enkf_rmse.pdf}
-\caption{Time-averaged relative RMSE vs.\ ensemble size for the AR(1) cosmological model. All methods show stable, monotonic behavior---unlike the Lorenz~96 case (Figure~\ref{fig:rmse_vs_ne}). Ledoit-Wolf achieves the lowest RMSE throughout. Error bars show $\pm 1$ standard deviation over 10 runs.}
+\caption{Time-averaged relative RMSE vs.\ ensemble size for the AR(1) cosmological model. All methods show stable, monotonic behavior---unlike the Lorenz~96 case (Figure~\ref{fig:rmse_vs_ne}). Ledoit-Wolf achieves the lowest RMSE throughout. Error bars show $\pm 1$ standard deviation over 30 runs.}
 \label{fig:cosmo_enkf_rmse}
 \end{figure}
 
 The scaled identity target occupies a middle ground. On Lorenz~96, it outperforms the other direct precision variants (Table~\ref{tab:performance}), probably because scaling by empirical variances gives a better-conditioned target than the plain identity. On cosmological data, it achieves the lowest mean Frobenius loss at $n = 30$ (Table~\ref{tab:cosmo_direct}) but falls slightly behind the Bodnar methods at larger sample sizes. It serves its intended purpose: modest gains over the identity target without requiring external information, but no substitute for a domain-specific target when one is available.
 
-\subsection{Estimation Quality vs.\ Filtering Performance}
-\label{sec:estimation_vs_filtering}
+\subsection{Computational Cost}
+\label{sec:results}
 
-The most striking result across both domains is the disconnect between standalone estimation quality and filtering performance. On cosmological data, the Bodnar et al.\ methods achieve Frobenius losses half those of Ledoit-Wolf (Table~\ref{tab:cosmo_direct}), yet Ledoit-Wolf yields the lowest EnKF RMSE (Table~\ref{tab:cosmo_enkf}).
-
-The explanation is sequential accumulation. The precision estimator is applied at every assimilation cycle, and step-to-step variability compounds across 100 updates. Ledoit-Wolf's standard deviation across draws is $\pm 0.01$ in Part~A---an order of magnitude below the direct precision methods ($\pm 0.13$--$0.14$). A slightly biased but stable estimator beats a more accurate but variable one when errors accumulate over many cycles.
-
-The dual-domain comparison confirms that the poor Lorenz~96 results for direct precision shrinkage reflect target-truth mismatch, not a deficiency of the methods. On Lorenz~96, diagonal targets produce erratic RMSE ($0.43$--$2.00 \times 10^{-2}$). On the near-diagonal cosmological data, the same methods achieve stable performance ($1.73$--$2.39 \times 10^{-2}$). The Bodnar framework works as designed when the target captures the dominant structure of the true precision matrix.
-
-For sequential data assimilation, variance reduction matters at least as much as bias reduction.
+All shrinkage methods except NERCOME are within 15\% of the EnKF baseline cost when $n \leq 40$. On the cosmological domain ($d = 18$, $N_e = 30$), NERCOME takes $26.7$~s per 100 cycles, roughly $190\times$ slower than the EnKF baseline ($0.14$~s) and $100\times$ slower than the direct precision shrinkage variants ($0.20$--$0.28$~s). On Lorenz~96 ($n = 40$, $N_e = 80$), ensemble propagation dominates and the gap narrows: all methods except NERCOME take $26$--$28$~s, with NERCOME at $215$~s. Extrapolating to operational dimensions, the $\mathcal{O}(n^3)$ inversion that the direct precision methods share with Ledoit-Wolf becomes prohibitive at $n \gtrsim 10^4$; beyond that scale, only the modified Cholesky $\mathcal{O}(n\,r\,N_e)$ variant remains tractable without additional approximation.

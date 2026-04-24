@@ -1,5 +1,5 @@
 \section{Proposed Method}
-\label{sec:proposed_method}
+\label{sec:method}
 
 \subsection{Direct Precision Shrinkage for the EnKF}
 \label{sec:dps_enkf}
@@ -22,7 +22,7 @@ The four target variants below differ only in their choice of $\boldsymbol{\Pi}_
 
 \subsubsection{Identity Target.}
 
-The simplest choice: $\boldsymbol{\Pi}_0 = \mathbf{I}_n$, assuming independent unit-variance priors. This carries no domain-specific information, but the direct precision formulation still produces a valid precision matrix---unlike inverting a shrunk covariance, which can amplify estimation error.
+The simplest choice: $\boldsymbol{\Pi}_0 = \mathbf{I}_n$, assuming independent unit-variance priors. This carries no domain-specific information, but the direct precision formulation still produces a valid precision matrix---unlike inverting a shrunk covariance, which can amplify estimation error. Algorithm~\ref{alg:identity} summarises the procedure; the eigenvalue, cosmological, and scaled identity variants (Algorithms~\ref{alg:eigenvalue}, \ref{alg:cosmo}, and Section~\ref{sec:scaled_target}) follow the same template with different choices of $\boldsymbol{\Pi}_0$.
 
 \begin{algorithm}[t]
 \caption{Direct Precision Shrinkage (Identity Target)}
@@ -81,7 +81,7 @@ The cosmological target requires power spectrum data $C_\ell$ and mode counts $N
 \label{eq:scaled_target}
 \boldsymbol{\Pi}_0 = \text{diag}\!\left(\frac{1}{2\sigma_1^2}, \ldots, \frac{1}{2\sigma_n^2}\right),
 \end{equation}
-where $\sigma_i^2$ are the diagonal entries of $\mathbf{S}$. The factor of 2 mirrors the $2/N_\ell$ scaling of the cosmological target~\eqref{eq:cosmo_target}. This variant tests how much of the direct precision shrinkage performance depends on domain-specific target knowledge versus the general framework itself.
+where $\sigma_i^2$ are the diagonal entries of $\mathbf{S}$. The factor of 2 mirrors the $2/N_\ell$ scaling of the cosmological target in Section~\ref{sec:precision_estimation}. This variant tests how much of the direct precision shrinkage performance depends on domain-specific target knowledge versus the general framework itself.
 
 \subsection{Computational Complexity}
 \label{sec:complexity}

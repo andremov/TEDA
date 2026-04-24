@@ -7,10 +7,6 @@
 Anderson, J.L.: An ensemble adjustment {K}alman filter for data assimilation.
   Monthly Weather Review  \textbf{129}(12),  2884--2903 (2001)
 
-\bibitem{asch2016data}
-Asch, M., Bocquet, M., Nodet, M.: Data Assimilation: Methods, Algorithms, and
-  Applications. SIAM (2016)
-
 \bibitem{bodnar2016direct}
 Bodnar, T., Gupta, A.K., Parolya, N.: Direct shrinkage estimation of large
   dimensional precision matrix. Journal of Multivariate Analysis  \textbf{146},
@@ -21,18 +17,23 @@ Chen, Y., Wiesel, A., Eldar, Y.C., Hero, A.O.: Shrinkage algorithms for {MMSE}
   covariance estimation. IEEE Transactions on Signal Processing
   \textbf{58}(10),  5016--5029 (2010)
 
+\bibitem{dodelson2013effect}
+Dodelson, S., Schneider, M.D.: The effect of covariance estimator error on
+  cosmological parameter constraints. Physical Review D  \textbf{88}(6),
+  063537 (2013)
+
 \bibitem{evensen2003ensemble}
 Evensen, G.: The ensemble {K}alman filter: theoretical formulation and
   practical implementation. Ocean dynamics  \textbf{53}(4),  343--367 (2003)
+
+\bibitem{friedman2008sparse}
+Friedman, J., Hastie, T., Tibshirani, R.: Sparse inverse covariance estimation
+  with the graphical lasso. Biostatistics  \textbf{9}(3),  432--441 (2008)
 
 \bibitem{gaspari1999construction}
 Gaspari, G., Cohn, S.E.: Construction of correlation functions in two and three
   dimensions. Quarterly Journal of the Royal Meteorological Society
   \textbf{125}(554),  723--757 (1999)
-
-\bibitem{haff1991variational}
-Haff, L.R.: The variational form of certain {B}ayes estimators. The Annals of
-  Statistics  \textbf{19}(3),  1163--1190 (1991)
 
 \bibitem{hamilton2006measuring}
 Hamilton, A.J.S., Rimes, C.D., Scoccimarro, R.: On measuring the covariance
@@ -44,6 +45,10 @@ Hartlap, J., Simon, P., Schneider, P.: Why your model parameter confidences may
   be too optimistic -- unbiased estimation of the inverse covariance matrix.
   Astronomy \& Astrophysics  \textbf{464}(1),  399--404 (2007)
 
+\bibitem{hoerl1970ridge}
+Hoerl, A.E., Kennard, R.W.: Ridge regression: Biased estimation for
+  nonorthogonal problems. Technometrics  \textbf{12}(1),  55--67 (1970)
+
 \bibitem{houtekamer1998data}
 Houtekamer, P.L., Mitchell, H.L.: Data assimilation using an ensemble {K}alman
   filter technique. Monthly Weather Review  \textbf{126}(3),  796--811 (1998)
@@ -52,6 +57,10 @@ Houtekamer, P.L., Mitchell, H.L.: Data assimilation using an ensemble {K}alman
 Joachimi, B.: Non-linear shrinkage estimation of large-scale structure
   covariance. Monthly Notices of the Royal Astronomical Society
   \textbf{466}(1),  L83--L87 (2017)
+
+\bibitem{lam2016nonparametric}
+Lam, C.: Nonparametric eigenvalue-regularized precision or covariance matrix
+  estimator. The Annals of Statistics  \textbf{44}(3),  928--953 (2016)
 
 \bibitem{ledoit2004well}
 Ledoit, O., Wolf, M.: A well-conditioned estimator for large-dimensional
@@ -66,6 +75,11 @@ Looijmans, M.J., Wang, M.S., Beutler, F.: A comparison of shrinkage estimators
 Lorenz, E.N.: Predictability: A problem partly solved. Proc. Seminar on
   Predictability  \textbf{1}(1),  1--18 (1996)
 
+\bibitem{meinshausen2006high}
+Meinshausen, N., B{\"u}hlmann, P.: High-dimensional graphs and variable
+  selection with the {L}asso. The Annals of Statistics  \textbf{34}(3),
+  1436--1462 (2006)
+
 \bibitem{nino2018ensemble}
 Nino-Ruiz, E.D., Sandu, A., Deng, X.: An ensemble {K}alman filter
   implementation based on modified {C}holesky decomposition for inverse
@@ -78,9 +92,24 @@ Nino-Ruiz, E.D., Valbuena, S.R.: {TEDA}: A computational toolbox for teaching
   Lecture Notes in Computer Science, vol. 13353, pp. 787--801. Springer, Cham
   (2022). \doi{10.1007/978-3-031-08760-8_60}
 
+\bibitem{paz2015improving}
+Paz, D.J., S{\'a}nchez, A.G.: Improving the precision matrix for precision
+  cosmology. Monthly Notices of the Royal Astronomical Society
+  \textbf{454}(4),  4326--4334 (2015)
+
 \bibitem{pope2008shrinkage}
 Pope, A.C., Szapudi, I.: Shrinkage estimation of the power spectrum covariance
   matrix. Monthly Notices of the Royal Astronomical Society  \textbf{389}(2),
   766--774 (2008)
+
+\bibitem{sellentin2016parameter}
+Sellentin, E., Heavens, A.F.: Parameter inference with estimated covariance
+  matrices. Monthly Notices of the Royal Astronomical Society: Letters
+  \textbf{456}(1),  L132--L136 (2016)
+
+\bibitem{taylor2014estimating}
+Taylor, A., Joachimi, B.: Estimating cosmological parameter covariance. Monthly
+  Notices of the Royal Astronomical Society  \textbf{442}(3),  2728--2738
+  (2014)
 
 \end{thebibliography}

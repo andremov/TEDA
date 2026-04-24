@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.7.15)  20 MAR 2026 16:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.7.15)  24 APR 2026 17:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -543,19 +543,13 @@ LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
 
 (sections/introduction.tex [1
 
-{C:/Users/andre/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]) (sections/p
-reliminaries.tex
-Underfull \vbox (badness 6141) has occurred while \output is active []
-
- [2]
-[3] [4]) (sections/proposed_method.tex [5]
+{C:/Users/andre/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2]) (sectio
+ns/preliminaries.tex [3] [4] [5])
+(sections/proposed_method.tex [6]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 28.
- [6] [7]) (sections/benchmark.tex
-Underfull \vbox (badness 1194) has occurred while \output is active []
-
- [8]
-<figures/rmse_time.pdf, id=228, 426.00136pt x 279.50798pt>
+ [7] [8]) (sections/benchmark.tex [9]
+<figures/rmse_time.pdf, id=276, 426.00136pt x 279.50798pt>
 File: figures/rmse_time.pdf Graphic file (type pdf)
 <use figures/rmse_time.pdf>
 Package pdftex.def Info: figures/rmse_time.pdf  used on input line 40.
@@ -566,48 +560,36 @@ Overfull \hbox (15.57155pt too wide) in paragraph at lines 45--46
  non-monotonic behavior---
  []
 
-[9]
-<figures/rmse_vs_ne.pdf, id=242, 426.10942pt x 277.94728pt>
+[10 <./figures/rmse_time.pdf>]
+<figures/rmse_vs_ne.pdf, id=345, 426.16904pt x 277.94728pt>
 File: figures/rmse_vs_ne.pdf Graphic file (type pdf)
 <use figures/rmse_vs_ne.pdf>
 Package pdftex.def Info: figures/rmse_vs_ne.pdf  used on input line 72.
-(pdftex.def)             Requested size: 312.40906pt x 203.78621pt.
-
-Underfull \vbox (badness 1817) has occurred while \output is active []
-
- [10 <./figures/rmse_time.pdf>]
-<figures/precision_heatmap.pdf, id=308, 931.6864pt x 446.25761pt>
+(pdftex.def)             Requested size: 312.40906pt x 203.75652pt.
+<figures/precision_heatmap.pdf, id=347, 931.6864pt x 446.25761pt>
 File: figures/precision_heatmap.pdf Graphic file (type pdf)
 <use figures/precision_heatmap.pdf>
 Package pdftex.def Info: figures/precision_heatmap.pdf  used on input line 83.
 (pdftex.def)             Requested size: 312.40906pt x 149.6351pt.
-<figures/cosmo_matrix_loss.pdf, id=311, 570.8395pt x 351.87209pt>
+ [11]
+<figures/cosmo_matrix_loss.pdf, id=360, 570.8395pt x 351.87209pt>
 File: figures/cosmo_matrix_loss.pdf Graphic file (type pdf)
 <use figures/cosmo_matrix_loss.pdf>
 Package pdftex.def Info: figures/cosmo_matrix_loss.pdf  used on input line 118.
 
 (pdftex.def)             Requested size: 312.40906pt x 192.5799pt.
- [11]
-<figures/cosmo_enkf_rmse.pdf, id=323, 498.74832pt x 315.10512pt>
+<figures/cosmo_enkf_rmse.pdf, id=363, 571.01833pt x 350.28152pt>
 File: figures/cosmo_enkf_rmse.pdf Graphic file (type pdf)
 <use figures/cosmo_enkf_rmse.pdf>
 Package pdftex.def Info: figures/cosmo_enkf_rmse.pdf  used on input line 151.
-(pdftex.def)             Requested size: 312.40906pt x 197.38736pt.
+(pdftex.def)             Requested size: 312.40906pt x 191.64525pt.
+) (sections/discussion.tex [12 <./figures/rmse_vs_ne.pdf>]
+Underfull \vbox (badness 3713) has occurred while \output is active []
 
-Underfull \vbox (badness 1377) has occurred while \output is active []
-
- [12 <./figures/rmse_vs_ne.pdf>]) (sections/conclusions.tex [13 <./figures/prec
-ision_heatmap.pdf>]
-Overfull \hbox (0.12709pt too wide) in paragraph at lines 10--11
-[]\OT1/cmr/m/n/10 Several di-rec-tions re-main open. Our im-ple-men-ta-tion doe
-s not com-bine shrink-
- []
-
-
-Underfull \vbox (badness 3895) has occurred while \output is active []
-
- [14 <./figures/cosmo_matrix_loss.pdf>]) (main.bbl [15]) [16 <./figures/cosmo_e
-nkf_rmse.pdf>] (main.aux)
+ [13 <./figures/precision_heatmap.pdf>] [14 <./figures/cosmo_matrix_loss.pdf>] 
+[15]
+[16 <./figures/cosmo_enkf_rmse.pdf>]) (sections/conclusions.tex [17]) (main.bbl
+[18]) [19] (main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -620,13 +602,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 8A29081B04E55CE61D6A9D787812B19E;434.
  ) 
 Here is how much of TeX's memory you used:
- 10857 strings out of 474486
- 167614 string characters out of 5743755
- 1943542 words of memory out of 5000000
- 32849 multiletter control sequences out of 15000+600000
+ 10879 strings out of 474486
+ 168081 string characters out of 5743755
+ 1944542 words of memory out of 5000000
+ 32859 multiletter control sequences out of 15000+600000
  569533 words of font info for 78 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,14n,79p,1208b,597s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,14n,79p,1492b,593s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\andre\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 0900.pk><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmbx10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -652,10 +634,11 @@ pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
 m/cmsy9.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/cm/cmti10.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/
 public/amsfonts/cm/cmtt9.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/font
-s/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (16 pages, 524505 bytes).
+s/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/andre/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (19 pages, 564060 bytes).
 PDF statistics:
- 775 PDF objects out of 1000 (max. 8388607)
- 113 named destinations out of 1000 (max. 500000)
+ 848 PDF objects out of 1000 (max. 8388607)
+ 122 named destinations out of 1000 (max. 500000)
  34 words of extra memory for PDF output out of 10000 (max. 10000000)
 
