@@ -29,6 +29,8 @@ Universidad del Norte · April 24, 2026
 
 # Objectives
 
+<div class="text-sm">
+
 **General**
 
 Evaluate and extend direct precision shrinkage estimators in the $n \sim N_e$ regime shared by the sequential EnKF and cosmological covariance analysis.
@@ -39,6 +41,8 @@ Evaluate and extend direct precision shrinkage estimators in the $n \sim N_e$ re
 2. **Benchmark** against Ledoit–Wolf, NERCOME, and the standard EnKF and EnKF-Cholesky baselines on Lorenz-96 and BOSS cosmological mocks.
 3. **Characterize** how target structure (diagonal vs. dense) affects the shrinkage coefficients, clamping, and the bias–variance tradeoff.
 4. **Propose** a domain-agnostic scaled-identity target as a middle ground between the plain identity and the domain-specific cosmological target.
+
+</div>
 
 ---
 

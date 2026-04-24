@@ -29,6 +29,8 @@ Universidad del Norte · 24 de abril de 2026
 
 # Objetivos
 
+<div class="text-sm">
+
 **General**
 
 Evaluar y extender los estimadores de contracción directa de precisión en el régimen $n \sim N_e$, común al EnKF secuencial y al análisis de covarianza cosmológica.
@@ -39,6 +41,8 @@ Evaluar y extender los estimadores de contracción directa de precisión en el r
 2. **Comparar** contra Ledoit–Wolf, NERCOME y los baselines EnKF estándar y EnKF-Cholesky sobre Lorenz-96 y mocks cosmológicos de BOSS.
 3. **Caracterizar** cómo la estructura del objetivo (diagonal vs. densa) afecta los coeficientes, el recorte y el compromiso sesgo–varianza.
 4. **Proponer** un objetivo de identidad escalada agnóstico al dominio, como punto medio entre la identidad plana y el objetivo cosmológico específico.
+
+</div>
 
 ---
 
