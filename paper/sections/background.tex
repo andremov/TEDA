@@ -1,0 +1,102 @@
+\section{Background and Theory}
+\label{sec:background}
+
+\subsection{Ensemble-Based Data Assimilation}
+\label{sec:enkf}
+
+The Ensemble Kalman Filter (EnKF)~\cite{evensen2003ensemble} represents the state of a dynamical system using an ensemble of $N_e$ state vectors $\{\mathbf{x}_i^b\}_{i=1}^{N_e}$, each $\mathbf{x}_i^b \in \mathbb{R}^{n \times 1}$. The ensemble mean
+\begin{equation}
+\bar{\mathbf{x}}^b = \frac{1}{N_e} \sum_{i=1}^{N_e} \mathbf{x}_i^b \in \mathbb{R}^{n \times 1},
+\end{equation}
+serves as the background state estimate. The background error covariance is estimated from ensemble perturbations. With the deviation matrix
+\begin{equation}
+\label{eq:deviation}
+\Delta\mathbf{X}^b = \mathbf{X}^b - \bar{\mathbf{x}}^b \mathbf{1}^T \in \mathbb{R}^{n \times N_e},
+\end{equation}
+where $\mathbf{X}^b = [\mathbf{x}_1^b, \ldots, \mathbf{x}_{N_e}^b]$, the sample covariance is
+\begin{equation}
+\label{eq:sample_cov}
+\mathbf{P}^b = \frac{1}{N_e - 1} \Delta\mathbf{X}^b (\Delta\mathbf{X}^b)^T \in \mathbb{R}^{n \times n}.
+\end{equation}
+
+Given observations $\mathbf{y} \in \mathbb{R}^{m \times 1}$, the stochastic EnKF computes analysis updates by solving
+\begin{equation}
+\label{eq:stochastic_enkf}
+[\mathbf{H}\mathbf{P}^b\mathbf{H}^T + \mathbf{R}] \, \Delta\mathbf{X}^a = \mathbf{D}^s \in \mathbb{R}^{m \times N_e},
+\end{equation}
+where $\mathbf{H} \in \mathbb{R}^{m \times n}$ is the observation operator, $\mathbf{R} \in \mathbb{R}^{m \times m}$ the observation error covariance, and $\mathbf{D}^s$ the innovation matrix of perturbed observation departures.
+
+The dual EnKF~\cite{nino2018ensemble} reformulates this in terms of the precision matrix:
+\begin{equation}
+\label{eq:dual_enkf}
+[(\mathbf{P}^b)^{-1} + \mathbf{H}^T\mathbf{R}^{-1}\mathbf{H}] \, \Delta\mathbf{X}^a = \mathbf{H}^T\mathbf{R}^{-1}\mathbf{D}^s \in \mathbb{R}^{n \times N_e}.
+\end{equation}
+This formulation requires the precision matrix $(\mathbf{P}^b)^{-1}$---the central object of this work. When $N_e < n$, the sample covariance~\eqref{eq:sample_cov} has rank at most $N_e - 1$ and cannot be inverted. Even when $N_e > n$, the sample precision can be poorly conditioned, amplifying noise in the analysis.
+
+A third variant projects the analysis onto the ensemble subspace~\cite{nino2022teda}:
+\begin{equation}
+\label{eq:ensemble_space}
+\mathbf{X}^a = \mathbf{X}^b + \Delta\mathbf{X}^b \mathbf{W}^*,
+\end{equation}
+where $\mathbf{W}^* \in \mathbb{R}^{N_e \times N_e}$ is obtained from a reduced system, bringing the problem from $n$ dimensions down to $N_e$.
+
+\subsection{Shrinkage Estimation}
+\label{sec:shrinkage}
+
+The idea behind shrinkage is to blend the sample covariance with a structured target $\mathbf{T}$:
+\begin{equation}
+\label{eq:shrinkage_cov}
+\hat{\mathbf{P}} = (1 - \lambda) \mathbf{S} + \lambda \mathbf{T},
+\end{equation}
+where $\lambda \in [0,1]$ controls how much weight goes to the target. At $\lambda = 0$ we recover the sample covariance; at $\lambda = 1$ we use only the target. The optimal $\lambda$ minimizes
+\begin{equation}
+\label{eq:optimal_lambda}
+\lambda^* = \arg\min_{\lambda \in [0,1]} \mathbb{E}\left[\|\hat{\mathbf{P}} - \boldsymbol{\Sigma}\|_F^2\right],
+\end{equation}
+with $\boldsymbol{\Sigma}$ the true covariance.
+
+\textbf{Ledoit-Wolf estimator.} Ledoit and Wolf~\cite{ledoit2004well} derived a closed-form optimal intensity for the target $\mathbf{T} = \mu \mathbf{I}$, $\mu = \text{tr}(\mathbf{S})/n$:
+\begin{equation}
+\label{eq:lw_lambda}
+\lambda^*_{\text{LW}} = \frac{\sum_{i=1}^{N_e} \|\mathbf{z}_i \mathbf{z}_i^T - \mathbf{S}\|_F^2 / N_e^2}{\|\mathbf{S} - \mu\mathbf{I}\|_F^2},
+\end{equation}
+where $\mathbf{z}_i$ are standardized observations. This estimator is asymptotically optimal and has become a standard reference in high-dimensional settings.
+
+\textbf{Oracle estimator.} When the true covariance $\boldsymbol{\Sigma}$ is known (as in simulation studies), the oracle intensity
+\begin{equation}
+\label{eq:oracle}
+\lambda^*_{\text{oracle}} = \frac{\text{tr}[(\mathbf{S} - \boldsymbol{\Sigma})(\mathbf{T} - \boldsymbol{\Sigma})]}{\|\mathbf{T} - \mathbf{S}\|_F^2}
+\end{equation}
+gives a best-case benchmark, useful for judging how close a data-driven estimator gets to the theoretical optimum.
+
+\textbf{Nercome estimator.} NERCOME~\cite{joachimi2017non} is a nonlinear covariance estimator that sidesteps the choice of target entirely. It randomly splits the ensemble into two disjoint subsets, diagonalizes one subset's sample covariance via eigendecomposition, and rotates the other subset's covariance into that eigenbasis, keeping only the diagonal. By averaging over many such random splits and selecting the split ratio that minimizes cross-validated loss, NERCOME produces a better-conditioned estimate without requiring structural assumptions about the covariance.
+
+\subsection{Cosmological Covariance Matrix Structure}
+\label{sec:cosmo_cov}
+
+In galaxy surveys, the data vector consists of power spectrum measurements $\hat{C}_\ell$ at different multipole moments $\ell$ and, for tomographic analyses, different redshift bins $z$. For a Gaussian random field observed over a sky fraction $f_{\text{sky}}$, the covariance of power spectrum estimates is~\cite{pope2008shrinkage}:
+\begin{equation}
+\label{eq:cosmo_cov}
+\text{Cov}(\hat{C}_{\ell_i}, \hat{C}_{\ell_j}) = \frac{2}{(2\ell_i + 1) f_{\text{sky}}} \left(C_{\ell_i} + \frac{1}{n_g}\right)^2 \delta_{\ell_i \ell_j},
+\end{equation}
+where $C_{\ell}$ is the true power spectrum, $n_g$ the galaxy number density, and $\delta_{\ell_i \ell_j}$ the Kronecker delta. The $1/n_g$ term is shot noise, and $(2\ell+1)f_{\text{sky}}$ counts the independent modes $N_\ell$ at multipole $\ell$. The diagonal structure follows from mode independence under the Gaussian assumption.
+
+The precision matrix is then
+\begin{equation}
+\label{eq:cosmo_precision}
+\mathbf{P}_{ij}^{-1} = \frac{(2\ell_i + 1)}{2} f_{\text{sky}} \left(C_{\ell_i} + \frac{1}{n_g}\right)^{-2} \delta_{\ell_i \ell_j} \, \delta_{z_i z_j}.
+\end{equation}
+
+This diagonal structure motivates a cosmological shrinkage target. Following Pope and Szapudi~\cite{pope2008shrinkage}, as adopted by Looijmans et al.~\cite{looijmans2024comparison}, the target is
+\begin{equation}
+\label{eq:cosmo_target}
+T^{(2)}_{ii} = \frac{2}{N_{\ell_i}} C_{\ell_i}^2,
+\end{equation}
+where $N_{\ell_i} = (2\ell_i + 1) f_{\text{sky}}$. This captures the leading-order cosmic variance contribution and, when the assumed power spectrum is close to the truth, provides a much more informative shrinkage direction than a generic identity target.
+
+\subsection{Related Work}
+\label{sec:related}
+
+Pope and Szapudi~\cite{pope2008shrinkage} introduced shrinkage estimation to cosmology, showing that even a simple diagonal target improves power spectrum covariance estimation over the raw sample covariance when few simulations are available. Looijmans et al.~\cite{looijmans2024comparison} compared covariance shrinkage (with empirical and analytical targets) against precision shrinkage (with eigenvalue-based and cosmological targets, following Bodnar et al.~\cite{bodnar2016direct}) and the NERCOME estimator. They found that incorporating cosmological prior information helps, especially at larger sample sizes, with the benefit depending on $N_e / n$ and the accuracy of the assumed cosmological model.
+
+Haff~\cite{haff1991variational} derived improved Bayes estimators for the covariance matrix via eigenvalue shrinkage, and Chen et al.~\cite{chen2010shrinkage} proposed oracle-approximating algorithms that improve on Ledoit-Wolf in high dimensions. All of these methods trade bias for variance reduction; they differ in how the target encodes prior assumptions about the covariance structure.

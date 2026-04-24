@@ -1,0 +1,86 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{anderson2001ensemble}
+Anderson, J.L.: An ensemble adjustment {K}alman filter for data assimilation.
+  Monthly Weather Review  \textbf{129}(12),  2884--2903 (2001)
+
+\bibitem{asch2016data}
+Asch, M., Bocquet, M., Nodet, M.: Data Assimilation: Methods, Algorithms, and
+  Applications. SIAM (2016)
+
+\bibitem{bodnar2016direct}
+Bodnar, T., Gupta, A.K., Parolya, N.: Direct shrinkage estimation of large
+  dimensional precision matrix. Journal of Multivariate Analysis  \textbf{146},
+   223--236 (2016)
+
+\bibitem{chen2010shrinkage}
+Chen, Y., Wiesel, A., Eldar, Y.C., Hero, A.O.: Shrinkage algorithms for {MMSE}
+  covariance estimation. IEEE Transactions on Signal Processing
+  \textbf{58}(10),  5016--5029 (2010)
+
+\bibitem{evensen2003ensemble}
+Evensen, G.: The ensemble {K}alman filter: theoretical formulation and
+  practical implementation. Ocean dynamics  \textbf{53}(4),  343--367 (2003)
+
+\bibitem{gaspari1999construction}
+Gaspari, G., Cohn, S.E.: Construction of correlation functions in two and three
+  dimensions. Quarterly Journal of the Royal Meteorological Society
+  \textbf{125}(554),  723--757 (1999)
+
+\bibitem{haff1991variational}
+Haff, L.R.: The variational form of certain {B}ayes estimators. The Annals of
+  Statistics  \textbf{19}(3),  1163--1190 (1991)
+
+\bibitem{hamilton2006measuring}
+Hamilton, A.J.S., Rimes, C.D., Scoccimarro, R.: On measuring the covariance
+  matrix of the non-linear power spectrum from simulations. Monthly Notices of
+  the Royal Astronomical Society  \textbf{371}(3),  1188--1204 (2006)
+
+\bibitem{hartlap2007your}
+Hartlap, J., Simon, P., Schneider, P.: Why your model parameter confidences may
+  be too optimistic -- unbiased estimation of the inverse covariance matrix.
+  Astronomy \& Astrophysics  \textbf{464}(1),  399--404 (2007)
+
+\bibitem{houtekamer1998data}
+Houtekamer, P.L., Mitchell, H.L.: Data assimilation using an ensemble {K}alman
+  filter technique. Monthly Weather Review  \textbf{126}(3),  796--811 (1998)
+
+\bibitem{joachimi2017non}
+Joachimi, B.: Non-linear shrinkage estimation of large-scale structure
+  covariance. Monthly Notices of the Royal Astronomical Society
+  \textbf{466}(1),  L83--L87 (2017)
+
+\bibitem{ledoit2004well}
+Ledoit, O., Wolf, M.: A well-conditioned estimator for large-dimensional
+  covariance matrices. Journal of multivariate analysis  \textbf{88}(2),
+  365--411 (2004)
+
+\bibitem{looijmans2024comparison}
+Looijmans, M.J., Wang, M.S., Beutler, F.: A comparison of shrinkage estimators
+  of the cosmological precision matrix. arXiv preprint arXiv:2402.13783  (2024)
+
+\bibitem{lorenz1996predictability}
+Lorenz, E.N.: Predictability: A problem partly solved. Proc. Seminar on
+  Predictability  \textbf{1}(1),  1--18 (1996)
+
+\bibitem{nino2018ensemble}
+Nino-Ruiz, E.D., Sandu, A., Deng, X.: An ensemble {K}alman filter
+  implementation based on modified {C}holesky decomposition for inverse
+  covariance matrix estimation. SIAM Journal on Scientific Computing
+  \textbf{40}(2),  A867--A886 (2018)
+
+\bibitem{nino2022teda}
+Nino-Ruiz, E.D., Valbuena, S.R.: {TEDA}: A computational toolbox for teaching
+  ensemble based data assimilation. In: Computational Science -- ICCS 2022.
+  Lecture Notes in Computer Science, vol. 13353, pp. 787--801. Springer, Cham
+  (2022). \doi{10.1007/978-3-031-08760-8_60}
+
+\bibitem{pope2008shrinkage}
+Pope, A.C., Szapudi, I.: Shrinkage estimation of the power spectrum covariance
+  matrix. Monthly Notices of the Royal Astronomical Society  \textbf{389}(2),
+  766--774 (2008)
+
+\end{thebibliography}

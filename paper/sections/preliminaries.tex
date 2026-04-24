@@ -1,0 +1,123 @@
+\section{Preliminaries}
+\label{sec:preliminaries}
+
+\subsection{Data Assimilation}
+\label{sec:da}
+
+Data assimilation combines a numerical model forecast with observational data to produce a corrected state estimate. Given a state vector $\mathbf{x} \in \mathbb{R}^{n \times 1}$ and observations $\mathbf{y} \in \mathbb{R}^{m \times 1}$ related to the state through an observation operator $\mathbf{H} \in \mathbb{R}^{m \times n}$, the analysis step corrects the forecast by weighting the model and observations according to their respective uncertainties. The background error covariance $\mathbf{P}^b \in \mathbb{R}^{n \times n}$ and the observation error covariance $\mathbf{R} \in \mathbb{R}^{m \times m}$ determine how much to trust each source of information.
+
+\subsection{Ensemble Kalman Filter}
+\label{sec:enkf}
+
+The Ensemble Kalman Filter (EnKF)~\cite{evensen2003ensemble} represents the state using an ensemble of $N_e$ state vectors $\{\mathbf{x}_i^b\}_{i=1}^{N_e}$, each $\mathbf{x}_i^b \in \mathbb{R}^{n \times 1}$. The ensemble mean
+\begin{equation}
+\bar{\mathbf{x}}^b = \frac{1}{N_e} \sum_{i=1}^{N_e} \mathbf{x}_i^b \in \mathbb{R}^{n \times 1},
+\end{equation}
+serves as the background state estimate. With the deviation matrix
+\begin{equation}
+\label{eq:deviation}
+\Delta\mathbf{X}^b = \mathbf{X}^b - \bar{\mathbf{x}}^b \mathbf{1}^T \in \mathbb{R}^{n \times N_e},
+\end{equation}
+where $\mathbf{X}^b = [\mathbf{x}_1^b, \ldots, \mathbf{x}_{N_e}^b]$, the sample covariance is
+\begin{equation}
+\label{eq:sample_cov}
+\mathbf{P}^b = \frac{1}{N_e - 1} \Delta\mathbf{X}^b (\Delta\mathbf{X}^b)^T \in \mathbb{R}^{n \times n}.
+\end{equation}
+
+The stochastic EnKF computes analysis updates by solving
+\begin{equation}
+\label{eq:stochastic_enkf}
+[\mathbf{H}\mathbf{P}^b\mathbf{H}^T + \mathbf{R}] \, \Delta\mathbf{X}^a = \mathbf{D}^s \in \mathbb{R}^{m \times N_e},
+\end{equation}
+where $\mathbf{D}^s$ is the innovation matrix of perturbed observation departures.
+
+The dual EnKF~\cite{nino2018ensemble} reformulates this in terms of the precision matrix:
+\begin{equation}
+\label{eq:dual_enkf}
+[(\mathbf{P}^b)^{-1} + \mathbf{H}^T\mathbf{R}^{-1}\mathbf{H}] \, \Delta\mathbf{X}^a = \mathbf{H}^T\mathbf{R}^{-1}\mathbf{D}^s \in \mathbb{R}^{n \times N_e}.
+\end{equation}
+This formulation requires the precision matrix $(\mathbf{P}^b)^{-1}$---the central object of this work. When $N_e < n$, the sample covariance~\eqref{eq:sample_cov} has rank at most $N_e - 1$ and cannot be inverted. Even when $N_e > n$, the sample precision can be poorly conditioned, amplifying noise in the analysis.
+
+A third variant projects the analysis onto the ensemble subspace~\cite{nino2022teda}:
+\begin{equation}
+\label{eq:ensemble_space}
+\mathbf{X}^a = \mathbf{X}^b + \Delta\mathbf{X}^b \mathbf{W}^*,
+\end{equation}
+where $\mathbf{W}^* \in \mathbb{R}^{N_e \times N_e}$ is obtained from a reduced system, bringing the problem from $n$ dimensions down to $N_e$.
+
+\subsection{Covariance Matrix Estimation}
+\label{sec:cov_estimation}
+
+Shrinkage estimation blends the sample covariance with a structured target $\mathbf{T}$:
+\begin{equation}
+\label{eq:shrinkage_cov}
+\hat{\mathbf{P}} = (1 - \lambda) \mathbf{S} + \lambda \mathbf{T},
+\end{equation}
+where $\lambda \in [0,1]$ controls how much weight goes to the target. The optimal $\lambda$ minimizes
+\begin{equation}
+\label{eq:optimal_lambda}
+\lambda^* = \arg\min_{\lambda \in [0,1]} \mathbb{E}\left[\|\hat{\mathbf{P}} - \boldsymbol{\Sigma}\|_F^2\right],
+\end{equation}
+with $\boldsymbol{\Sigma}$ the true covariance.
+
+\textbf{Ledoit-Wolf estimator.} Ledoit and Wolf~\cite{ledoit2004well} derived a closed-form optimal intensity for the target $\mathbf{T} = \mu \mathbf{I}$, $\mu = \text{tr}(\mathbf{S})/n$:
+\begin{equation}
+\label{eq:lw_lambda}
+\lambda^*_{\text{LW}} = \frac{\sum_{i=1}^{N_e} \|\mathbf{z}_i \mathbf{z}_i^T - \mathbf{S}\|_F^2 / N_e^2}{\|\mathbf{S} - \mu\mathbf{I}\|_F^2},
+\end{equation}
+where $\mathbf{z}_i$ are standardized observations. This estimator is asymptotically optimal and has become a standard reference in high-dimensional covariance estimation.
+
+\textbf{Oracle estimator.} When the true covariance $\boldsymbol{\Sigma}$ is known (as in simulation studies), the oracle intensity
+\begin{equation}
+\label{eq:oracle}
+\lambda^*_{\text{oracle}} = \frac{\text{tr}[(\mathbf{S} - \boldsymbol{\Sigma})(\mathbf{T} - \boldsymbol{\Sigma})]}{\|\mathbf{T} - \mathbf{S}\|_F^2}
+\end{equation}
+gives a best-case benchmark.
+
+\textbf{NERCOME estimator.} NERCOME~\cite{joachimi2017non} sidesteps the choice of target entirely. It randomly splits the ensemble into two disjoint subsets, diagonalizes one subset's sample covariance via eigendecomposition, rotates the other subset's covariance into that eigenbasis keeping only the diagonal, and averages over many such random splits. The split ratio that minimizes cross-validated loss is selected, producing a better-conditioned estimate without structural assumptions about the covariance.
+
+Pope and Szapudi~\cite{pope2008shrinkage} introduced shrinkage estimation to cosmology, showing that even a simple diagonal target improves power spectrum covariance estimation when few simulations are available. Looijmans et al.~\cite{looijmans2024comparison} later compared covariance shrinkage against direct precision shrinkage (following Bodnar et al.~\cite{bodnar2016direct}) and NERCOME, finding that incorporating cosmological prior information helps, especially at larger sample sizes.
+
+\subsection{Inverse Covariance Matrix Estimation}
+\label{sec:precision_estimation}
+
+Rather than shrinking the covariance and then inverting, Bodnar et al.~\cite{bodnar2016direct} proposed shrinking the precision matrix directly. The estimator combines the sample precision $\hat{\boldsymbol{\Pi}}_S = \mathbf{S}^{-1}$ with a structured target~$\boldsymbol{\Pi}_0$:
+\begin{equation}
+\label{eq:direct_precision}
+\boldsymbol{\Pi}_{\text{LS}} = \alpha^* \hat{\boldsymbol{\Pi}}_S + \beta^* \boldsymbol{\Pi}_0,
+\end{equation}
+where $\alpha^*$ and $\beta^*$ are estimated analytically:
+\begin{align}
+\label{eq:alpha_star}
+\alpha^* &= 1 - \frac{n}{N_e} - \frac{N_e^{-1} \|\hat{\boldsymbol{\Pi}}_S\|_{\text{tr}}^2 \, \|\boldsymbol{\Pi}_0\|_F^2}{\|\hat{\boldsymbol{\Pi}}_S\|_F^2 \, \|\boldsymbol{\Pi}_0\|_F^2 - \bigl(\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0)\bigr)^2}, \\
+\label{eq:beta_star}
+\beta^* &= \left(1 - \frac{n}{N_e} - \alpha^*\right) \frac{\text{tr}(\hat{\boldsymbol{\Pi}}_S \boldsymbol{\Pi}_0)}{\|\boldsymbol{\Pi}_0\|_F^2},
+\end{align}
+where $\|\cdot\|_{\text{tr}}$ is the trace norm and $\|\cdot\|_F$ the Frobenius norm. These coefficients are derived for the raw inverse $\mathbf{S}^{-1}$; the $(1 - n/N_e)$ term already accounts for the estimation bias, so the Hartlap correction~\cite{hartlap2007your} should not be applied beforehand.
+
+In cosmological data analysis, the data vector consists of power spectrum measurements $\hat{C}_\ell$ at different multipoles $\ell$. For a Gaussian random field observed over a sky fraction $f_{\text{sky}}$, the covariance of power spectrum estimates is~\cite{pope2008shrinkage}:
+\begin{equation}
+\label{eq:cosmo_cov}
+\text{Cov}(\hat{C}_{\ell_i}, \hat{C}_{\ell_j}) = \frac{2}{(2\ell_i + 1) f_{\text{sky}}} \left(C_{\ell_i} + \frac{1}{n_g}\right)^2 \delta_{\ell_i \ell_j},
+\end{equation}
+where $C_{\ell}$ is the true power spectrum, $n_g$ the galaxy number density, and $(2\ell+1)f_{\text{sky}}$ counts the independent modes $N_\ell$ at multipole $\ell$. The diagonal structure follows from mode independence under the Gaussian assumption. This leads to a cosmological shrinkage target~\cite{pope2008shrinkage,looijmans2024comparison}:
+\begin{equation}
+\label{eq:cosmo_target}
+T^{(2)}_{ii} = \frac{2}{N_{\ell_i}} C_{\ell_i}^2,
+\end{equation}
+where $N_{\ell_i} = (2\ell_i + 1) f_{\text{sky}}$, capturing the leading-order cosmic variance contribution.
+
+\subsection{Modified Cholesky Decomposition}
+\label{sec:cholesky}
+
+The modified Cholesky decomposition~\cite{nino2018ensemble} factors the precision matrix as
+\begin{equation}
+\label{eq:cholesky}
+(\mathbf{P}^b)^{-1} \approx \mathbf{L}^{-T} \mathbf{D}^{-1} \mathbf{L}^{-1},
+\end{equation}
+where $\mathbf{L}$ is unit lower triangular and $\mathbf{D}$ is diagonal. Each row of $\mathbf{L}$ is estimated by regressing a state variable on its neighbors within a bandwidth $r$, a form of localization that zeroes out long-range correlations. This produces a sparse, banded precision matrix by construction, avoiding the need to invert $\mathbf{P}^b$ entirely.
+
+\subsection{EnKF via Modified Cholesky Decomposition}
+\label{sec:enkf_cholesky}
+
+Substituting~\eqref{eq:cholesky} into the dual EnKF formulation~\eqref{eq:dual_enkf} gives an analysis that uses the banded precision estimate directly. The bandwidth $r$ controls the sparsity: small $r$ enforces locality (reducing noise but potentially discarding real correlations), while large $r$ retains more structure at the cost of higher variance. Nino-Ruiz et al.~\cite{nino2018ensemble} showed that even modest bandwidths ($r = 2$--$5$) substantially improve the EnKF on spatially extended systems like Lorenz~96.

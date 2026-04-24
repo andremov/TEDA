@@ -1,0 +1,45 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[colorlinks=true, citecolor=blue, linkcolor=blue, urlcolor=blue]{hyperref}
+
+\begin{document}
+
+\title{Implementation of Shrinkage Estimators for Cosmological Precision Matrices}
+
+\titlerunning{Shrinkage Estimators for Cosmological Precision Matrices}
+
+\author{Elias D. Nino-Ruiz\inst{1}\orcidID{0000-0001-7420-4517} \and
+Andr\'es Movilla Obreg\'on\inst{1}}
+
+\authorrunning{E. D. Nino-Ruiz and A. Movilla Obreg\'on}
+
+\institute{Department of Computer Science and Statistics, Universidad del Norte, Barranquilla, Colombia\\
+\email{\{enino, movillaf\}@uninorte.edu.co}}
+
+\maketitle
+
+\begin{abstract}
+We embed direct precision shrinkage estimators from cosmological statistics into the Ensemble Kalman Filter, recomputing shrinkage coefficients at each assimilation cycle. Six estimators are tested: three direct precision shrinkage variants from Looijmans et al.\ (identity, eigenvalue, and cosmological targets), a scaled identity variant we propose as a domain-agnostic alternative, the NERCOME estimator, and Ledoit-Wolf covariance shrinkage. Experiments on Lorenz~96 ($n=40$) and BOSS DR12 cosmological mock data ($d=18$) show that direct precision shrinkage performance depends on how well the target matches the true precision structure---the methods fail on Lorenz~96 (dense off-diagonal precision) but give the best standalone estimates on near-diagonal cosmological data. Good standalone estimation does not imply good filtering: Ledoit-Wolf produces the worst precision estimates on cosmological data yet the lowest EnKF RMSE, because its low variance pays off when errors compound over repeated assimilation cycles.
+
+\keywords{Data Assimilation \and Ensemble Kalman Filter \and Shrinkage Estimation \and Precision Matrix \and Covariance Matrix Estimation}
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/preliminaries}
+\input{sections/proposed_method}
+\input{sections/benchmark}
+\input{sections/conclusions}
+
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}

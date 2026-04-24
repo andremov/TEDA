@@ -1,0 +1,12 @@
+\section{Conclusions and Future Work}
+\label{sec:conclusions}
+
+A good precision matrix estimator and a good filtering estimator are not the same thing. On cosmological data, the Bodnar et al.~\cite{bodnar2016direct} methods achieve Frobenius losses half those of Ledoit-Wolf, yet Ledoit-Wolf yields the lowest EnKF RMSE. The reason is stability: a slightly biased estimator that behaves consistently from cycle to cycle accumulates less error over 100 sequential updates than one that is accurate on average but noisy. Without domain-specific prior knowledge, Ledoit-Wolf is the safest default among the methods we tested.
+
+Direct precision shrinkage remains the better choice when the target matches the true precision structure. Our cosmological experiments confirm Looijmans et al.~\cite{looijmans2024comparison}: with near-diagonal data, these methods outperform all alternatives in standalone estimation. Their failure on Lorenz~96 is a consequence of applying diagonal targets to a system whose precision matrix has dense off-diagonal structure, not a deficiency of the framework itself.
+
+The scaled identity target we propose occupies a middle ground---modest gains over the plain identity without requiring domain-specific information, but no substitute for a well-chosen target when one is available. Its ad-hoc factor of 2, borrowed by analogy from the cosmological $2/N_\ell$ term, lacks theoretical justification and could be improved through a data-driven selection criterion.
+
+Several directions remain open. Our implementation does not combine shrinkage with spatial localization~\cite{gaspari1999construction,nino2018ensemble}, which could yield further gains on spatially extended systems. The AR(1) model in the cosmological experiments preserves the covariance structure of the BOSS mock catalogs but is far simpler than a realistic cosmological simulation. Future work should test on higher-dimensional systems such as the quasi-geostrophic model, explore adaptive target selection based on observed covariance structure, and investigate whether the sequential accumulation effect we observed generalizes to other classes of estimators beyond those tested here.
+
+\subsubsection{Acknowledgements.} This work was supported by the Department of Computer Science and Statistics at Universidad del Norte.

@@ -1,0 +1,16 @@
+Domain,Method,Time_s,Std_s
+Cosmo,Cosmological Shrinkage,0.2418,0.0065
+Cosmo,Eigenvalue Shrinkage,0.1999,0.0016
+Cosmo,EnKF,0.1410,0.0006
+Cosmo,EnKF-Cholesky,0.5100,0.0133
+Cosmo,Identity Shrinkage,0.2004,0.0028
+Cosmo,Ledoit-Wolf,0.2182,0.0035
+Cosmo,NERCOME,26.7195,0.8698
+Cosmo,Scaled Shrinkage,0.2778,0.0035
+Lorenz96,Eigenvalue Shrinkage,27.5322,0.2655
+Lorenz96,EnKF,25.9863,0.6884
+Lorenz96,EnKF-Cholesky,27.0582,0.3446
+Lorenz96,Identity Shrinkage,26.4310,0.3819
+Lorenz96,Ledoit-Wolf,26.6302,0.4717
+Lorenz96,NERCOME,215.3908,13.1788
+Lorenz96,Scaled Shrinkage,27.3211,0.2911
