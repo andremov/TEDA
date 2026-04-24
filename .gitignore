@@ -4,3 +4,15 @@ __pycache__/
 dist/
 build/
 venv
+Main_JN.ipynb
+configuration.yaml
+.venv
+# paper/
+.vscode/
+node_modules/
+
+# stray LaTeX artifacts at repo root
+/main.aux
+/main.log
+/main.out
+/texput.log
