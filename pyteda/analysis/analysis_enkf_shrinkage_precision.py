@@ -34,14 +34,14 @@ class AnalysisEnKFShrinkagePrecision(Analysis):
         self.model = model
         self.r = r
 
-    def get_pseudo_inverse_background(self, DX, rtol_pesudo_inverse=0.01):
+    def get_pseudo_inverse_background(self, DX, rtol_pseudo_inverse=0.01):
         n, _ = DX.shape
         U, s, _ = np.linalg.svd(DX, full_matrices=False)
         k = len(s)
 
         A_pinv_truncated = np.zeros((n, n))
         for i in range(k):
-            if s[i]/s[0]>rtol_pesudo_inverse:
+            if s[i]/s[0]>rtol_pseudo_inverse:
                 A_pinv_truncated += (1 / (s[i] ** 2)) * np.outer(U[:, i], U[:, i])
             else:
                 break
@@ -63,14 +63,14 @@ class AnalysisEnKFShrinkagePrecision(Analysis):
         lr = Ridge(fit_intercept=False, alpha=regularization_factor)
         L = np.eye(n)
         D = np.zeros((n, n))
-        D[0, 0] = 1 / np.var(DX[0, :])  # We are estimating D^{-1}
+        D[0, 0] = 1 / max(np.var(DX[0, :]), 1e-12)  # We are estimating D^{-1}
         for i in range(1, n):
             ind_prede = self.model.get_pre(i, self.r)
             y = DX[i, :]
             X = DX[ind_prede, :].T
             lr_fit = lr.fit(X, y)
             err_i = y - lr_fit.predict(X)
-            D[i, i] = 1 / np.var(err_i)
+            D[i, i] = 1 / max(np.var(err_i), 1e-12)
             L[i, ind_prede] = -lr_fit.coef_
 
         return L.T @ (D @ L)
@@ -83,7 +83,7 @@ class AnalysisEnKFShrinkagePrecision(Analysis):
     
     def get_shrinkage_precision_matrix(self, DX, 
                                        regularization_factor=0.01, 
-                                       rtol_pesudo_inverse=0.01):
+                                       rtol_pseudo_inverse=0.01):
         
 
         n, N = DX.shape
@@ -93,7 +93,7 @@ class AnalysisEnKFShrinkagePrecision(Analysis):
         Binv = self.get_target_precision_matrix(DX, regularization_factor=regularization_factor)
 
         Pseu = self.get_pseudo_inverse_background(DX, 
-                                                  rtol_pesudo_inverse=rtol_pesudo_inverse)
+                                                  rtol_pseudo_inverse=rtol_pseudo_inverse)
         
 
         #plt.figure()
@@ -134,7 +134,7 @@ class AnalysisEnKFShrinkagePrecision(Analysis):
         Ys = np.random.multivariate_normal(y, R, size=ensemble_size).T
         xb = np.mean(Xb, axis=1)
         DX = Xb - np.outer(xb, np.ones(ensemble_size))
-        Binv_shrunk = self.get_shrinkage_precision_matrix(DX, regularization_factor=0.01, rtol_pesudo_inverse=0.01)
+        Binv_shrunk = self.get_shrinkage_precision_matrix(DX, regularization_factor=0.01, rtol_pseudo_inverse=0.01)
         D = Ys - H @ Xb
         Rinv = np.diag(np.reciprocal(np.diag(R)))
         IN = Binv_shrunk + H.T @ (Rinv @ H)
