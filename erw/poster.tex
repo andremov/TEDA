@@ -15,6 +15,7 @@
 \usepackage{amsmath, amssymb}
 \usepackage[hidelinks]{hyperref}
 \usepackage{tikz}
+\usepackage[nolinks]{qrcode}
 \usetikzlibrary{positioning, arrows.meta, shapes.geometric}
 
 \graphicspath{{../paper/figures/}}
@@ -87,69 +88,44 @@ forecasts and unreliable cosmological parameters.
 
 \textbf{Shrinkage estimators} address this by blending the noisy estimate
 with a structured \emph{target}. The trick is choosing the right blend at
-every step --- and choosing it well matters. In numerical weather
-prediction, an unstable covariance translates into degraded forecasts;
-in cosmological surveys, it translates into wider error bars on
-fundamental parameters such as the dark-energy equation of state.
-
-This work integrates a rigorous shrinkage framework into the
-\emph{sequential} setting of the Ensemble Kalman Filter, where the
-estimate is recomputed at every assimilation cycle, and asks a
-practical question: \emph{which estimator should a practitioner pick,
-and on what basis?}
+every step --- and choosing it well matters: in weather prediction,
+unstable covariances mean degraded forecasts; in cosmology, wider
+error bars on parameters like the dark-energy equation of state.
 \end{tcolorbox}
 
 % ---- Objectives ----
 \begin{tcolorbox}[posterbox=Objectives]
 \small
-\begin{itemize}
-\item Embed the \emph{direct precision shrinkage} framework
-      (Bodnar et al.) inside the dual formulation of the Ensemble
-      Kalman Filter (EnKF), recomputing coefficients each cycle.
-\item Implement and compare \textbf{six shrinkage estimators} plus two
-      EnKF baselines on systems with opposite precision structure.
-\item Propose a \textbf{scaled-identity target} that needs no
-      domain-specific information.
-\item Release all implementations in the open-source TEDA framework.
-\end{itemize}
+\textbf{General.} Evaluate and extend direct precision shrinkage
+estimators in the $n \sim N_e$ regime shared by the sequential EnKF
+and cosmological covariance analysis.
+
+\vspace{2pt}
+\textbf{Specific.}
+\begin{enumerate}
+\item \textbf{Implement} four direct-precision targets (identity,
+      eigenvalue, cosmological, and scaled identity) within the TEDA
+      framework.
+\item \textbf{Benchmark} against Ledoit--Wolf, NERCOME, and the
+      standard EnKF and EnKF--Cholesky baselines on Lorenz-96 and
+      BOSS cosmological mocks.
+\item \textbf{Characterize} how target structure (diagonal vs.\ dense)
+      affects the shrinkage coefficients, clamping, and the
+      bias--variance tradeoff.
+\item \textbf{Propose} a domain-agnostic scaled-identity target as a
+      middle ground between the plain identity and the
+      domain-specific cosmological target.
+\end{enumerate}
 \end{tcolorbox}
 
 % ---- Methodology ----
 \begin{tcolorbox}[posterbox=Methodology]
 \small
-\textbf{The assimilation cycle.} At each step, an ensemble of states is
-propagated by the model, mixed with new observations, and updated. The
-covariance of the ensemble determines how observations are weighted.
-\vspace{4pt}
-
-\begin{center}
-\begin{tikzpicture}[
-  node distance=3mm and 3mm,
-  every node/.style={font=\scriptsize},
-  box/.style={draw=unBlue, fill=unLight, rounded corners=2pt,
-              minimum width=2.0cm, minimum height=0.55cm, align=center,
-              inner sep=2pt},
-  hilite/.style={draw=unGold, fill=unGold!20, rounded corners=2pt,
-                 minimum width=2.0cm, minimum height=0.55cm, align=center,
-                 inner sep=2pt, line width=0.6pt},
-  arr/.style={-{Stealth[length=2mm]}, unGray, thick}
-]
-\node[box] (fc)  {Forecast\\ ensemble};
-\node[box, right=of fc] (cov) {Sample\\ covariance};
-\node[hilite, right=of cov] (sh) {\textbf{Shrinkage}};
-\node[box, below=of sh] (an) {Analysis\\ update};
-\node[box, left=of an] (obs) {Observations};
-\node[box, left=of obs] (next) {Next\\ forecast};
-
-\draw[arr] (fc) -- (cov);
-\draw[arr] (cov) -- (sh);
-\draw[arr] (sh) -- (an);
-\draw[arr] (obs) -- (an);
-\draw[arr] (an) -- (obs);
-\draw[arr] (obs) -- (next);
-\draw[arr] (next.north) |- (fc.west);
-\end{tikzpicture}
-\end{center}
+\textbf{The assimilation cycle.} At each step, an ensemble of states
+is propagated by the model, mixed with new observations, and updated.
+The covariance of the ensemble determines how observations are
+weighted, and shrinkage is applied to that covariance \emph{at every
+cycle} to keep the inverse stable.
 
 \textbf{Estimators evaluated.} Four \emph{direct precision} targets
 (identity, scaled-identity \emph{[ours]}, eigenvalue, cosmological), one
@@ -177,6 +153,21 @@ to stress-test target-truth alignment:
 BOSS DR12 (right, near-diagonal).}
 \end{center}
 \end{tcolorbox}
+
+% ---- Documents (left column, two QR codes) ----
+\begin{tcolorbox}[posterbox=Documents]
+\footnotesize
+\centering
+\begin{tabular}{cc}
+  \qrcode[height=2.6cm]{https://github.com/andremov/TEDA/blob/main/thesis/implementation-shrinkage-estimators-cosmological-precision-matrices-amovilla-2026-04-24.pdf}
+  &
+  \qrcode[height=2.6cm]{https://github.com/andremov/TEDA/blob/main/paper/implementation-shrinkage-estimators-cosmological-precision-matrices-amovilla-2026-04-24-paper-lncs.pdf}
+  \\[2pt]
+  \textbf{Thesis (PDF)} & \textbf{Paper, LNCS (PDF)}
+\end{tabular}
+\end{tcolorbox}
+
+\columnbreak
 
 % ---- Results ----
 \begin{tcolorbox}[posterbox=Main Results]
@@ -247,15 +238,11 @@ biased standalone estimator wins the sequential filter.}
 \end{itemize}
 \end{tcolorbox}
 
-% ---- Resources ----
-\begin{tcolorbox}[posterbox=Resources]
-\small
-\textbf{Full thesis (PDF):}\\
-{\footnotesize\url{https://github.com/andremov/TEDA/blob/main/thesis/main.pdf}}\\[2pt]
-\textbf{Scientific paper, LNCS (PDF):}\\
-{\footnotesize\url{https://github.com/andremov/TEDA/blob/main/paper/main.pdf}}\\[2pt]
-\textbf{TEDA framework (code):}\\
-{\footnotesize\url{https://github.com/andremov/TEDA}}
+% ---- Code (right column) ----
+\begin{tcolorbox}[posterbox=Code]
+\footnotesize
+\textbf{TEDA framework} (open-source implementations):\\
+\url{https://github.com/enino84/TEDA}
 \end{tcolorbox}
 
 \end{multicols}
