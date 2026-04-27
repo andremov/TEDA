@@ -1,0 +1,66 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, english]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{parskip}
+
+\setlength{\parskip}{5pt}
+\definecolor{unBlue}{HTML}{003B71}
+
+\titleformat{\section}{\color{unBlue}\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{10pt}{3pt}
+
+\setlist{topsep=2pt, itemsep=2pt}
+
+\begin{document}
+
+\begin{center}
+  {\color{unBlue}\LARGE\bfseries Submission --- Libros Digitales \& Engineering Research Week (ERW)}\\[4pt]
+  {\large Engineering Division \,\textperiodcentered\, Universidad del Norte}\\[2pt]
+  M.Sc.\ in Systems and Computer Engineering \,\textperiodcentered\, 2026-04-27
+\end{center}
+
+\vspace{4pt}\hrule\vspace{4pt}
+
+\section*{Work information}
+
+\noindent
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Student:}\\
+Andr\'es F. Movilla Obreg\'on\\
+\texttt{amovilla1103@gmail.com}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+\textbf{Advisor:}\\
+Elias D. Ni\~no-Ruiz, Ph.D.\\
+\texttt{enino@uninorte.edu.co}
+\end{minipage}
+
+\vspace{4pt}
+\textbf{Title (Spanish):} Implementaci\'on de Estimadores de Contracci\'on para Matrices de Precisi\'on Cosmol\'ogicas\\
+\textbf{Title (English):} Implementation of Shrinkage Estimators for Cosmological Precision Matrices
+
+\section*{Resumen (Espa\~nol)}
+\selectlanguage{spanish}
+
+Los filtros de Kalman por conjuntos (EnKF) requieren la inversa de la matriz de covarianza del error de fondo, pero cuando el tama\~no del conjunto es peque\~no respecto a la dimensi\'on del estado, la covarianza muestral est\'a mal condicionada y no puede invertirse de manera confiable. En este trabajo se incorpora el marco de contracci\'on directa de matrices de precisi\'on propuesto por Bodnar et al.\ dentro de la formulaci\'on dual del Filtro de Kalman por Conjuntos, recalculando los coeficientes de contracci\'on en cada ciclo de asimilaci\'on. Se eval\'uan seis estimadores en el modelo de Lorenz~96 ($n=40$, precisi\'on densa) y en datos cosmol\'ogicos simulados de BOSS DR12 ($d=18$, precisi\'on casi diagonal), junto con dos l\'ineas base.
+
+Surgen dos hallazgos principales. Primero, el desempe\~no de la contracci\'on directa de la precisi\'on depende cr\'iticamente de la alineaci\'on entre el target y la verdad: los targets diagonales fallan en Lorenz~96 pero tienen \'exito en los datos cosmol\'ogicos. Segundo, el mejor estimador de precisi\'on por s\'i solo no es el mejor filtro secuencial: Ledoit--Wolf produce las peores estimaciones aisladas y, sin embargo, el menor RMSE del EnKF, porque su baja varianza evita la propagaci\'on de errores entre ciclos de asimilaci\'on. Para la asimilaci\'on secuencial de datos, la reducci\'on de varianza importa al menos tanto como la reducci\'on de sesgo. Todas las implementaciones est\'an disponibles p\'ublicamente en el marco TEDA.
+
+\selectlanguage{english}
+
+\section*{Abstract (English)}
+
+Ensemble Kalman filters require the inverse of the background error covariance matrix, but when the ensemble size is small relative to the state dimension, the sample covariance is ill-conditioned and cannot be reliably inverted. We embed the direct precision shrinkage framework of Bodnar et al.\ into the dual formulation of the Ensemble Kalman Filter, recomputing shrinkage coefficients at each assimilation cycle. Six estimators are tested on Lorenz~96 ($n=40$, dense precision) and BOSS DR12 cosmological mock data ($d=18$, near-diagonal precision), alongside two baselines.
+
+Two main findings emerge. First, direct precision shrinkage performance depends critically on target-truth alignment: diagonal targets fail on Lorenz~96 but succeed on cosmological data. Second, the best standalone precision estimator is not the best sequential filter --- Ledoit--Wolf produces the worst standalone estimates yet the lowest EnKF RMSE, because its low variance prevents error cascades across assimilation cycles. For sequential data assimilation, variance reduction matters at least as much as bias reduction. All implementations are publicly available in the TEDA framework.
+
+\end{document}
